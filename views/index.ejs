@@ -9,11 +9,202 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/index.css" />
-    <!-- <link rel="stylesheet" href="./styles/menu.css" /> -->
-    <!-- <link rel="stylesheet" href="./styles/carousel.css" /> -->
+    <link rel="stylesheet" href="/css/carousel.css" />
+    <link rel="stylesheet" href="/css/menu.css" />
 
   </head>
   <body>
     <%- include("partials/nav") %>
+
+    <!-- Carousel wrapper -->
+    <div
+      id="carouselMDExample"
+      class="carousel slide carousel-fade mx-auto mt-4 mb-5"
+      data-bs-ride="carousel"
+    >
+      <!-- Slides -->
+      <div class="carousel-inner mb-5 shadow-1-strong rounded-3">
+        <div class="carousel-item active">
+          <img
+            src="./images/slide1.jpg"
+            class="d-block w-100 overflow-hidden"
+            alt=""
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="./images/slide2.jpg"
+            class="d-block w-100 overflow-hidden"
+            alt=""
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="./images/slide3.jpg"
+            class="d-block w-100 overflow-hidden"
+            alt=""
+          />
+        </div>
+      </div>
+      <!-- Slides -->
+
+      <!-- Controls -->
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselMDExample"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselMDExample"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+      <!-- Controls -->
+
+      <!-- Thumbnails -->
+      <div class="carousel-indicators" style="margin-bottom: -20px">
+        <button
+          type="button"
+          data-bs-target="#carouselMDExample"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+          style="width: 100px"
+        >
+          <img
+            class="d-block w-100 shadow-1-strong rounded"
+            src="./images/slide1.jpg"
+            class="img-fluid"
+          />
+        </button>
+        <button
+          type="button"
+          data-bs-target="#carouselMDExample"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+          style="width: 100px"
+        >
+          <img
+            class="d-block w-100 shadow-1-strong rounded"
+            src="./images/slide2.jpg"
+            class="img-fluid"
+          />
+        </button>
+        <button
+          type="button"
+          data-bs-target="#carouselMDExample"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+          style="width: 100px"
+        >
+          <img
+            class="d-block w-100 shadow-1-strong rounded"
+            src="./images/slide3.jpg"
+            class="img-fluid"
+          />
+        </button>
+      </div>
+      <!-- Thumbnails -->
+    </div>
+
+    <!-- Top Landing page -->
+    <div class="container top">
+      <div class="row">
+        <!-- Search box -->
+        <div class="col-lg-4 pt-3" style="text-align: center">
+          <form class="form-inline position-relative">
+            <input
+              class="form-control"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              style="width: 50%; display: inline-block"
+              onkeyup="clickmeDaddy()"
+              id="input-search-bar"
+            />
+            <i class="fa-solid fa-magnifying-glass text-secondary"></i>
+            <!-- <button
+          class="btn btn-outline-success my-2 my-sm-0"
+          style="font-size: 1rem"
+          type="submit"
+        >
+          Search
+        </button> -->
+          </form>
+        </div>
+        <!-- End Search box -->
+
+        <!-- Select Catetories -->
+        <div class="col-lg-4 pt-3" style="text-align: center">
+          <div class="w-50 mx-auto position-relative">
+            <select
+              class="custom-select form-control text-secondary"
+              id="input-select-group"
+            >
+              <!-- <option value="breakfast">breakfast</option>
+          <option value="lunch">lunch</option>
+          <option value="shakes">shakes</option>
+          <option value="dinner">diner</option> -->
+              <option selected="" value="all">All</option>
+            </select>
+            <i class="fa-solid fa-angle-down"></i>
+          </div>
+        </div>
+        <!-- End Select Catetories -->
+
+        <!-- Select Sort -->
+        <div class="col-lg-4 pt-3" style="text-align: center">
+          <div class="w-50 mx-auto position-relative">
+            <select
+              class="custom-select form-control text-secondary"
+              id="input-select-group"
+            >
+              <!-- <option value="breakfast">breakfast</option>
+          <option value="lunch">lunch</option>
+          <option value="shakes">shakes</option>
+          <option value="dinner">diner</option> -->
+              <option selected="" value="all">Sort</option>
+            </select>
+            <i class="fa-solid fa-arrow-down-wide-short"></i>
+          </div>
+        </div>
+        <!-- End Select Sort -->
+      </div>
+    </div>
+    <!-- End Top Landing page -->
+
+    <!-- Toggle shopping cart -->
+    <div class="container">
+      <div class="shopping-cart">
+        <div class="shopping-cart-header">
+          <i class="fa fa-shopping-cart cart-icon"></i
+          ><span class="badge bg-success rounded-pill cart-badge">0</span>
+          <div class="shopping-cart-total">
+            <span class="lighter-text">Total:</span>
+            <span id="Total" class="main-color-text">$0</span>
+          </div>
+        </div>
+        <a href=""></a>
+        <ul class="shopping-cart-items"></ul>
+
+        <a id="checkout-button" href="./checkout.html" class="button"
+          >Checkout</a
+        >
+        <a id="clear-button" href="#" class="button">Clear</a>
+      </div>
+    </div>
+    <!-- End Toggle shopping cart -->
+
+    <!-- Generate menu here -->
+    <div class="section-center"></div>
 
     <%- include("partials/footer") %>
