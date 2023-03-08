@@ -26,6 +26,15 @@
   font-family: "Poppins", sans-serif;
 }
 
+*::selection{
+  background-color: #b68834;
+  color: #fff;
+}
+
+/* .navbar {
+  background: transparent!important;
+} */
+
 .lighter-text {
   color: #abb0be;
 }
@@ -190,10 +199,6 @@
   top: 25%;
   right: 27%;
 }
-
-.top {
-  margin-top: 80px;
-} 
 
 .fa-angle-down {
   position: absolute;

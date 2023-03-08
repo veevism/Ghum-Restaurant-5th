@@ -58,7 +58,7 @@ Global Styles
 }
 body {
   font-family: var(--ff-secondary);
-  background: var(--clr-grey-10);
+  /* background: var(--clr-grey-10); */
   color: var(--clr-grey-1);
   line-height: 1.5;
   font-size: 0.875rem;
@@ -135,9 +135,17 @@ main {
 Menu
 ===============
 */
-.menu {
-  padding: 3rem 0;
+.menu{
+  background: url("/images/menuBG3.png") no-repeat center;
+  background-size: cover;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.5;
+  font-size: 0.875rem;
+  padding: 5rem 0;
 }
+/* .menu {
+  padding: 3rem 0;
+} */
 .title {
   text-align: center;
   margin-bottom: 2rem;

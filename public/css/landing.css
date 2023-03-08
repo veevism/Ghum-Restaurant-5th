@@ -1,0 +1,73 @@
+.home {
+  background-color: black !important;
+  font-family: "Inter", sans-serif;
+  display: flex;
+  background: url("/images/coffeenewBG2.png") no-repeat center;
+  height: 100vh;
+  background-size: cover;
+  background-attachment: fixed;
+  color: white;
+  min-height: 500px;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.landing-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 1;
+}
+
+.left-title {
+  /* width: 90%; */
+  font-size: 3.125rem;
+  font-style: normal;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.subtitle {
+  width: 60%;
+  font-weight: 400;
+  font-size: 1em;
+  opacity: 0.6;
+  line-height: 28px;
+  color: #ffffff;
+}
+
+.btn-section {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 15px 20px;
+}
+
+img {
+  object-fit: cover;
+  z-index: 1;
+}
+
+.card {
+  background-color: transparent!important;
+  box-shadow: none!important;
+  border: 5px dashed white!important;
+}
+
+@media (max-width: 992.98px) {
+    .landing-left {
+        margin-top: 5rem!important;
+        padding: 2rem!important;
+    }
+    .subtitle {
+        width: auto;
+    }
+    img.rounded-circle.shadow-1 {
+        margin-bottom: 0;
+    }
+    .home {
+        height: auto;
+    }
+}

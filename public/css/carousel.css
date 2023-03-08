@@ -1,19 +1,1 @@
-/* .carousel, .carousel-inner {
-    width: 900px;
-} */
-/* 
-.carousel-item img {
-    height: 500px;
-    overflow: hidden;
-} */
 
-@media (min-width: 768.98px) {
-  .carousel,
-  .carousel-inner {
-    width: 800px;
-  }
-  .carousel-item img {
-    height: 500px;
-    overflow: hidden;
-  }
-}
