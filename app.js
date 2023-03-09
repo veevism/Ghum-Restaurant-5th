@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const menu = require("./scripts/menus");
 // const ejs = require("ejs");
 // const _ = require('lodash');
 
