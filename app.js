@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
+const menus = require("./public/js/menus");
+const { json } = require("body-parser");
 // const ejs = require("ejs");
 // const _ = require('lodash');
 
@@ -13,8 +15,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/js", express.static(__dirname + "controller"));
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", {
+    menus: menus,
+  });
 });
+
+// console.log("mmm",menus.menu[3])
 
 app.listen(port, function () {
   console.log(`Server app listening on port ${port}`);
