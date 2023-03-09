@@ -8,6 +8,7 @@ const { json } = require("body-parser");
 // const _ = require('lodash');
 const mongoose = require("mongoose");
 require("dotenv").config();
+
 //for connct atlas
 // const dbURL = process.env.MONGODB_URL;
 
@@ -38,12 +39,6 @@ app.get("/", (req, res) => {
 
 // console.log("mmm",menus.menu[3])
 
-app.listen(port, function () {
-  console.log(`Server app listening on port ${port}`);
-  console.log("http://localhost:3000/");
-
-  res.render("index");
-});
 
 app.listen(process.env.PORT, function () {
   console.log(`Server app listening on port ${port}`);
