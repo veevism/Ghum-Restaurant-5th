@@ -4,14 +4,13 @@ const path = require("path");
 // const ejs = require("ejs");
 // const _ = require('lodash');
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
 
 mongoose
-  .connect(
-    "mongodb+srv://admin:Ghum12345Ghum@ghum-restaurant-db.1lxuohp.mongodb.net/test"
-  )
+  .connect(process.env.MONGODB_URL)
   .then(() => console.log("Connected!"))
   .catch(() => console.log("Something went wrong with DB"));
 // .catch(() => console.log("Something went wrong"));
@@ -25,6 +24,6 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.listen(port, function () {
+app.listen(process.env.PORT, function () {
   console.log(`Server app listening on port ${port}`);
 });
