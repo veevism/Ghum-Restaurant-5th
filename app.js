@@ -37,6 +37,13 @@ app.get("/", (req, res) => {
   });
 });
 
+//404 handling
+app.use((req, res, next) => {
+  res.status(404).catch(res.redirect("/"))
+});
+
+// console.log(new Error('A standard error'))
+
 // console.log("mmm",menus.menu[3])
 
 
