@@ -13,6 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/js", express.static(__dirname + "controller"));
 
+console.log(menu);
+
 app.get("/", (req, res) => {
   res.render("index");
 });

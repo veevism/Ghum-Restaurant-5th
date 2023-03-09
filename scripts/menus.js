@@ -126,9 +126,6 @@ function storageTranferGet(name) {
   sessionStorage.getItem(name);
   return JSON.parse(sessionStorage.getItem(name));
 }
-
-// console.log(localStorage.getItem("Hello") + "Meow");
-
-// function setBackward(obj, name) {
-//   storageTranfer(obj, name);
-// }
+module.exports = {
+  menu,
+};
