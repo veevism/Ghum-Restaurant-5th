@@ -1,0 +1,23 @@
+<!-- <article class="menu-item">
+  <img id="${item.id}" src="${item.img}" alt="${item.title}" class="photo" />
+  <div class="item-info">
+    <header>
+      <h4>${item.title}</h4>
+      <h4 class="price">$${item.price}</h4>
+    </header>
+    <p class="item-text">${item.desc}</p>
+  </div>
+</article> -->
+
+<% menus.menu.forEach(element => { %>
+  <article class="menu-item">
+    <img id="<%= element.id  %>" src="<%= element.img %>" alt="img : <%= element.title  %>" class="photo" />
+    <div class="item-info">
+      <header>
+        <h4><%= element.title  %></h4>
+        <h4 class="price">$<%= element.price  %></h4>
+      </header>
+      <p class="item-text"> <%= element.desc  %></p>
+    </div>
+  </article>
+<% }); %>
