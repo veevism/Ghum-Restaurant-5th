@@ -46,6 +46,10 @@ app.get("/checkout", (req, res) => {
   res.render("checkout");
 });
 
+app.get("/payment", (req, res) => {
+  res.render("payment");
+});
+
 //404 handling
 app.use((req, res, next) => {
   res.status(404).catch(res.redirect("/"));

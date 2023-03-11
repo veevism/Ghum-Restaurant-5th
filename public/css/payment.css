@@ -1,0 +1,142 @@
+.a-link {
+  display: block;
+  width: fit-content;
+}
+
+.qr-wrapper {
+  width: 300px;
+  height: 407px;
+  border: 2px dashed rgb(3, 118, 188);
+  border-radius: 12px;
+}
+
+.qr-wrapper img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.qr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-slip {
+  width: 282px;
+  min-width: 282px;
+}
+
+.slip {
+  position: relative;
+  color: rgb(55, 67, 78);
+  box-shadow: rgb(0 0 0 / 10%) 0px 2px 14px;
+  background: rgb(255, 255, 255);
+  align-self: flex-start;
+  box-sizing: border-box;
+  padding: 16px 0px;
+}
+
+.slip::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 8px;
+  left: 0px;
+  top: -8px;
+  background: linear-gradient(
+        -45deg,
+        rgb(255, 255, 255) 0px,
+        rgb(255, 255, 255) 50%,
+        transparent 50%
+      )
+      0% 0% / 10px 16px,
+    linear-gradient(
+        45deg,
+        rgb(255, 255, 255) 0px,
+        rgb(255, 255, 255) 50%,
+        transparent 50%
+      )
+      repeat-x;
+}
+
+.slip::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 8px;
+  left: 0px;
+  bottom: -8px;
+  transform: rotate(180deg);
+  background: linear-gradient(
+        -45deg,
+        rgb(255, 255, 255) 0px,
+        rgb(255, 255, 255) 50%,
+        transparent 50%
+      )
+      0% 0% / 10px 16px,
+    linear-gradient(
+        45deg,
+        rgb(255, 255, 255) 0px,
+        rgb(255, 255, 255) 50%,
+        transparent 50%
+      )
+      repeat-x;
+}
+
+.top-slip {
+  padding: 16px 8px 10px 16px;
+  box-shadow: rgb(184 186 187) 0px -1px 0px inset;
+  margin-bottom: 8px;
+}
+
+.top-slip h3 {
+  font-size: 16px;
+  line-height: 24px;
+  color: rgb(125, 129, 132);
+  font-weight: normal;
+  margin: 0px;
+}
+
+.top-slip > div {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.bottom-slip {
+  display: flex;
+  font-size: 14px;
+  line-height: 20px;
+  flex-direction: column;
+  position: relative;
+  padding: 8px 0px;
+  margin: 0px 16px;
+}
+
+.bottom-slip-text {
+  flex-basis: 60%;
+  font-weight: normal;
+  /* padding-right: 10px; */
+  overflow: initial;
+  color: rgb(125, 129, 132);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.bank-icon {
+  margin-right: 6px;
+  width: 20px;
+  height: 20px;
+}
+
+#accountId {
+  margin-bottom: 6px;
+}
+
+@media (max-width: 444.98px) {
+  .qr {
+    margin-bottom: 15px;
+  }
+}
