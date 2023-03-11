@@ -1,0 +1,12 @@
+.btn {
+  font-size: 1.2rem;
+}
+
+.btn-outline-success:hover {
+  background-color: #14a44d !important;
+  color: white !important;
+}
+
+.modal-content {
+  border: solid 25px #27ae60 !important;
+}

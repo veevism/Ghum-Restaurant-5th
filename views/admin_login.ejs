@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+
+  <div class="form-signin w-100 m-auto">
+    <div class="title mb-3">
+      <h1 class="card-title">Login to Admin session</h1>
+      <p class="card-subtitle">Admin only!</p>
+    </div>
+
+    <div class="card-dividerRow mb-3">
+      <div class="card-dividerLine"></div>
+      <p class="card-dividerText">o0o0o0o0o</p>
+      <div class="card-dividerLine"></div>
+    </div>
+
+    <form class="card-form">
+      <div class="card-formFieldRow">
+        <div class="card-formField">
+          <div class="card-formFieldLabelRow">
+            <label class="card-formFieldLabel" for="emailAddress-field"
+              >Username</label
+            >
+          </div>
+          <input
+            class="card-formFieldInput"
+            name="username"
+            type="text"
+            placeholder=""
+            id="username-field"
+          />
+        </div>
+      </div>
+      <div class="card-formFieldRow">
+        <div class="card-formField">
+          <div class="card-formFieldLabelRow">
+            <label class="card-formFieldLabel" for="password-field"
+              >Password</label
+            >
+          </div>
+          <div class="card-formFieldInputGroup">
+            <input
+              class="card-formFieldInput"
+              name="password"
+              type="password"
+              placeholder=""
+              id="password-field"
+            />
+          </div>
+        </div>
+      </div>
+      <a href="/admin" class="btn btn-primary w-100 mt-2"> Continue </a>
+    </form>
+    <div class="card-footer mt-4">
+      <span class="card-footerText">Wanna go back to the website?</span>
+      <a href="/" class="card-footerLink">Here</a>
+    </div>
+  </div>
+</html>
