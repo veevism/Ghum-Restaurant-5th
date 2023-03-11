@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/status.css" />
+  </head>
+  <body>
+    <%- include("partials/nav") %>
+    <section class="h-100" style="background-color: #eee">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-lg-8">
+            <div
+              class="card border-top border-bottom border-3"
+              style="border-color: #27ae60 !important"
+            >
+              <div class="card-body p-5">
+                <h1 class="lead fw-bold" style="color: #27ae60">
+                  Waiting for confirmation
+                </h1>
+                <p class="sub-lead text-secondary mb-4">Processing...</p>
+                <div class="card-dividerRow mb-4">
+                  <p class="icon -fa-utensils card-dividerText active-fixed">
+                    <i class="fa-solid fa-utensils"></i>
+                  </p>
+
+                  <div class="card-dividerLine line-fa-bowl-food"></div>
+                  <p class="icon -fa-bowl-food card-dividerText">
+                    <i class="fa-solid fa-bowl-food"></i>
+                  </p>
+
+                  <div class="card-dividerLine line-fa-motorcycle"></div>
+                  <p class="icon -fa-motorcycle card-dividerText">
+                    <i class="fa-solid fa-motorcycle"></i>
+                  </p>
+
+                  <div class="card-dividerLine line-fa-location-dot"></div>
+                  <p class="icon -fa-location-dot card-dividerText">
+                    <i class="fa-solid fa-location-dot"></i>
+                  </p>
+                </div>
+                <p class="text-secondary mb-4">Order no. h311oM0th3rfUck3r</p>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241721.55037512782!2d98.88917546165182!3d18.80264391042699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30da3a7e90bb6f5d%3A0x98d46270a59b4367!2z4LmA4LiX4Lio4Lia4Liy4Lil4LiZ4LiE4Lij4LmA4LiK4Li14Lii4LiH4LmD4Lir4Lih4LmIIOC4reC4s-C5gOC4oOC4reC5gOC4oeC4t-C4reC4h-C5gOC4iuC4teC4ouC4h-C5g-C4q-C4oeC5iCDguYDguIrguLXguKLguIfguYPguKvguKHguYg!5e0!3m2!1sth!2sth!4v1677392326123!5m2!1sth!2sth"
+                  width="600"
+                  height="300"
+                  style="border: 0"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  class="w-100 mb-4"
+                ></iframe>
+                <p class="mb-0 fw-bold" style="color: #27ae60">
+                  Payment summary
+                </p>
+                <hr
+                  class="mt-2 mb-4"
+                  style="
+                    height: 0;
+                    background-color: transparent;
+                    opacity: 0.75;
+                    border-top: 2px dashed #9e9e9e;
+                  "
+                />
+
+                <div class="d-flex justify-content-between">
+                  <p class="fw-bold mb-0">buttermilk pancakes(Qty:1)</p>
+                  <p class="text-muted mb-0">$15.99</p>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <p class="small mb-0">Shipping</p>
+                  <p class="small mb-0">$5.00</p>
+                </div>
+
+                <div class="d-flex justify-content-between pb-1">
+                  <p class="small">Tax</p>
+                  <p class="small">$0.00</p>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <p class="fw-bold">Total</p>
+                  <p class="fw-bold" style="color: #27ae60">$20.99</p>
+                </div>
+
+                <div class="pt-3">
+                  <h6 class="mb-0">
+                    <a
+                      href="/"
+                      class="text-body text-decoration-none"
+                      ><i class="fas fa-long-arrow-alt-left me-2"></i>Back to
+                      shop</a
+                    >
+                  </h6>
+                </div>
+
+                <p class="mt-4 pt-2 mb-0">
+                  Want any help?
+                  <a href="#" style="color: #27ae60">Please contact us</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      $("p.icon").click(function () {
+        $(this).toggleClass("active"); // add class to icon
+        var classes = $(this).attr("class").split(" ");
+        $(".line" + classes[1]).toggleClass("active"); // add class to line
+        if ($(".-fa-utensils").hasClass("active-fixed")) {
+          $(".lead").text("Waiting for confirmation");
+          $(".sub-lead").text("Processing...");
+        }
+        if ($(".-fa-bowl-food").hasClass("active")) {
+          $(".lead").text("Preparing order");
+          $(".sub-lead").text("5 sec until arrival (approx.)");
+        }
+        if ($(".-fa-motorcycle").hasClass("active")) {
+          $(".lead").text("On the way");
+          $(".sub-lead").text("5 sec until arrival (approx.)");
+        }
+        if ($(".-fa-location-dot").hasClass("active")) {
+          $(".lead").text("Arrived at the destination");
+          $(".sub-lead").text("Thank you");
+        }
+      });
+    </script>
+    <%- include("partials/footer") %>
+  </body>
+</html>

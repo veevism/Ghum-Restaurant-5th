@@ -50,6 +50,10 @@ app.get("/payment", (req, res) => {
   res.render("payment");
 });
 
+app.get("/status", (req, res) => {
+  res.render("status");
+});
+
 //404 handling
 app.use((req, res, next) => {
   res.status(404).catch(res.redirect("/"));
