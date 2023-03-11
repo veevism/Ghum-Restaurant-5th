@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+
+  <div class="form-signin w-100 m-auto">
+    <div class="title mb-4">
+      <h1 class="card-title">Please sign in</h1>
+      <p class="card-subtitle">Enjoy!</p>
+    </div>
+    <a href="/" class="text-decoration-none text-dark">
+      <button
+        class="card-guestButtons d-flex text-decoration-none text-dark justify-content-between w-100 mb-4"
+      >
+        <span>
+          <i class="fa-solid fa-user me-2"></i>
+          <span class="card-guestButtons-text">Login as guest</span>
+        </span>
+
+        <span class="">
+          <i class="fa-solid fa-arrow-right"></i>
+        </span>
+      </button>
+    </a>
+
+    <div class="card-dividerRow mb-4">
+      <div class="card-dividerLine"></div>
+      <p class="card-dividerText">or</p>
+      <div class="card-dividerLine"></div>
+    </div>
+
+    <form class="card-form">
+      <div class="card-formFieldRow">
+        <div class="card-formField">
+          <div class="card-formFieldLabelRow">
+            <label class="card-formFieldLabel" for="emailAddress-field"
+              >Email address</label
+            >
+          </div>
+          <input
+            class="card-formFieldInput"
+            name="emailAddress"
+            type="email"
+            placeholder=""
+            id="emailAddress-field"
+          />
+        </div>
+      </div>
+      <div class="card-formFieldRow">
+        <div class="card-formField">
+          <div class="card-formFieldLabelRow">
+            <label class="card-formFieldLabel" for="password-field"
+              >Password</label
+            >
+          </div>
+          <div class="card-formFieldInputGroup">
+            <input
+              class="card-formFieldInput"
+              name="password"
+              type="password"
+              placeholder=""
+              id="password-field"
+            />
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary w-100">Continue</button>
+    </form>
+
+    <div class="card-footer mt-4">
+      <span class="card-footerText">Just wanna go to the website?</span>
+      <a href="/" class="card-footerLink">Here</a>
+    </div>
+  </div>
+</html>

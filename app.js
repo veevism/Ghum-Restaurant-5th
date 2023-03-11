@@ -31,10 +31,21 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/js", express.static(__dirname + "controller"));
 
 app.get("/", (req, res) => {
-
   res.render("index", {
     menus: menus,
   });
+});
+
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+app.get("/admin_login", (req, res) => {
+  res.render("admin_login");
+});
+
+app.get("/admin", (req, res) => {
+  res.render("admin");
 });
 
 //404 handling

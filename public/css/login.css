@@ -1,0 +1,213 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+
+/* Only for login */
+
+:root {
+  --very-blue: #6096b4;
+  --blue: #93bfcf;
+  --gray: #bdcdd6;
+  --vanilla: #eee9da;
+
+  --green: #27ae60;
+  --lighter-green: #1bdf6d;
+  --black: #192a56;
+  --light-color: #666;
+  --box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-padding-top: 5.5rem;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #ffffff;
+}
+
+.title {
+  box-sizing: inherit;
+  display: flex;
+  flex-flow: column nowrap;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  gap: 0.25rem;
+}
+
+.card-title {
+  box-sizing: border-box;
+  color: rgb(20, 20, 20);
+  margin: 0px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: auto !important;
+}
+
+.card-subtitle {
+  box-sizing: border-box;
+  color: rgba(20, 20, 20, 0.65);
+  margin: 0px;
+  font-size: 0.8125rem;
+  font-family: inherit;
+  font-weight: 400;
+  line-height: 1.25;
+  -webkit-font-smoothing: auto !important;
+}
+
+.card-guestButtons {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5em;
+  font-size: 0.8rem;
+  background-color: #ffffff;
+}
+
+.card-guestButtons:hover {
+  background-color: #0000000a;
+}
+
+.card-guestButtons-text {
+  font-weight: 400;
+}
+
+.card-footer {
+  font-size: 0.8rem;
+}
+
+.card-footerText {
+  color: rgba(20, 20, 20, 0.65);
+}
+
+.card-dividerRow {
+  box-sizing: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+
+.card-dividerLine {
+  box-sizing: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  flex: 1 1 0%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+.card-dividerText {
+  box-sizing: border-box;
+  color: rgba(20, 20, 20, 0.65);
+  font-size: 0.8125rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.375;
+  margin: 0px 1rem;
+  -webkit-font-smoothing: auto !important;
+}
+
+.card-form {
+  box-sizing: inherit;
+  display: flex;
+  flex-flow: column nowrap;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.card-formFieldRow {
+  /* box-sizing: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: justify;
+  justify-content: space-between; */
+  gap: 1rem;
+}
+
+.card-formField {
+  /* box-sizing: inherit;
+  display: flex;
+  flex-flow: column nowrap;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  position: relative; */
+  flex: 1 1 auto;
+}
+
+.card-formFieldLabelRow {
+  /* box-sizing: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between; */
+  margin-bottom: 0.25rem;
+}
+
+.card-formFieldLabel {
+  font-size: 0.8rem;
+}
+
+.card-formFieldInput {
+  margin: 0px;
+  padding: 0.625rem 1rem;
+  background-color: white;
+  color: black;
+  outline: transparent solid 2px;
+  outline-offset: 2px;
+  width: 100%;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+  border-radius: 0.5em;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  -webkit-font-smoothing: auto !important;
+}
+
+.form-signin {
+  max-width: 25rem;
+  padding: 15px;
+  background-color: white;
+  border-radius: 1.35em;
+  box-shadow: rgb(0 0 0 / 16%) 0px 24px 48px;
+  border: 1px solid transparent;
+  width: 25rem;
+  padding: 2.375rem 2rem 3rem;
+}
