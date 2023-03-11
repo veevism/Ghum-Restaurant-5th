@@ -42,6 +42,10 @@ app.get("/admin", (req, res) => {
   res.render("admin");
 });
 
+app.get("/checkout", (req, res) => {
+  res.render("checkout");
+});
+
 //404 handling
 app.use((req, res, next) => {
   res.status(404).catch(res.redirect("/"));
