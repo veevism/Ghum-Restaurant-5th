@@ -14,14 +14,40 @@ require("dotenv").config();
 db.connect();
 //for connct atlas
 // const dbURL = process.env.MONGODB_URL;
-
+let menuObjList = [];
 //for connect local
+for (let i = 0; i < 10; i++) {
+  console.log("hh");
 
-const special1 = new Menu({
-  title: "Hello",
-  price: 64.2,
-});
+  menuObjList.push(
+    new Menu({
+      _id: menus.menu[i].id,
+      title: menus.menu[i].title,
+      category: menus.menu[i].category,
+      price: menus.menu[i].price,
+      img: menus.menu[i].img,
+      desc: menus.menu[i].desc,
+      quantity: menus.menu[i].quantity,
+    })
+  );
+}
 
+Menu.collection
+  .insertMany(menuObjList)
+  .then(() => {
+    "Menu has been successfully added to DB";
+  })
+  .catch(() => {
+    "Menu already been in DB";
+  });
+
+// const special1 = new Menu({
+//   id: 2,
+//   title: "Hellossss",
+//   price: 64.2,
+// });
+
+// Menu.collection.insertOne(special1);
 // Menu.collection.insertOne(special1).then(() => console.log("add 1 items"));
 const app = express();
 const port = 3000;
@@ -41,8 +67,9 @@ app.get("/", async (req, res) => {
     menus: menus,
   });
 
-  const menuss = Menu.find({});
-  console.log(menuss.length);
+  const menuDBLength = (await Menu.find({})).length;
+  console.log(menuDBLength);
+  // console.log((await menuss).length);
 });
 
 app.get("/login", (req, res) => {

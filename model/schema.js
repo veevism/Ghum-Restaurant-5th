@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 // const db = require("../config/db");
 
 const menuSchema = new mongoose.Schema({
-  id: Number,
+  _id: Number,
   title: String,
   category: String,
   price: mongoose.Types.Decimal128,
