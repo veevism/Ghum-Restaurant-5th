@@ -7,6 +7,7 @@
     <!-- <script src="/controllers/index.js"></script> -->
     <!-- <script src="/controllers/menus.js"></script> -->
 
+    <!-- <script src="/js/test"></script> -->
     <!-- CSS -->
     <link rel="stylesheet" href="/css/index.css" />
     <link rel="stylesheet" href="/css/carousel.css" />
@@ -214,9 +215,7 @@
       </div>
 
       <!-- Generate menu here -->
-      <div class="section-center">
-        <%- include("partials/menue") %> 
-      </div>
+      <div class="section-center"><%- include("partials/menue") %></div>
     </section>
     <!-- Menu -->
 
@@ -234,14 +233,13 @@
         <a href=""></a>
         <ul class="shopping-cart-items"></ul>
 
-        <a id="checkout-button" href="/checkout" class="button"
-          >Checkout</a
-        >
+        <a id="checkout-button" href="/checkout" class="button">Checkout</a>
         <a id="clear-button" href="#" class="button">Clear</a>
       </div>
     </div>
     <!-- End Toggle shopping cart -->
 
     <%- include("partials/footer") %>
+    <script src="../js/test.js"></script>
   </body>
 </html>
