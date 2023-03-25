@@ -12,7 +12,7 @@
       <h1 class="card-title">Please sign in</h1>
       <p class="card-subtitle">Enjoy!</p>
     </div>
-    <a href="/" class="text-decoration-none text-dark">
+    <a href="/auth/google" class="text-decoration-none text-dark">
       <button
         class="card-googleButtons d-flex text-decoration-none text-dark justify-content-between w-100 mb-4"
       >
@@ -21,7 +21,7 @@
           <span class="card-googleButtons-text">Sign in with Google</span>
         </span>
 
-        <span class="">
+        <span>
           <i class="fa-solid fa-arrow-right"></i>
         </span>
       </button>
@@ -33,7 +33,7 @@
       <div class="card-dividerLine"></div>
     </div>
 
-    <form class="card-form">
+    <form action="/signin" method="POST" class="card-form">
       <div class="card-formFieldRow">
         <div class="card-formField">
           <div class="card-formFieldLabelRow">
@@ -43,7 +43,7 @@
           </div>
           <input
             class="card-formFieldInput"
-            name="emailAddress"
+            name="username"
             type="email"
             placeholder=""
             id="emailAddress-field"
@@ -68,7 +68,7 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-primary w-100">Continue</button>
+      <button type="submit" class="btn btn-primary w-100">Continue</button>
     </form>
 
     <div class="card-footer mt-4">

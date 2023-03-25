@@ -33,7 +33,7 @@
       <div class="card-dividerLine"></div>
     </div>
 
-    <form class="card-form">
+    <form action="/signup" method="POST" class="card-form">
       <div class="card-formFieldRow">
         <div class="card-formField">
           <div class="card-formFieldLabelRow">
@@ -43,7 +43,7 @@
           </div>
           <input
             class="card-formFieldInput"
-            name="emailAddress"
+            name="username"
             type="email"
             placeholder=""
             id="emailAddress-field"
@@ -61,7 +61,7 @@
           <div class="card-formFieldInputGroup">
             <input
               class="card-formFieldInput"
-              name="password1"
+              name="password"
               type="password"
               placeholder=""
               id="password-field"
@@ -88,7 +88,7 @@
           </div>
         </div>
       </div> -->
-      <button class="btn btn-primary w-100">Continue</button>
+      <button type="submit" class="btn btn-primary w-100">Continue</button>
     </form>
 
     <div class="card-footer mt-4">
