@@ -1,13 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
-
 const menus = require("./public/js/menus");
 const { json } = require("body-parser");
 const db = require("./config/db");
 // const ejs = require("ejs");
 // const _ = require('lodash');
-require("dotenv").config();
 
 db.connect();
 
@@ -30,8 +29,12 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
+app.get("/signin", (req, res) => {
+  res.render("signin");
+});
+
+app.get("/signup", (req, res) => {
+  res.render("signup");
 });
 
 app.get("/admin_login", (req, res) => {
