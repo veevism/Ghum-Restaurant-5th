@@ -86,16 +86,18 @@ app.get("/", (req, res) => {
   res.render("index", {
     menus: menus,
   });
-  if (req.isAuthenticated()) {
-    console.log(req.user);
-  }
+  // if (req.isAuthenticated()) {
+  //   console.log(req.user);
+  // } else {
+  //   res.redirect("/signin")
+  // }
 });
 
 app.get('/auth/google',
   passport.authenticate('google', { scope: ["profile"] })
 );
 
-app.get('/auth/google/secrets',
+app.get('/auth/google/',
   passport.authenticate('google', { failureRedirect: '/signin' }),
   function (req, res) {
     // Successful authentication, redirect home.
