@@ -44,6 +44,9 @@ passport.serializeUser(function (user, cb) {
     return cb(null, {
       id: user.id,
       username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      address: user.address,
       picture: user.picture
     });
   });
@@ -83,14 +86,14 @@ passport.use(new GoogleStrategy({
 ));
 
 app.get("/", (req, res) => {
-  res.render("index", {
-    menus: menus,
-  });
-  // if (req.isAuthenticated()) {
-  //   console.log(req.user);
-  // } else {
-  //   res.redirect("/signin")
-  // }
+
+  if (req.isAuthenticated()) {
+    res.render("index", {
+      menus: menus
+    });
+  } else {
+    res.redirect('/signin');
+  }
 });
 
 app.get('/auth/google',
@@ -171,13 +174,49 @@ app.get("/status", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  res.render("profile");
+  if (req.isAuthenticated()) {
+    res.render("profile", {
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      address: req.user.address
+    });
+  } else {
+    res.redirect('/signin')
+  }
+  
+});
+
+app.get("/information", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render("information");
+  } else {
+    res.redirect("/signin");
+  }
+});
+
+app.post("/information", async (req, res) => {
+  const firstName = req.body.firstName
+  const lastName = req.body.lastName
+  const address = req.body.address
+  console.log(req.user);
+  // console.log(firstName);
+  // console.log(lastName);
+  // console.log(address);
+  
+  let foundUser = await User.findById(req.user.id);
+  if (foundUser) {
+    foundUser.firstName = firstName
+    foundUser.lastName = lastName
+    foundUser.address = address
+    foundUser.save()
+      .then(() => { res.redirect("/profile") })
+  }
 });
 
 //404 handling
-app.use((err, req, res, next) => {
-  res.status(404).catch(res.redirect("/"));
-});
+// app.use((err, req, res, next) => {
+//   res.status(404).catch(res.redirect("/"));
+// });
 
 // console.log(new Error('A standard error'))
 
