@@ -175,6 +175,7 @@ app.get("/status", (req, res) => {
 
 app.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
+    console.log(req.user.firstName);
     res.render("profile", {
       firstName: req.user.firstName,
       lastName: req.user.lastName,
@@ -209,7 +210,7 @@ app.post("/information", async (req, res) => {
   if (foundUser) {
     foundUser.firstName = firstName
     foundUser.lastName = lastName
-    foundUser.address = address
+    // foundUser.address = address
     foundUser.save()
       .then(() => { res.redirect("/profile") })
   }
