@@ -35,10 +35,10 @@ for (let i = 0; i < 10; i++) {
 Menu.collection
   .insertMany(menuObjList)
   .then(() => {
-    "Menu has been successfully added to DB";
+    console.log("Menu has been successfully added to DB");
   })
   .catch(() => {
-    "Menu already been in DB";
+    console.log("Menu already been in DB");
   });
 
 const app = express();
@@ -129,7 +129,6 @@ app.get("/", (req, res) => {
     res.render("index", {
       menus: menus,
     });
-
   } else {
     res.redirect("/signin");
   }
