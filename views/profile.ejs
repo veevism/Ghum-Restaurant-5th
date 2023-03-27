@@ -40,7 +40,7 @@
                   </div>
                   <div class="ms-3" style="margin-top: 130px">
                     <h5><%= firstName %> <%= lastName %></h5>
-                    <p><%= address %></p>
+                    <p><%= address.location.province %>, <%= address.location.country %></p>
                   </div>
                 </div>
               </form>
@@ -64,9 +64,9 @@
                 <div class="mb-5">
                   <p class="lead fw-normal mb-1">Address</p>
                   <div class="p-4" style="background-color: #f8f9fa">
-                    <p class="font-italic mb-1">Web Developer</p>
-                    <p class="font-italic mb-1">Lives in Chiang Mai</p>
-                    <p class="font-italic mb-0">Photographer</p>
+                    <p class="font-italic mb-1"><%= address.name %>:</p>
+                    <p class="font-italic mb-1"><%= address.location.address %>, <%= address.location.subDistrict %>, <%= address.location.district %></p>
+                    <p class="font-italic mb-0"><%= address.location.province %>, <%= address.location.country %>, <%= address.location.zip %></p>
                   </div>
                 </div>
                 <div

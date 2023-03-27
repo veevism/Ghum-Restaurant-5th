@@ -237,6 +237,9 @@ app.get("/information", (req, res) => {
   if (req.isAuthenticated()) {
     res.render("information", {
       username: req.user.username,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      address: req.user.address
     });
   } else {
     res.redirect("/signin");
@@ -246,17 +249,26 @@ app.get("/information", (req, res) => {
 app.post("/information", async (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
+  const addressName = req.body.addressName;
   const address = req.body.address;
+  const subDistrict = req.body.subDistrict;
+  const district = req.body.district;
+  const province = req.body.province
+  const country = req.body.country
+  const zip = req.body.zip
   console.log(req.user);
-  // console.log(firstName);
-  // console.log(lastName);
-  // console.log(address);
 
   let foundUser = await User.findById(req.user.id);
   if (foundUser) {
     foundUser.firstName = firstName;
     foundUser.lastName = lastName;
-    // foundUser.address = address
+    foundUser.address.name = addressName;
+    foundUser.address.location.address = address;
+    foundUser.address.location.subDistrict = subDistrict;
+    foundUser.address.location.district = district;
+    foundUser.address.location.province = province;
+    foundUser.address.location.country = country;
+    foundUser.address.location.zip = zip;
     foundUser.save().then(() => {
       res.redirect("/profile");
     });
