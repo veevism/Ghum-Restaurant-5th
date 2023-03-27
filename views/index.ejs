@@ -4,7 +4,7 @@
     <%- include("partials/header") %>
 
     <!-- javaScript -->
-    <!-- <script src="/controllers/index.js"></script> -->
+    <script src="/js/index.js"></script>
     <!-- <script src="/controllers/menus.js"></script> -->
 
     <!-- <script src="/js/test"></script> -->
@@ -29,8 +29,10 @@
               Bread To Decadent Pastries, Satisfy Your Cravings With Us.
             </h2>
             <div class="btn-section">
-              <button class="btn btn-light btn-lg">Menu</button>
-              <button class="btn btn-primary btn-lg">Community</button>
+              <a href="#menu">
+                <button class="btn btn-light btn-lg">Menu</button>
+              </a>
+              <button class="btn btn-primary btn-lg">About Us</button>
             </div>
           </div>
           <div class="col-lg-6 landing-right">
@@ -239,6 +241,8 @@
     </div>
     <!-- End Toggle shopping cart -->
 
+    <script src="/js/checkout.js"></script>
+    <script src="/js/mdb.min.js"></script>
     <%- include("partials/footer") %>
     <script src="../js/index.js"></script>
   </body>

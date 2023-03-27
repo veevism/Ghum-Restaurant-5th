@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+  </head>
+  <body>
+    <div class="container">
+      <main>
+        <div class="row p-5 d-flex align-items-center justify-content-center">
+          <div class=" mb-4 col-md-7 col-lg-8">
+            <h6 class="mb-0">
+              <a href="/profile" class="text-body text-decoration-none"
+                ><i class="fas fa-long-arrow-alt-left me-2"></i>Profile</a
+              >
+            </h6>
+          </div>
+          <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Edit Your Information</h4>
+            <form
+              action="/information"
+              method="POST"
+              class="needs-validation"
+              novalidate=""
+            >
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="username" class="form-label">Username</label>
+                  <div class="input-group has-validation">
+                    <span class="input-group-text">@</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="username"
+                      placeholder="<%= username %>"
+                      required=""
+                      fdprocessedid="sm5bef"
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <label for="firstName" class="form-label">First name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    name="firstName"
+                    placeholder=""
+                    value=""
+                    required=""
+                    fdprocessedid="b19ox7h"
+                  />
+                  <div class="invalid-feedback">
+                    Valid first name is required.
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <label for="lastName" class="form-label">Last name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    name="lastName"
+                    placeholder=""
+                    value=""
+                    required=""
+                    fdprocessedid="fiqbs"
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="addressName" class="form-label">Address Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="addressName"
+                    name="addressName"
+                    placeholder="e.g. My house"
+                    required=""
+                    fdprocessedid="1xn5s"
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="address" class="form-label">Address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="address"
+                    name="address"
+                    placeholder="1234 Main St"
+                    required=""
+                    fdprocessedid="1xn5s"
+                  />
+                </div>
+
+                <!-- <div class="col-12">
+                <label for="address2" class="form-label">Address 2 <span class="text-body-secondary">(Optional)</span></label>
+                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" fdprocessedid="k9x52l">
+              </div> -->
+
+                <div class="col-md-6">
+                  <label for="subDistrict" class="form-label">Sub-District</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="subDistrict"
+                    name="subDistrict"
+                    placeholder="San Na Meng"
+                    required=""
+                    fdprocessedid="1xn5s"
+                  />
+                </div>
+
+                <div class="col-md-6">
+                  <label for="district" class="form-label">District</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="district"
+                    name="district"
+                    placeholder="San Sai"
+                    required=""
+                    fdprocessedid="1xn5s"
+                  />
+                </div>
+
+                <div class="col-md-5">
+                  <label for="province" class="form-label">Province</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="province"
+                    name="province"
+                    placeholder="Chiang Mai"
+                    required=""
+                    fdprocessedid="1xn5s"
+                  />
+                </div>
+
+                <div class="col-md-4">
+                  <label for="country" class="form-label">Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="country"
+                    name="country"
+                    placeholder="Thailand"
+                    required=""
+                    fdprocessedid="1xn5s"
+                  />
+                </div>
+
+                <div class="col-md-3 mb-4">
+                  <label for="zip" class="form-label">Zip</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="zip"
+                    placeholder="e.g. 50210"
+                    required=""
+                    fdprocessedid="iush2pb"
+                  />
+                </div>
+              </div>
+
+              <hr class="my-4" />
+
+              <button
+                class="w-100 btn btn-primary btn-lg"
+                type="submit"
+                fdprocessedid="xv3kod"
+              >
+                Continue to checkout
+              </button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <%- include("partials/footer") %>
+  </body>
+</html>
