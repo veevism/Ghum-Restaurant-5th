@@ -188,7 +188,9 @@ app.get("/profile", (req, res) => {
 
 app.get("/information", (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("information");
+    res.render("information", {
+      username: req.user.username
+    });
   } else {
     res.redirect("/signin");
   }

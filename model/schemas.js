@@ -7,7 +7,17 @@ const userSchema = new mongoose.Schema({
     googleId: String,
     firstName: String,
     lastName: String,
-    address: String
+    address: {
+        name: String,
+        location: {
+            address: String,
+            subDistrict: String,
+            district: String,
+            province: String,
+            country: String,
+            zip: Number
+        },
+    }
 });
 
 userSchema.plugin(passportLocalMongoose);
