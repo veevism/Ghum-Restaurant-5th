@@ -17,8 +17,6 @@ const User = require("./model/schemas").User;
 
 let menuObjList = [];
 for (let i = 0; i < 10; i++) {
-  console.log("hh");
-
   menuObjList.push(
     new Menu({
       _id: menus.menu[i].id,
