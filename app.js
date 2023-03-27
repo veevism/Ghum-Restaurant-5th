@@ -6,7 +6,7 @@ const menus = require("./public/js/menus");
 const { json } = require("body-parser");
 const db = require("./config/db");
 
-const { Menu } = require("./model/schema");
+const { Menu } = require("./model/schemas");
 // const ejs = require("ejs");
 // const _ = require('lodash');
 db.connect();
@@ -82,9 +82,9 @@ passport.serializeUser(function (user, cb) {
   });
 });
 
-const menuDBLength = (await Menu.find({})).length;
-console.log(menuDBLength);
 // console.log((await menuss).length);
+// const menuDBLength = (await Menu.find({})).length;
+// console.log(menuDBLength);
 
 passport.deserializeUser(function (user, cb) {
   process.nextTick(function () {
