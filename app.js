@@ -9,7 +9,6 @@ const db = require("./config/db");
 const { Menu } = require("./model/schemas");
 // const ejs = require("ejs");
 // const _ = require('lodash');
-db.connect();
 
 const session = require("express-session");
 const passport = require("passport");
@@ -97,7 +96,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/",
+      callbackURL: "http://localhost:3000/auth/google/profile",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     async function (accessToken, refreshToken, profile, done) {
@@ -130,6 +129,7 @@ app.get("/", (req, res) => {
     res.render("index", {
       menus: menus,
     });
+
   } else {
     res.redirect("/signin");
   }
@@ -141,7 +141,7 @@ app.get(
 );
 
 app.get(
-  "/auth/google/",
+  "/auth/google/profile",
   passport.authenticate("google", { failureRedirect: "/signin" }),
   function (req, res) {
     // Successful authentication, redirect home.
