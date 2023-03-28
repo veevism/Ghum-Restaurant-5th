@@ -31,6 +31,27 @@ const menuSchema = new mongoose.Schema({
   quantity: Number,
 });
 
+const order_detailSchema = new mongoose.Schema({
+  user_id: Number,
+  paid_status: String,
+  order_status: String,
+  delivery_status: String,
+  payment_method: String,
+  items_id: Number,
+});
+
+const itemSchema = new mongoose.Schema({
+  _id: mongoose.Types.ObjectId,
+  cart: {
+    menu_id: Number,
+    quantity: Number,
+  },
+});
+
+exports.Item = mongoose.model("Item", itemSchema);
+
+exports.Order_details = new mongoose.model("Order_details", order_detailSchema);
+
 exports.Menu = mongoose.model("Menu", menuSchema);
 
 exports.User = new mongoose.model("User", userSchema);

@@ -7,6 +7,8 @@ const { json } = require("body-parser");
 const db = require("./config/db");
 
 const { Menu } = require("./model/schemas");
+const { Item } = require("./model/schemas");
+
 // const ejs = require("ejs");
 // const _ = require('lodash');
 
@@ -125,16 +127,27 @@ passport.use(
 app.get("/", async (req, res) => {
   //turn mongo obj into some kind of js array .lean()
   var allmenu = await Menu.find().lean();
-  // if (req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
+    res.render("index", {
+      menus: allmenu,
+    });
 
-  // } else {
-  //   res.redirect("/signin");
-  // }
-  res.render("index", {
-    menus: allmenu,
-  });
+    const newItems = new Item({
+      _id: 6,
+      cart: {
+        menu_id: 2,
+        quantity: 0,
+      },
+    });
+    // Item.collection.insertOne(newItems).catch();
+    console.log(typeof req.user.id);
 
-  // var allmenu = await Menu.find({ _id: "1" });
+    var allitem = await Item.find().lean();
+    console.log(allmenu[0]._id);
+    console.log(allitem[0]._id);
+  } else {
+    res.redirect("/signin");
+  }
 });
 
 app.get(
