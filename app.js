@@ -15,9 +15,9 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./model/schemas").User;
 
-let menuObjList = [];
+let menuList = [];
 for (let i = 0; i < 10; i++) {
-  menuObjList.push(
+  menuList.push(
     new Menu({
       _id: menus.menu[i].id,
       title: menus.menu[i].title,
@@ -31,7 +31,7 @@ for (let i = 0; i < 10; i++) {
 }
 
 Menu.collection
-  .insertMany(menuObjList)
+  .insertMany(menuList)
   .then(() => {
     console.log("Menu has been successfully added to DB");
   })
@@ -122,14 +122,19 @@ passport.use(
   )
 );
 
-app.get("/", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.render("index", {
-      menus: menus,
-    });
-  } else {
-    res.redirect("/signin");
-  }
+app.get("/", async (req, res) => {
+  //turn mongo obj into some kind of js array .lean()
+  var allmenu = await Menu.find().lean();
+  // if (req.isAuthenticated()) {
+
+  // } else {
+  //   res.redirect("/signin");
+  // }
+  res.render("index", {
+    menus: allmenu,
+  });
+
+  // var allmenu = await Menu.find({ _id: "1" });
 });
 
 app.get(
