@@ -185,7 +185,7 @@ app.get("/signup", (req, res) => {
 
 app.post("/signup", (req, res) => {
   User.register(
-    { username: req.body.username },
+    { username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName },
     req.body.password,
     (err, user) => {
       if (err) {
@@ -223,6 +223,7 @@ app.get("/status", (req, res) => {
 app.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
     console.log(req.user.firstName);
+    // console.log(Object.keys(req.user.address.location).length === 0);
     res.render("profile", {
       firstName: req.user.firstName,
       lastName: req.user.lastName,
