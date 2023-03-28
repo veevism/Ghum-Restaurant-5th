@@ -11,4 +11,6 @@ $(document).ready(function () {
     console.log(count, mafiaSiam.target);
     count++;
   });
+
+  console.log(req.user);
 });

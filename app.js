@@ -7,7 +7,8 @@ const { json } = require("body-parser");
 const db = require("./config/db");
 
 const { Menu } = require("./model/schemas");
-const { Item } = require("./model/schemas");
+const { Cart } = require("./model/schemas");
+const { Cart_Item } = require("./model/schemas");
 
 // const ejs = require("ejs");
 // const _ = require('lodash');
@@ -126,25 +127,34 @@ passport.use(
 
 app.get("/", async (req, res) => {
   //turn mongo obj into some kind of js array .lean()
-  var allmenu = await Menu.find().lean();
+  // var allmenu = await Menu.find().lean();
+
   if (req.isAuthenticated()) {
     res.render("index", {
       menus: allmenu,
     });
 
-    const newItems = new Item({
-      _id: 6,
-      cart: {
-        menu_id: 2,
-        quantity: 0,
-      },
-    });
-    // Item.collection.insertOne(newItems).catch();
-    console.log(typeof req.user.id);
+    // const newCart = new Cart({
+    //   user_id: req.user.id,
+    //   paid_status: "unpaid",
+    //   order_status: "ordering",
+    //   delivery_status: "",
+    //   payment_method: "",
+    // });
 
-    var allitem = await Item.find().lean();
-    console.log(allmenu[0]._id);
-    console.log(allitem[0]._id);
+    // const newCartItem = new Cart_Item({
+    //   _id: 6,
+    //   cart_id: 2,
+    //   menu_id: 1,
+    //   quantity: 0,
+    // });
+
+    // Cart.collection
+    //   .insertOne(newCart)
+    //   .then(console.log("Cart added successfully"));
+    // Cart_Item.collection
+    //   .insertOne(newCartItem)
+    //   .then(console.log("Cart item added successfully"));
   } else {
     res.redirect("/signin");
   }
