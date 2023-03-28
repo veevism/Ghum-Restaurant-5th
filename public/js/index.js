@@ -1,3 +1,5 @@
+const user_id = require("../../app");
+
 $(document).ready(function () {
   $(".shopping-cart").fadeOut();
   $("#cart").on("click", function () {
@@ -6,11 +8,10 @@ $(document).ready(function () {
     }
     $(".shopping-cart").fadeToggle("fast");
   });
+  console.log(user_id);
   let count = 0;
   $("#menu img").click((mafiaSiam) => {
     console.log(count, mafiaSiam.target);
     count++;
   });
-
-  console.log(req.user);
 });
