@@ -31,26 +31,25 @@ const menuSchema = new mongoose.Schema({
   quantity: Number,
 });
 
-const order_detailSchema = new mongoose.Schema({
-  user_id: Number,
+const cartSchema = new mongoose.Schema({
+  _id: mongoose.Types.ObjectId,
+  user_id: { type: mongoose.Types.ObjectId, required: true },
   paid_status: String,
   order_status: String,
   delivery_status: String,
   payment_method: String,
-  items_id: Number,
 });
 
-const itemSchema = new mongoose.Schema({
+const cart_itemSchema = new mongoose.Schema({
   _id: mongoose.Types.ObjectId,
-  cart: {
-    menu_id: Number,
-    quantity: Number,
-  },
+  cart_id: { type: mongoose.Types.ObjectId, required: true },
+  menu_id: Number,
+  quantity: Number,
 });
 
-exports.Item = mongoose.model("Item", itemSchema);
+exports.Cart_Item = mongoose.model("cart_item", cart_itemSchema);
 
-exports.Order_details = new mongoose.model("Order_details", order_detailSchema);
+exports.Cart = new mongoose.model("cart", cartSchema);
 
 exports.Menu = mongoose.model("Menu", menuSchema);
 
