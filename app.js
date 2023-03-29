@@ -265,9 +265,7 @@ app.get("/profile", (req, res) => {
     console.log(req.user.firstName);
     // console.log(Object.keys(req.user.address.location).length === 0);
     res.render("profile", {
-      firstName: req.user.firstName,
-      lastName: req.user.lastName,
-      address: req.user.address,
+      user: req.user,
     });
   } else {
     res.redirect("/signin");
