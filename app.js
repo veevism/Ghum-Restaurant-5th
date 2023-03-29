@@ -202,7 +202,7 @@ app.post("/signin", async (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      passport.authenticate("local", { failureRedirect: '/signin', failureFlash: true })(req, res, () => {
+      passport.authenticate("local")(req, res, () => {
         req.session.returnTo = '/';
         res.redirect(redirectTo);
       });
