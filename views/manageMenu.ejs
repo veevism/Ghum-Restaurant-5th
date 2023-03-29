@@ -95,6 +95,10 @@
     </div>
     <script>
       function submitForm(menuId, action) {
+        if (action === "edit") {
+          location.href = `/manage-menu/edit/${menuId}`;
+          return;
+        }
         if (
           confirm(
             "Are you sure you want to " + action.toUpperCase() + " this menu?"

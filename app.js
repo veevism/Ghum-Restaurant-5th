@@ -404,27 +404,73 @@ app.post('/add-menu', async (req, res) => {
   });
 });
 
+app.get('/manage-menu/edit/:menuId', async (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log(req.user.username);
+    try {
+      const menuId = req.params.menuId;
+      const menu = await Menu.findById(menuId);
+      res.render('editMenu', { menu: menu });
+      console.log(`Edit item with ID: ${menuId}`);
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('Internal server error');
+    }
+  } else {
+    res.redirect("/admin_login");
+  }
+
+});
+
+app.post('/edit-menu', async (req, res) => {
+  try {
+    await Menu.updateOne(
+      { _id: req.body.menuId },
+      {
+        $set: {
+          title: req.body.title,
+          category: req.body.category,
+          price: req.body.price,
+          img: req.body.img,
+          desc: req.body.desc,
+          quantity: req.body.quantity,
+        }
+      }
+    );
+
+    var allmenu = await Menu.find().lean();
+    res.render("manageMenu", {
+      menus: allmenu,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while updating user information");
+  }
+});
+
 app.get("/manage-menu", async (req, res) => {
-  // if (req.isAuthenticated()) {
-  //   console.log(req.user.username);
-  //   res.render("addMenu");
-  // } else {
-  //   res.redirect("/admin_login");
-  // }
-  var allmenu = await Menu.find().lean();
-  res.render("manageMenu", {
-    menus: allmenu,
-  });
+  if (req.isAuthenticated()) {
+    console.log(req.user.username);
+    var allmenu = await Menu.find().lean();
+    res.render("manageMenu", {
+      menus: allmenu,
+    });
+  } else {
+    res.redirect("/admin_login");
+  }
 });
 
 app.post('/manage-menu', async (req, res) => {
   const menuId = req.body.menuId;
   const action = req.body.action;
-  if (action === 'edit') {
-    // Edit item logic
-    console.log(`Edit item with ID: ${menuId}`);
-    // res.send(`Edit item with ID: ${itemId}`);
-  } else if (action === 'delete') {
+  // if (action === 'edit') {
+  //   // Edit item logic
+  //   const menu = await Menu.findById(menuId)
+  //   res.render("editMenu", { menu: menu })
+  //   console.log(`Edit item with ID: ${menuId}`);
+  //   // res.send(`Edit item with ID: ${itemId}`);
+  // } else 
+  if (action === 'delete') {
     // Delete item logic
     await Menu.findByIdAndRemove(menuId)
       .then(() => {

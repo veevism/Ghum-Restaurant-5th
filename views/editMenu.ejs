@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <link rel="stylesheet" href="/css/mdb.min.css" />
+  </head>
+  <body>
+    <%- include("partials/admin_nav") %>
+    <div class="container">
+      <main>
+        <div class="row p-5 d-flex align-items-center justify-content-center">
+          <div class="mb-4 col-md-7 col-lg-8">
+            <h6 class="mb-0">
+              <a href="/admin_dashboard" class="text-body text-decoration-none"
+                ><i class="fas fa-long-arrow-alt-left me-2"></i>Customer
+                Order</a
+              >
+            </h6>
+          </div>
+          <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Edit menu "<strong><%= menu.title %></strong>"</h4>
+            <form
+              action="/edit-menu"
+              method="POST"
+              class="needs-validation"
+              novalidate=""
+            >
+              <div class="row g-3 mb-4">
+
+                <div class="col-12">
+                    <label for="menuId" class="form-label">Id:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="menuId"
+                      name="menuId"
+                      value="<%= menu._id %>"
+                      required
+                    />
+                  </div>
+
+                <div class="col-12">
+                  <label for="title" class="form-label">Title:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    value="<%= menu.title %>"
+                    placeholder="e.g. strawberry shake"
+                    required
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="category" class="form-label">Category:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="category"
+                    name="category"
+                    value="<%= menu.category %>"
+                    placeholder="e.g. shakes"
+                    required
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="price" class="form-label">Price:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="price"
+                    name="price"
+                    value="<%= menu.price %>"
+                    placeholder="e.g. 69.69"
+                    required
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="img" class="form-label">Image URL:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="img"
+                    name="img"
+                    value="<%= menu.img %>"
+                    placeholder="e.g. https://images.unsplash.com"
+                    required
+                  />
+                </div>
+
+                <div class="col-12">
+                  <label for="desc" class="form-label">Description:</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="desc"
+                    name="desc"
+                    placeholder=""
+                  >
+<%= menu.desc %></textarea
+                  >
+                </div>
+
+                <div class="col-12">
+                  <label for="quantity" class="form-label">Quantity:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="quantity"
+                    name="quantity"
+                    value="<%= menu.quantity %>"
+                    placeholder="e.g. 69"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button class="w-100 btn btn-success btn-lg" type="submit">
+                Save
+              </button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <%- include("partials/footer") %>
+  </body>
+</html>
