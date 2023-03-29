@@ -127,7 +127,7 @@ passport.use(
 
 app.get("/", async (req, res) => {
   //turn mongo obj into some kind of js array .lean()
-  // var allmenu = await Menu.find().lean();
+  var allmenu = await Menu.find().lean();
 
   if (req.isAuthenticated()) {
     res.render("index", {
