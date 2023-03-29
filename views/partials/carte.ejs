@@ -1,0 +1,9 @@
+<% cart_items.forEach(cartItem => { %> <% menus.forEach(menu => { %> <% if
+(cartItem.menu_id == menu._id) { %>
+<li class="clearfix">
+  <img src="<%=menu.img%>" alt="<%=menu.title%>" class="cart-img" />
+  <span class="item-name"><%=menu.title%></span>
+  <span class="item-price"><%=menu.price%></span>
+  <span class="item-quantity"><%=cartItem.quantity%></span>
+</li>
+<% } %> <% }); %> <% }); %>

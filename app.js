@@ -18,6 +18,8 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./model/schemas").User;
 
+let userID, cart, cartID;
+
 let menuList = [];
 for (let i = 0; i < 10; i++) {
   menuList.push(
@@ -39,7 +41,7 @@ Menu.collection
     console.log("Menu has been successfully added to DB");
   })
   .catch(() => {
-    console.log("Menu already been in DB");
+    console.log("");
   });
 
 const app = express();
@@ -131,44 +133,68 @@ app.get("/", async (req, res) => {
   var allmenu = await Menu.find().lean();
 
   if (req.isAuthenticated()) {
-    res.render("index", {
-      menus: allmenu,
-    });
+    userID = req.user.id;
+    cart = await Cart.find({ user_id: userID });
+    cartID = (await Cart.find({ user_id: userID }))[0]._id;
 
-    // const newCart = new Cart({
-    //   user_id: req.user.id,
-    //   paid_status: "unpaid",
-    //   order_status: "ordering",
-    //   delivery_status: "",
-    //   payment_method: "",
-    // });
+    // console.log(`cart length : ${cart.length}`);
 
-    // const newCartItem = new Cart_Item({
-    //   _id: 6,
-    //   cart_id: 2,
-    //   menu_id: 1,
-    //   quantity: 0,
-    // });
-
-    // Cart.collection
-    //   .insertOne(newCart)
-    //   .then(console.log("Cart added successfully"));
-    // Cart_Item.collection
-    //   .insertOne(newCartItem)
-    //   .then(console.log("Cart item added successfully"));
+    if (cart.length == 0) {
+      console.log("This user don't have cart DB");
+      const newCart = new Cart({
+        user_id: req.user.id,
+        paid_status: "unpaid",
+        order_status: "ordering",
+        delivery_status: "",
+        payment_method: "",
+      });
+      Cart.collection.insertOne(newCart);
+      res.render("index", {
+        menus: allmenu,
+      });
+    } else if (cart.length > 0) {
+      let allCartItem = await Cart_Item.find({ cart_id: cartID }).lean();
+      res.render("index", {
+        menus: allmenu,
+        cart_items: allCartItem,
+      });
+    }
   } else {
     res.redirect("/signin");
   }
 });
 
-app.post("/image-clicked", (req, res) => {
-  const imageId = req.body.id;
-  console.log(`Image with ID ${imageId} clicked.`);
+app.post("/image-clicked", async (req, res) => {
+  const imageID = req.body.id;
+  const recieveditem = await Menu.find({ _id: imageID }).lean();
 
-  // Perform any required action with the image ID
-  // ...
+  let findCartItem = await Cart_Item.find({
+    cart_id: cartID,
+    menu_id: imageID,
+  });
+  if (findCartItem.length == 0) {
+    const newCartItem = new Cart_Item({
+      cart_id: cartID,
+      menu_id: imageID,
+      quantity: 1,
+    });
+    Cart_Item.collection
+      .insertOne(newCartItem)
+      .then(console.log("Cart item added successfully"));
+  } else if (findCartItem.length > 0) {
+    console.log("update");
+    Cart_Item.updateOne(
+      {
+        cart_id: cartID,
+        menu_id: imageID,
+      },
+      { $inc: { quantity: 1 } }
+    ).then(() => {
+      console.log("added");
+    });
+  }
 
-  res.json({ message: `Image ID ${imageId} received.` });
+  res.redirect("/");
 });
 
 app.get(
@@ -186,7 +212,7 @@ app.get(
 );
 
 app.get("/signin", (req, res) => {
-  req.session.returnTo = req.headers.referer || '/';
+  req.session.returnTo = req.headers.referer || "/";
   res.render("signin");
 });
 
@@ -196,15 +222,16 @@ app.post("/signin", async (req, res) => {
     password: req.body.password,
   });
 
-  const redirectTo = req.session.returnTo || '/';
+  const redirectTo = req.session.returnTo || "/";
 
   req.login(user, (err) => {
     if (err) {
       console.log(err);
     } else {
       passport.authenticate("local")(req, res, () => {
-        req.session.returnTo = '/';
-        res.redirect(redirectTo);
+        // req.session.returnTo = "/";
+        // res.redirect(redirectTo);
+        res.redirect("/");
       });
     }
   });
@@ -225,7 +252,11 @@ app.get("/signup", (req, res) => {
 
 app.post("/signup", (req, res) => {
   User.register(
-    { username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName },
+    {
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+    },
     req.body.password,
     (err, user) => {
       if (err) {
@@ -278,7 +309,7 @@ app.get("/information", (req, res) => {
       username: req.user.username,
       firstName: req.user.firstName,
       lastName: req.user.lastName,
-      address: req.user.address
+      address: req.user.address,
     });
   } else {
     res.redirect("/signin");
@@ -292,9 +323,9 @@ app.post("/information", async (req, res) => {
   const address = req.body.address;
   const subDistrict = req.body.subDistrict;
   const district = req.body.district;
-  const province = req.body.province
-  const country = req.body.country
-  const zip = req.body.zip
+  const province = req.body.province;
+  const country = req.body.country;
+  const zip = req.body.zip;
   console.log(req.user);
 
   try {
@@ -310,8 +341,8 @@ app.post("/information", async (req, res) => {
           "address.location.district": district,
           "address.location.province": province,
           "address.location.country": country,
-          "address.location.zip": zip
-        }
+          "address.location.zip": zip,
+        },
       }
     );
 
@@ -321,7 +352,7 @@ app.post("/information", async (req, res) => {
     // After the update is successful, redirect to the /profile route
     // res.redirect("/profile");
     console.log(updatedUser.firstName);
-    res.render('profile', { user: updatedUser });
+    res.render("profile", { user: updatedUser });
   } catch (error) {
     // Handle any errors that may occur during the update process
     console.error(error);
