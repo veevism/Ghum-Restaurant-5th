@@ -356,6 +356,35 @@ app.post("/information", async (req, res) => {
   }
 });
 
+app.get("/add-menu", (req, res) => {
+  res.render("addMenu");
+});
+
+app.post('/add-menu', async (req, res) => {
+  const items = await Menu.find({});
+  console.log(items.length);
+  // const { title, category, price, img, desc, quantity } = req.body;
+  console.log(req.body.title);
+  // create a new menu object
+  const newMenu = new Menu({
+    _id: items.length,
+    title: req.body.title,
+    category: req.body.category,
+    price: req.body.price,
+    img: req.body.img,
+    desc: req.body.desc,
+    quantity: req.body.quantity
+  });
+
+  // save the new menu to MongoDB
+  newMenu.save().then(() => {
+    res.json({ message: 'Menu added successfully!' });
+  }).catch(error => {
+    console.error('Error saving menu', error);
+    res.status(500).json({ error: 'Error saving menu' });
+  });
+});
+
 //404 handling
 // app.use((err, req, res, next) => {
 //   res.status(404).catch(res.redirect("/"));
