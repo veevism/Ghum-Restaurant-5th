@@ -12,10 +12,10 @@
 <% menus.forEach(element => { %>
 <article class="menu-item">
   <img
-    id="<%= element._id  %>"
     src="<%= element.img %>"
     alt="img : <%= element.title  %>"
-    class="photo"
+    class="photo clickable-image"
+    data-id="<%= element._id %>"
   />
   <div class="item-info">
     <header>

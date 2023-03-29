@@ -43,6 +43,7 @@ Menu.collection
   });
 
 const app = express();
+app.use(express.json());
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -158,6 +159,16 @@ app.get("/", async (req, res) => {
   } else {
     res.redirect("/signin");
   }
+});
+
+app.post("/image-clicked", (req, res) => {
+  const imageId = req.body.id;
+  console.log(`Image with ID ${imageId} clicked.`);
+
+  // Perform any required action with the image ID
+  // ...
+
+  res.json({ message: `Image ID ${imageId} received.` });
 });
 
 app.get(
