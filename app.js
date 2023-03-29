@@ -220,6 +220,15 @@ app.get("/logout", (req, res) => {
   });
 });
 
+app.get("/admin-logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/admin_login");
+  });
+});
+
 app.get("/signup", (req, res) => {
   res.render("signup");
 });
@@ -273,8 +282,13 @@ app.post("/admin_login", (req, res) => {
 });
 
 app.get("/admin_dashboard", (req, res) => {
-  console.log(req.user);
-  res.render("admin_dashboard");
+  if (req.isAuthenticated()) {
+    console.log(req.user.username);
+    res.render("admin_dashboard");
+  } else {
+    res.redirect("/admin_login");
+  }
+  
 });
 
 app.get("/checkout", (req, res) => {
@@ -357,7 +371,12 @@ app.post("/information", async (req, res) => {
 });
 
 app.get("/add-menu", (req, res) => {
-  res.render("addMenu");
+  if (req.isAuthenticated()) {
+    console.log(req.user.username);
+    res.render("addMenu");
+  } else {
+    res.redirect("/admin_login");
+  }
 });
 
 app.post('/add-menu', async (req, res) => {
