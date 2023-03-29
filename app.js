@@ -368,22 +368,28 @@ app.post('/checkout', async (req, res) => {
       return res.status(400).send('No cart found for the user');
     }
 
-    // Create a new order
-    const newOrder = new Order({
-      userId: userId,
-      items: cart.items,
-      orderDate: new Date(),
-      status: 'Paying',
-    });
+    const allOrder = await Order.find().lean();
 
-    // Save the new order
-    await newOrder.save();
+    if (allOrder.length === 0) {
+      // Create a new order
+      const newOrder = new Order({
+        userId: userId,
+        items: cart.items,
+        orderDate: new Date(),
+        status: 'Paying',
+      });
 
-    // Empty the user's cart
-    cart.items = [];
-    await cart.save();
+      // Save the new order
+      await newOrder.save();
 
-    res.redirect('/payment')
+      // Empty the user's cart
+      cart.items = [];
+      await cart.save();
+      res.redirect("/payment")
+    } else {
+      res.redirect("/payment")
+    }
+
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal server error');
@@ -399,8 +405,55 @@ app.get("/payment", (req, res) => {
   }
 });
 
+app.get("/payment", (req, res) => {
+  // if (req.isAuthenticated()) {
+  //   res.render("payment");
+  // } else {
+  //   res.redirect("/signin");
+  // }
+  res.render("payment");
+});
+
+app.post('/order/update-status', async (req, res) => {
+
+  const allOrder = await Order.find().lean();
+
+  const orderId = allOrder[0]._id;
+  const newStatus = "Queuing";
+
+  console.log(orderId);
+
+  try {
+    // Find the order by ID
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res.status(400).send('Order not found');
+    }
+
+    // Update the order status
+    order.status = newStatus;
+    order.orderDate = new Date();
+
+    // Save the updated order
+    await order.save();
+
+    res.redirect('/status')
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
+
 app.get("/status", (req, res) => {
-  res.render("status");
+  if (req.isAuthenticated()) {
+    res.render("status", {
+      user: req.user
+    });
+  } else {
+    res.redirect("/signin");
+  }
 });
 
 app.get("/profile", (req, res) => {

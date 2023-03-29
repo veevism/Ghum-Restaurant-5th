@@ -15,9 +15,8 @@ let allLocation = [
         }
     }
 ]
-
-const apiKey = "AIzaSyB_w3ntqlpIvJhv8JJDhMMq4wRazbhs1MM";
-const address = "95 หมู่.11 แม่กวงใต้ 2/5 สันนาเม็ง สันทราย เชียงใหม่ 50210";
+// const apiKey = "AIzaSyB_w3ntqlpIvJhv8JJDhMMq4wRazbhs1MM";
+// const address = "95 หมู่.11 แม่กวงใต้ 2/5 สันนาเม็ง สันทราย เชียงใหม่ 50210";
 
 function initMap() {
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`)

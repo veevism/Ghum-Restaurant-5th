@@ -45,12 +45,20 @@
                 <p class="text-secondary">Order no. h311oM0th3rfUck3r</p>
                 <p class="fw-light mb-1">
                   <i class="fa-solid fa-location-dot text-danger me-2"></i
-                  >Ghum Restaurant
+                  ><span>Ghum Restaurant</span>
                 </p>
                 <p class="fw-light mb-4">
-                  <i class="fa-solid fa-location-dot me-2"></i
-                  >My house
+                  <i class="fa-solid fa-location-dot me-2"></i>
+                  <span id="address"
+                    ><%= user.address.location.address %>, <%=
+                    user.address.location.subDistrict %>, <%=
+                    user.address.location.district %> <%=
+                    user.address.location.province %>, <%=
+                    user.address.location.country %>, <%=
+                    user.address.location.zip %>
+                  </span>
                 </p>
+
                 <div
                   id="map"
                   style="width: 600px; height: 400px"
@@ -130,6 +138,8 @@
           $(".sub-lead").text("Thank you");
         }
       });
+      const address = $("#address").text();
+      const apiKey = "AIzaSyB_w3ntqlpIvJhv8JJDhMMq4wRazbhs1MM";
     </script>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_w3ntqlpIvJhv8JJDhMMq4wRazbhs1MM&language=en&callback=initMap"
