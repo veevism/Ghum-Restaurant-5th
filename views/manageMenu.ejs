@@ -107,7 +107,7 @@
             },
             body: JSON.stringify({ menuId, action }),
           })
-            .then((response) => response.text())
+            .then((response) => location.reload())
             .then((result) => {
               console.log(result);
             })

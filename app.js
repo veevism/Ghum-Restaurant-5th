@@ -397,7 +397,7 @@ app.post('/add-menu', async (req, res) => {
 
   // save the new menu to MongoDB
   newMenu.save().then(() => {
-    res.json({ message: 'Menu added successfully!' });
+    res.redirect("/manage-menu")
   }).catch(error => {
     console.error('Error saving menu', error);
     res.status(500).json({ error: 'Error saving menu' });
