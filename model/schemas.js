@@ -15,9 +15,9 @@ const userSchema = new mongoose.Schema({
       district: String,
       province: String,
       country: String,
-      zip: Number,
+      zip: Number
     },
-  },
+  }
 });
 
 userSchema.plugin(passportLocalMongoose);

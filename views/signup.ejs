@@ -17,7 +17,12 @@
         class="card-googleButtons d-flex text-decoration-none text-dark justify-content-between w-100 mb-4"
       >
         <span>
-          <img src="/images/gg_logo.png" alt="" style="width: 20px" class="me-2">
+          <img
+            src="/images/gg_logo.png"
+            alt=""
+            style="width: 20px"
+            class="me-2"
+          />
           <span class="card-googleButtons-text">Sign up with Google</span>
         </span>
 
@@ -34,6 +39,36 @@
     </div>
 
     <form action="/signup" method="POST" class="card-form">
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="firstName" class="card-formFieldLabel">First name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            name="firstName"
+            placeholder=""
+            value=""
+            required=""
+            fdprocessedid="b19ox7h"
+          />
+          <div class="invalid-feedback">Valid first name is required.</div>
+        </div>
+
+        <div class="col-sm-6">
+          <label for="lastName" class="card-formFieldLabel">Last name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            name="lastName"
+            placeholder=""
+            value=""
+            required=""
+            fdprocessedid="fiqbs"
+          />
+        </div>
+      </div>
       <div class="card-formFieldRow">
         <div class="card-formField">
           <div class="card-formFieldLabelRow">

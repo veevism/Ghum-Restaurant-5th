@@ -175,6 +175,7 @@ app.get(
 );
 
 app.get("/signin", (req, res) => {
+  req.session.returnTo = req.headers.referer || '/';
   res.render("signin");
 });
 
@@ -184,12 +185,15 @@ app.post("/signin", async (req, res) => {
     password: req.body.password,
   });
 
+  const redirectTo = req.session.returnTo || '/';
+
   req.login(user, (err) => {
     if (err) {
       console.log(err);
     } else {
-      passport.authenticate("local")(req, res, () => {
-        res.redirect("/");
+      passport.authenticate("local", { failureRedirect: '/signin', failureFlash: true })(req, res, () => {
+        delete req.session.returnTo;
+        res.redirect(redirectTo);
       });
     }
   });
@@ -210,7 +214,7 @@ app.get("/signup", (req, res) => {
 
 app.post("/signup", (req, res) => {
   User.register(
-    { username: req.body.username },
+    { username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName },
     req.body.password,
     (err, user) => {
       if (err) {
@@ -248,6 +252,7 @@ app.get("/status", (req, res) => {
 app.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
     console.log(req.user.firstName);
+    // console.log(Object.keys(req.user.address.location).length === 0);
     res.render("profile", {
       firstName: req.user.firstName,
       lastName: req.user.lastName,
@@ -262,6 +267,9 @@ app.get("/information", (req, res) => {
   if (req.isAuthenticated()) {
     res.render("information", {
       username: req.user.username,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      address: req.user.address
     });
   } else {
     res.redirect("/signin");
@@ -271,20 +279,44 @@ app.get("/information", (req, res) => {
 app.post("/information", async (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
+  const addressName = req.body.addressName;
   const address = req.body.address;
+  const subDistrict = req.body.subDistrict;
+  const district = req.body.district;
+  const province = req.body.province
+  const country = req.body.country
+  const zip = req.body.zip
   console.log(req.user);
-  // console.log(firstName);
-  // console.log(lastName);
-  // console.log(address);
 
-  let foundUser = await User.findById(req.user.id);
-  if (foundUser) {
-    foundUser.firstName = firstName;
-    foundUser.lastName = lastName;
-    // foundUser.address = address
-    foundUser.save().then(() => {
-      res.redirect("/profile");
-    });
+  try {
+    await User.updateOne(
+      { _id: req.user.id },
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          "address.name": addressName,
+          "address.location.address": address,
+          "address.location.subDistrict": subDistrict,
+          "address.location.district": district,
+          "address.location.province": province,
+          "address.location.country": country,
+          "address.location.zip": zip
+        }
+      }
+    );
+
+    // After the update is successful, retrieve the updated user data
+    const updatedUser = await User.findById(req.user.id);
+
+    // After the update is successful, redirect to the /profile route
+    // res.redirect("/profile");
+    console.log(updatedUser.firstName);
+    res.render('profile', { user: updatedUser });
+  } catch (error) {
+    // Handle any errors that may occur during the update process
+    console.error(error);
+    res.status(500).send("An error occurred while updating user information");
   }
 });
 
