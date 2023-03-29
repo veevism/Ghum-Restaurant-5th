@@ -10,13 +10,12 @@ const { Menu } = require("./model/schemas");
 const { Cart } = require("./model/schemas");
 const { Cart_Item } = require("./model/schemas");
 
-// const ejs = require("ejs");
-// const _ = require('lodash');
-
 const session = require("express-session");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
 const User = require("./model/schemas").User;
+const Admin = require("./model/schemas").Admin;
 
 let menuList = [];
 for (let i = 0; i < 10; i++) {
@@ -70,6 +69,8 @@ db.connect();
 
 passport.use(User.createStrategy());
 
+passport.use("admin-local", Admin.createStrategy());
+
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
     return cb(null, {
@@ -83,15 +84,14 @@ passport.serializeUser(function (user, cb) {
   });
 });
 
-// console.log((await menuss).length);
-// const menuDBLength = (await Menu.find({})).length;
-// console.log(menuDBLength);
-
 passport.deserializeUser(function (user, cb) {
   process.nextTick(function () {
     return cb(null, user);
   });
 });
+
+passport.serializeUser(Admin.serializeUser());
+passport.deserializeUser(Admin.deserializeUser());
 
 passport.use(
   new GoogleStrategy(
@@ -196,15 +196,16 @@ app.post("/signin", async (req, res) => {
     password: req.body.password,
   });
 
-  const redirectTo = req.session.returnTo || '/';
+  // const redirectTo = req.session.returnTo || '/';
 
   req.login(user, (err) => {
     if (err) {
       console.log(err);
     } else {
       passport.authenticate("local")(req, res, () => {
-        req.session.returnTo = '/';
-        res.redirect(redirectTo);
+        // req.session.returnTo = '/';
+        // res.redirect(redirectTo);
+        res.redirect('/');
       });
     }
   });
@@ -241,10 +242,38 @@ app.post("/signup", (req, res) => {
 });
 
 app.get("/admin_login", (req, res) => {
-  res.render("admin_login");
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.render("admin_login");
+  });
+});
+
+app.post("/admin_login", (req, res) => {
+  const admin = new Admin({
+    username: req.body.username,
+    password: req.body.password,
+  });
+
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.login(admin, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        passport.authenticate("admin-local")(req, res, () => {
+          res.redirect('/admin');
+        });
+      }
+    });
+  });
 });
 
 app.get("/admin", (req, res) => {
+  console.log(req.user);
   res.render("admin");
 });
 
@@ -263,7 +292,6 @@ app.get("/status", (req, res) => {
 app.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
     console.log(req.user.firstName);
-    // console.log(Object.keys(req.user.address.location).length === 0);
     res.render("profile", {
       user: req.user,
     });
@@ -319,7 +347,6 @@ app.post("/information", async (req, res) => {
     const updatedUser = await User.findById(req.user.id);
 
     // After the update is successful, redirect to the /profile route
-    // res.redirect("/profile");
     console.log(updatedUser.firstName);
     res.render('profile', { user: updatedUser });
   } catch (error) {
@@ -333,10 +360,6 @@ app.post("/information", async (req, res) => {
 // app.use((err, req, res, next) => {
 //   res.status(404).catch(res.redirect("/"));
 // });
-
-// console.log(new Error('A standard error'))
-
-// console.log("mmm",menus.menu[3])
 
 app.listen(process.env.PORT, function () {
   console.log(`Server app listening on port ${process.env.PORT}`);

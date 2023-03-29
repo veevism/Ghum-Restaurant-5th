@@ -21,6 +21,14 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.plugin(passportLocalMongoose);
+
+const adminSchema = new mongoose.Schema({
+  username: String,
+  password: String
+});
+
+adminSchema.plugin(passportLocalMongoose);
+
 const menuSchema = new mongoose.Schema({
   _id: Number,
   title: String,
@@ -54,3 +62,5 @@ exports.Cart = new mongoose.model("cart", cartSchema);
 exports.Menu = mongoose.model("Menu", menuSchema);
 
 exports.User = new mongoose.model("User", userSchema);
+
+exports.Admin = new mongoose.model("Admin", adminSchema);
