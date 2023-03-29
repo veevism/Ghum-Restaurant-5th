@@ -265,16 +265,16 @@ app.post("/admin_login", (req, res) => {
         console.log(err);
       } else {
         passport.authenticate("admin-local")(req, res, () => {
-          res.redirect('/admin');
+          res.redirect('/admin_dashboard');
         });
       }
     });
   });
 });
 
-app.get("/admin", (req, res) => {
+app.get("/admin_dashboard", (req, res) => {
   console.log(req.user);
-  res.render("admin");
+  res.render("admin_dashboard");
 });
 
 app.get("/checkout", (req, res) => {

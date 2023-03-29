@@ -1,0 +1,76 @@
+<style>
+  .logo {
+    color: #27ae60;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    text-decoration: none;
+  }
+
+  .logo:hover {
+    color: rgb(0, 200, 0);
+    font-size: 1.5rem;
+  }
+</style>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- Container wrapper -->
+  <div class="container">
+    <!-- Navbar brand -->
+    <a
+      class="logo navbar-nav me-2 mb-lg-0 mt-lg-0 mt-md-2 text-decoration-none"
+      href="/"
+    >
+      Ghum Restaurant
+    </a>
+
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarButtonsExample"
+      aria-controls="navbarButtonsExample"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse" id="navbarButtonsExample">
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/admin_dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/add-menu"
+            ><i class="fa-solid fa-plus me-2"></i>Add Menu</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"
+            ><i class="fa-solid fa-trash me-2"></i>Delete Menu</a
+          >
+        </li>
+      </ul>
+      <!-- Left links -->
+
+      <div class="d-flex align-items-center">
+        <!-- <button type="button" class="btn btn-link px-3 me-2">
+            Login
+          </button> -->
+        <button type="button" class="btn btn-primary me-3">LOGOUT</button>
+        <a
+          class="btn btn-dark px-3"
+          href="https://github.com/Vee-Sorawee/Ghum-Restaurant-5th"
+          role="button"
+          ><i class="fab fa-github"></i
+        ></a>
+      </div>
+    </div>
+    <!-- Collapsible wrapper -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

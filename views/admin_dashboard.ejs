@@ -7,12 +7,18 @@
     <link rel="stylesheet" href="/css/admin.css" />
     <link rel="stylesheet" href="/css/mdb.min.css" />
   </head>
+  <%- include("partials/admin_nav") %>
   
   <div class="container-md my-5">
-    <div class="pt-5 mb-4">
+    <div class="pt-5 mb-4 d-flex justify-content-between">
       <h6 class="mb-0">
-        <a href="/admin_login" class="text-body text-decoration-none"
-          ><i class="fas fa-long-arrow-alt-left me-2"></i>Dashboard</a
+        <a href="/" class="text-body text-decoration-none"
+          ><i class="fas fa-long-arrow-alt-left me-2"></i>Home</a
+        >
+      </h6>
+      <h6 class="mb-0">
+        <a href="/add-menu" class="text-body text-decoration-none"
+          >Add menu<i class="fas fa-long-arrow-alt-right ms-2"></i></a
         >
       </h6>
     </div>
