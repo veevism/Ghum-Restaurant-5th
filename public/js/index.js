@@ -15,6 +15,9 @@ $(document).ready(function () {
   document.querySelectorAll(".clickable-image").forEach(function (image) {
     image.addEventListener("click", function () {
       const imageId = this.dataset.id;
+      console.log("image ID", imageId);
+      console.log("this", this);
+      console.log("this .dataset" + this.dataset);
 
       // Send the image ID to the server using a POST request
       fetch("/image-clicked", {
