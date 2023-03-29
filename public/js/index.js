@@ -1,3 +1,5 @@
+const user_id = require("../../app");
+
 $(document).ready(function () {
   $(".shopping-cart").fadeOut();
   $("#cart").on("click", function () {
