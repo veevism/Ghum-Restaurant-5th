@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <link rel="stylesheet" href="/css/mdb.min.css" />
+  </head>
+  <body>
+    <%- include("partials/admin_nav") %>
+    <div class="container">
+      <main>
+        <div class="row p-5 d-flex align-items-center justify-content-center">
+          <!-- <form action="/manage-menu" method="post"> -->
+          <small>
+            <div class="shadow-4 rounded-7 table-responsive">
+              <table class="table align-middle mb-0 bg-white" id="item-table">
+                <thead class="bg-success text-white">
+                  <tr>
+                    <th>Id</th>
+                    <th>Menu</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- loop -->
+                  <% menus.forEach(menu => { %>
+                  <tr>
+                    <td># <%= menu._id %></td>
+                    <td id="menu-id-<%= menu._id %>" class="d-none">
+                      <%= menu._id %>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <img
+                          src="<%= menu.img %>"
+                          alt=""
+                          style="width: 50px; height: 50px"
+                          class="rounded-circle"
+                        />
+                        <div class="ms-3">
+                          <p class="fw-light mb-0">
+                            <small><%= menu.category %></small>
+                          </p>
+                          <p class="fw-bold mb-1">
+                            <strong><%= menu.title %></strong>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <% if (menu.desc.length > 30) { %>
+                    <td>
+                      <span class="font-monospace"
+                        ><%= menu.desc.substring(0, 30) + " ..." %></span
+                      >
+                    </td>
+                    <% } else { %>
+                    <td>
+                      <span class="font-monospace"><%= menu.desc %></span>
+                    </td>
+                    <% } %>
+                    <td>$ <%= menu.price %></td>
+                    <td>
+                      <button
+                        type="submit"
+                        id="edit-button"
+                        class="btn btn-warning"
+                        name="action"
+                        value="edit"
+                        onclick="submitForm('<%= menu._id %>', 'edit')"
+                      >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+                      <button
+                        type="submit"
+                        id="delete-button"
+                        class="btn btn-danger"
+                        name="action"
+                        value="delete"
+                        onclick="submitForm('<%= menu._id %>', 'delete')"
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- loop -->
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </small>
+          <!-- </form> -->
+        </div>
+      </main>
+    </div>
+    <script>
+      function submitForm(menuId, action) {
+        if (
+          confirm(
+            "Are you sure you want to " + action.toUpperCase() + " this menu?"
+          )
+        ) {
+          fetch("/manage-menu", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ menuId, action }),
+          })
+            .then((response) => response.text())
+            .then((result) => {
+              console.log(result);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        }
+      }
+    </script>
+    <%- include("partials/footer") %>
+  </body>
+</html>

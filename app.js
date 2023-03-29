@@ -288,7 +288,7 @@ app.get("/admin_dashboard", (req, res) => {
   } else {
     res.redirect("/admin_login");
   }
-  
+
 });
 
 app.get("/checkout", (req, res) => {
@@ -402,6 +402,40 @@ app.post('/add-menu', async (req, res) => {
     console.error('Error saving menu', error);
     res.status(500).json({ error: 'Error saving menu' });
   });
+});
+
+app.get("/manage-menu", async (req, res) => {
+  // if (req.isAuthenticated()) {
+  //   console.log(req.user.username);
+  //   res.render("addMenu");
+  // } else {
+  //   res.redirect("/admin_login");
+  // }
+  var allmenu = await Menu.find().lean();
+  res.render("manageMenu", {
+    menus: allmenu,
+  });
+});
+
+app.post('/manage-menu', async (req, res) => {
+  const menuId = req.body.menuId;
+  const action = req.body.action;
+  if (action === 'edit') {
+    // Edit item logic
+    console.log(`Edit item with ID: ${menuId}`);
+    // res.send(`Edit item with ID: ${itemId}`);
+  } else if (action === 'delete') {
+    // Delete item logic
+    await Menu.findByIdAndRemove(menuId)
+      .then(() => {
+        console.log(`Delete item with ID: ${menuId}`);
+        res.redirect('/manage-menu');
+      })
+    // res.send(`Delete item with ID: ${itemId}`);
+  } else {
+    res.status(400).send('Invalid action');
+  }
+  // console.log(action);
 });
 
 //404 handling
