@@ -55,12 +55,42 @@ const cart_itemSchema = new mongoose.Schema({
   quantity: Number,
 });
 
-exports.Cart_Item = mongoose.model("cart_item", cart_itemSchema);
+// exports.Cart_Item = mongoose.model("cart_item", cart_itemSchema);
 
-exports.Cart = new mongoose.model("cart", cartSchema);
+// exports.Cart = new mongoose.model("cart", cartSchema);
 
 exports.Menu = mongoose.model("Menu", menuSchema);
 
 exports.User = new mongoose.model("User", userSchema);
 
 exports.Admin = new mongoose.model("Admin", adminSchema);
+
+// New schema
+
+const carts = new mongoose.Schema({
+  userId: String, // Reference to the user who owns the cart
+  items: [
+    {
+      itemId: String,
+      quantity: Number,
+    },
+  ],
+});
+
+const orders = new mongoose.Schema({
+  userId: String, // Reference to the user who placed the order
+  items: [
+    {
+      itemId: String, // Reference to the item
+      quantity: Number,
+      price: Number, // Store price at the time of the order to handle price changes
+    },
+    // ... more items
+  ],
+  orderDate: Date,
+  status: String, // e.g., 'Processing', 'Shipped', 'Delivered', 'Canceled'
+});
+
+exports.Cart = new mongoose.model("Cart", carts);
+
+exports.Order = new mongoose.model("Order", orders);

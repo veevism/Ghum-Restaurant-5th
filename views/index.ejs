@@ -219,7 +219,28 @@
       </div>
 
       <!-- Generate menu here -->
-      <div class="section-center"><%- include("partials/menue") %></div>
+      <div class="section-center">
+        <% menus.forEach(menu => { %>
+        <article class="menu-item">
+          <button class="border-0">
+            <img
+              src="<%= menu.img %>"
+              alt="img : <%= menu.title  %>"
+              class="photo clickable-image"
+              onclick="addItemToCart('<%= userId %>', '<%= menu._id %>', 1)"
+            />
+          </button>
+
+          <div class="item-info">
+            <header>
+              <h4><%= menu.title %></h4>
+              <h4 class="price">$<%= menu.price %></h4>
+            </header>
+            <p class="item-text"><%= menu.desc %></p>
+          </div>
+        </article>
+        <% }); %>
+      </div>
     </section>
     <!-- Menu -->
 
@@ -235,13 +256,45 @@
           </div>
         </div>
         <a href=""></a>
-        <ul class="shopping-cart-items"></ul>
+        <ul class="shopping-cart-items">
+          <% for( let i = 0; i < carts.length; i++ ) { %>
+          <% menus.forEach(menu => { %> 
+          <% if (carts[i].itemId == menu._id) { %>
+          <li class="clearfix">
+            <img src="<%=menu.img%>" alt="<%=menu.title%>" class="cart-img" />
+            <span class="item-name"><%=menu.title%></span>
+            <span class="item-price"><%=menu.price%></span>
+            <span class="item-quantity"><%=carts[i].quantity%></span>
+          </li>
+          <% } %> 
+          <% }); %> 
+          <% } %>
+        </ul>
 
         <a id="checkout-button" href="/checkout" class="button">Checkout</a>
         <a id="clear-button" href="#" class="button">Clear</a>
       </div>
     </div>
     <!-- End Toggle shopping cart -->
+
+    <script>
+      function addItemToCart(userId, itemId, quantity) {
+        fetch("/cart/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, itemId, quantity }),
+        })
+          .then((response) => location.reload())
+          .then((result) => {
+            console.log(result);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
 
     <script src="/js/checkout.js"></script>
     <script src="/js/mdb.min.js"></script>

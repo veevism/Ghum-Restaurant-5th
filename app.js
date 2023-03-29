@@ -7,8 +7,8 @@ const { json } = require("body-parser");
 const db = require("./config/db");
 
 const { Menu } = require("./model/schemas");
-const { Cart } = require("./model/schemas");
-const { Cart_Item } = require("./model/schemas");
+// const { Cart } = require("./model/schemas");
+// const { Cart_Item } = require("./model/schemas");
 
 const session = require("express-session");
 const passport = require("passport");
@@ -16,6 +16,8 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const User = require("./model/schemas").User;
 const Admin = require("./model/schemas").Admin;
+const Cart = require("./model/schemas").Cart;
+const Order = require("./model/schemas").Order;
 
 let menuList = [];
 for (let i = 0; i < 10; i++) {
@@ -128,47 +130,58 @@ passport.use(
 
 app.get("/", async (req, res) => {
   //turn mongo obj into some kind of js array .lean()
-  var allmenu = await Menu.find().lean();
+  const allmenu = await Menu.find().lean();
+  const allItemInCart = await Cart.find().lean();
 
   if (req.isAuthenticated()) {
     res.render("index", {
       menus: allmenu,
+      userId: req.user.id,
+      carts: allItemInCart[0].items,
     });
-
-    // const newCart = new Cart({
-    //   user_id: req.user.id,
-    //   paid_status: "unpaid",
-    //   order_status: "ordering",
-    //   delivery_status: "",
-    //   payment_method: "",
-    // });
-
-    // const newCartItem = new Cart_Item({
-    //   _id: 6,
-    //   cart_id: 2,
-    //   menu_id: 1,
-    //   quantity: 0,
-    // });
-
-    // Cart.collection
-    //   .insertOne(newCart)
-    //   .then(console.log("Cart added successfully"));
-    // Cart_Item.collection
-    //   .insertOne(newCartItem)
-    //   .then(console.log("Cart item added successfully"));
   } else {
     res.redirect("/signin");
   }
 });
 
-app.post("/image-clicked", (req, res) => {
-  const imageId = req.body.id;
-  console.log(`Image with ID ${imageId} clicked.`);
+app.post('/cart/add', async (req, res) => {
+  const userId = req.body.userId;
+  const itemId = req.body.itemId;
+  const quantity = req.body.quantity;
 
-  // Perform any required action with the image ID
-  // ...
+  try {
+    // Find the cart of the user
+    let cart = await Cart.findOne({ userId: userId });
 
-  res.json({ message: `Image ID ${imageId} received.` });
+    // If the cart does not exist, create a new cart for the user
+    if (!cart) {
+      cart = new Cart({
+        userId: userId,
+        items: [],
+      });
+    }
+
+    // Check if the item is already in the cart
+    const existingItemIndex = cart.items.findIndex((item) => item.itemId === itemId);
+
+    console.log(existingItemIndex);
+
+    if (existingItemIndex !== -1) {
+      // If the item is already in the cart, update its quantity
+      cart.items[existingItemIndex].quantity += quantity;
+    } else {
+      // If the item is not in the cart, add it with the specified quantity
+      cart.items.push({ itemId: itemId, quantity: quantity });
+    }
+
+    // Save the updated cart
+    await cart.save();
+
+    res.status(200).send('Item added to cart successfully');
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal server error');
+  }
 });
 
 app.get(
@@ -291,12 +304,99 @@ app.get("/admin_dashboard", (req, res) => {
 
 });
 
-app.get("/checkout", (req, res) => {
-  res.render("checkout");
+app.post('/cart/update', async (req, res) => {
+  const userId = req.user.id;
+  const itemId = req.body.itemId;
+  const quantityChange = req.body.quantityChange;
+
+  try {
+    // Find the user's cart
+    const cart = await Cart.findOne({ userId: userId });
+
+    if (!cart) {
+      return res.status(400).send('No cart found for the user');
+    }
+
+    // Find the item in the cart
+    const itemIndex = cart.items.findIndex((item) => item.itemId === itemId);
+
+    if (itemIndex === -1) {
+      return res.status(400).send('Item not found in the cart');
+    }
+
+    // Update the item quantity
+    cart.items[itemIndex].quantity += quantityChange;
+
+    // If the quantity is 0 or less, remove the item from the cart
+    if (cart.items[itemIndex].quantity <= 0) {
+      cart.items.splice(itemIndex, 1);
+    }
+
+    // Save the updated cart
+    await cart.save();
+
+    res.status(200).send('Item quantity updated successfully');
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal server error');
+  }
 });
 
+
+app.get("/checkout", async (req, res) => {
+  const allItemInCart = await Cart.find().lean();
+  const allmenu = await Menu.find().lean();
+  if (req.isAuthenticated()) {
+    res.render("checkout", {
+      carts: allItemInCart[0].items,
+      menus: allmenu,
+      user: req.user,
+    });
+  } else {
+    res.redirect("/signin");
+  }
+});
+
+app.post('/checkout', async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    // Find the user's cart
+    const cart = await Cart.findOne({ userId: userId });
+
+    if (!cart) {
+      return res.status(400).send('No cart found for the user');
+    }
+
+    // Create a new order
+    const newOrder = new Order({
+      userId: userId,
+      items: cart.items,
+      orderDate: new Date(),
+      status: 'Paying',
+    });
+
+    // Save the new order
+    await newOrder.save();
+
+    // Empty the user's cart
+    cart.items = [];
+    await cart.save();
+
+    res.redirect('/payment')
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
+
 app.get("/payment", (req, res) => {
-  res.render("payment");
+  if (req.isAuthenticated()) {
+    res.render("payment");
+  } else {
+    res.redirect("/signin");
+  }
 });
 
 app.get("/status", (req, res) => {

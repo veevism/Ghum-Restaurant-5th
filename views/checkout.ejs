@@ -37,46 +37,49 @@
                       <hr class="my-4" />
                       <div class="my-4" id="container3">
                         <!-- Item start -->
-                        <!-- <div
+                        <% for( let i = 0; i < carts.length; i++ ) { %> 
+                        <%menus.forEach(menu => { %> 
+                        <% if (carts[i].itemId == menu._id) { %>
+                        <div
                           class="item row mb-4 d-flex justify-content-between align-items-center"
                         >
                           <div class="col-md-2 col-lg-2 col-xl-2">
                             <img
-                              src="./images/item-1.jpeg"
+                              src="<%=menu.img%>"
                               class="img-fluid rounded-3"
                               alt="Cotton T-shirt"
                             />
                           </div>
                           <div class="col-md-3 col-lg-3 col-xl-3">
-                            <h6 class="text-muted">Breakfast</h6>
-                            <h6 class="text-black mb-0">Buttermilk Pancakes</h6>
+                            <h6 class="text-muted"><%=menu.category%></h6>
+                            <h6 class="text-black mb-0"><%=menu.title%></h6>
                           </div>
                           <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                             <button
                               class="btn btn-link px-2"
-                              onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                              onclick="updateCartItemQuantity('<%= menu._id %>', -1)"
                             >
                               <i class="fas fa-minus"></i>
                             </button>
-  
+
                             <input
                               id="form1"
                               min="0"
                               name="quantity"
-                              value="1"
+                              value="<%=carts[i].quantity%>"
                               type="number"
                               class="form-control form-control-sm text-md-center"
                             />
-  
+
                             <button
                               class="btn btn-link px-2"
-                              onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                              onclick="updateCartItemQuantity('<%= menu._id %>', 1)"
                             >
                               <i class="fas fa-plus"></i>
                             </button>
                           </div>
                           <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                            <h6 class="mb-0">$ 15.99</h6>
+                            <h6 class="mb-0">$ <%=menu.price%></h6>
                           </div>
                           <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                             <a href="#!" class="text-muted"
@@ -84,16 +87,15 @@
                             ></a>
                           </div>
                         </div>
-                        <hr class="my-4" /> -->
+                        <hr class="my-4" />
+                        <% } %> <% }); %> <% } %>
                         <!-- Item end -->
                       </div>
 
                       <!-- Back to shop btn -->
                       <div class="pt-5">
                         <h6 class="mb-0">
-                          <a
-                            href="/"
-                            class="text-body text-decoration-none"
+                          <a href="/" class="text-body text-decoration-none"
                             ><i class="fas fa-long-arrow-alt-left me-2"></i>Back
                             to shop</a
                           >
@@ -168,105 +170,52 @@
                         <h4 class="mb-3">Your Address</h4>
                         <form
                           class="needs-validation"
-                          action="/payment"
+                          action="/checkout"
                           novalidate=""
+                          method="post"
                         >
-                          <div class="row g-3">
-                            <div class="col-sm-6">
-                              <label for="firstName" class="form-label"
-                                >First name</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="firstName"
-                                placeholder="First name"
-                                value=""
-                                required=""
-                                fdprocessedid="f21sp"
-                              />
-                            </div>
-
-                            <div class="col-sm-6">
-                              <label for="lastName" class="form-label"
-                                >Last name</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="lastName"
-                                placeholder="Last name"
-                                value=""
-                                required=""
-                                fdprocessedid="72nyc6"
-                              />
-                            </div>
-
-                            <div class="col-12">
-                              <label for="address" class="form-label"
-                                >Address</label
-                              >
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="address"
-                                placeholder="1234 Main St"
-                                required=""
-                                fdprocessedid="n71q2n"
-                              />
-                              <div class="invalid-feedback">
-                                Please enter your shipping address.
-                              </div>
-                            </div>
-
-                            <div class="col-md-5">
-                              <label for="country" class="form-label"
-                                >Country</label
-                              >
-                              <select
-                                class="form-select"
-                                id="country"
-                                required=""
-                                fdprocessedid="exec1"
-                              >
-                                <option value="">Choose...</option>
-                                <option>Chiang Mai</option>
-                              </select>
-                            </div>
-
-                            <div class="col-md-4">
-                              <label for="state" class="form-label"
-                                >State</label
-                              >
-                              <select
-                                class="form-select"
-                                id="state"
-                                required=""
-                                fdprocessedid="6z02bm"
-                              >
-                                <option value="">Choose...</option>
-                                <option>-</option>
-                              </select>
-                              <div class="invalid-feedback">
-                                Please provide a valid state.
-                              </div>
-                            </div>
-
-                            <div class="col-md-3">
-                              <label for="zip" class="form-label">Zip</label>
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="zip"
-                                placeholder="e.g, 50000"
-                                required=""
-                                fdprocessedid="q3qv0c"
-                              />
-                              <div class="invalid-feedback">
-                                Zip code required.
+                        
+                          <div>
+                            <div class="p-4">
+                              <% if (Object.keys(user.address.location).length != 0) { %>
+                              <p>
+                                <button
+                                  class="btn btn-outline-dark"
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target="#collapseExample"
+                                  aria-expanded="false"
+                                  aria-controls="collapseExample"
+                                >
+                                  <i class="fa-solid fa-location-dot"></i>
+                                  <%= user.address.name %>
+                                  <i class="fa-solid fa-caret-down"></i>
+                                </button>
+                                <a href="/information">
+                                  <button class="btn" type="button"><i class="fa-solid fa-pen-to-square"></i></button>
+                                </a>
+                                
+                              </p>
+                              <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                  <p class="font-italic mb-1">
+                                    <%= user.address.location.address %>, <%=
+                                    user.address.location.subDistrict %>, <%=
+                                    user.address.location.district %>
+                                  </p>
+                                  <p class="font-italic mb-0">
+                                    <%= user.address.location.province %>, <%=
+                                    user.address.location.country %>, <%= user.address.location.zip
+                                    %>
+                                  </p>
+                                  <% } else { %>
+                                  <p>No Address</p>
+                                  <% } %>
+                                </div>
                               </div>
                             </div>
                           </div>
+                        
 
                           <hr class="my-4" />
 
@@ -320,6 +269,24 @@
       </div>
     </section>
     <!-- End Checkout section -->
+    <script>
+      function updateCartItemQuantity(itemId, quantityChange) {
+        fetch("/cart/update", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ itemId, quantityChange }),
+        })
+          .then((response) => location.reload())
+          .then((result) => {
+            console.log(result);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
     <%- include("partials/footer") %>
   </body>
 </html>
