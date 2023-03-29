@@ -175,6 +175,7 @@ app.get(
 );
 
 app.get("/signin", (req, res) => {
+  req.session.returnTo = req.headers.referer || '/';
   res.render("signin");
 });
 
@@ -184,12 +185,15 @@ app.post("/signin", async (req, res) => {
     password: req.body.password,
   });
 
+  const redirectTo = req.session.returnTo || '/';
+
   req.login(user, (err) => {
     if (err) {
       console.log(err);
     } else {
-      passport.authenticate("local")(req, res, () => {
-        res.redirect("/");
+      passport.authenticate("local", { failureRedirect: '/signin', failureFlash: true })(req, res, () => {
+        delete req.session.returnTo;
+        res.redirect(redirectTo);
       });
     }
   });
@@ -284,20 +288,35 @@ app.post("/information", async (req, res) => {
   const zip = req.body.zip
   console.log(req.user);
 
-  let foundUser = await User.findById(req.user.id);
-  if (foundUser) {
-    foundUser.firstName = firstName;
-    foundUser.lastName = lastName;
-    foundUser.address.name = addressName;
-    foundUser.address.location.address = address;
-    foundUser.address.location.subDistrict = subDistrict;
-    foundUser.address.location.district = district;
-    foundUser.address.location.province = province;
-    foundUser.address.location.country = country;
-    foundUser.address.location.zip = zip;
-    foundUser.save().then(() => {
-      res.redirect("/profile");
-    });
+  try {
+    await User.updateOne(
+      { _id: req.user.id },
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          "address.name": addressName,
+          "address.location.address": address,
+          "address.location.subDistrict": subDistrict,
+          "address.location.district": district,
+          "address.location.province": province,
+          "address.location.country": country,
+          "address.location.zip": zip
+        }
+      }
+    );
+
+    // After the update is successful, retrieve the updated user data
+    const updatedUser = await User.findById(req.user.id);
+
+    // After the update is successful, redirect to the /profile route
+    // res.redirect("/profile");
+    console.log(updatedUser.firstName);
+    res.render('profile', { user: updatedUser });
+  } catch (error) {
+    // Handle any errors that may occur during the update process
+    console.error(error);
+    res.status(500).send("An error occurred while updating user information");
   }
 });
 

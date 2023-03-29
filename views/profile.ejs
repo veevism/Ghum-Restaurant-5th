@@ -39,11 +39,11 @@
                     </button>
                   </div>
                   <div class="ms-3" style="margin-top: 130px">
-                    <h5><%= firstName %> <%= lastName %></h5>
-                    <% if (Object.keys(address.location).length != 0) { %>
+                    <h5><%= user.firstName %> <%= user.lastName %></h5>
+                    <% if (Object.keys(user.address.location).length != 0) { %>
                     <p>
-                      <%= address.location.province %>, <%=
-                      address.location.country %>
+                      <%= user.address.location.province %>, <%=
+                      user.address.location.country %>
                     </p>
                     <% } else { %>
                     <p>No Address</p>
@@ -71,7 +71,7 @@
                 <div class="mb-5">
                   <p class="lead fw-normal mb-1">Address</p>
                   <div class="p-4" style="background-color: #f8f9fa">
-                    <% if (Object.keys(address.location).length != 0) { %>
+                    <% if (Object.keys(user.address.location).length != 0) { %>
                     <p>
                       <button
                         class="btn btn-outline-dark"
@@ -82,20 +82,20 @@
                         aria-controls="collapseExample"
                       >
                         <i class="fa-solid fa-location-dot"></i>
-                        <%= address.name %>
+                        <%= user.address.name %>
                         <i class="fa-solid fa-caret-down"></i>
                       </button>
                     </p>
                     <div class="collapse" id="collapseExample">
                       <div class="card card-body">
                         <p class="font-italic mb-1">
-                          <%= address.location.address %>, <%=
-                          address.location.subDistrict %>, <%=
-                          address.location.district %>
+                          <%= user.address.location.address %>, <%=
+                          user.address.location.subDistrict %>, <%=
+                          user.address.location.district %>
                         </p>
                         <p class="font-italic mb-0">
-                          <%= address.location.province %>, <%=
-                          address.location.country %>, <%= address.location.zip
+                          <%= user.address.location.province %>, <%=
+                          user.address.location.country %>, <%= user.address.location.zip
                           %>
                         </p>
                         <% } else { %>
