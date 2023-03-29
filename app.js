@@ -134,17 +134,26 @@ app.get("/", async (req, res) => {
   const allItemInCart = await Cart.find().lean();
 
   if (req.isAuthenticated()) {
-    res.render("index", {
-      menus: allmenu,
-      userId: req.user.id,
-      carts: allItemInCart[0].items,
-    });
+    if (allItemInCart.length > 0) {
+      res.render("index", {
+        menus: allmenu,
+        userId: req.user.id,
+        carts: allItemInCart[0].items,
+      });
+    }
+    else {
+      res.render("index", {
+        menus: allmenu,
+        userId: req.user.id,
+        carts: 0,
+      });
+    }
   } else {
     res.redirect("/signin");
   }
 });
 
-app.post('/cart/add', async (req, res) => {
+app.post("/cart/add", async (req, res) => {
   const userId = req.body.userId;
   const itemId = req.body.itemId;
   const quantity = req.body.quantity;
@@ -162,7 +171,9 @@ app.post('/cart/add', async (req, res) => {
     }
 
     // Check if the item is already in the cart
-    const existingItemIndex = cart.items.findIndex((item) => item.itemId === itemId);
+    const existingItemIndex = cart.items.findIndex(
+      (item) => item.itemId === itemId
+    );
 
     console.log(existingItemIndex);
 
@@ -177,10 +188,10 @@ app.post('/cart/add', async (req, res) => {
     // Save the updated cart
     await cart.save();
 
-    res.status(200).send('Item added to cart successfully');
+    res.status(200).send("Item added to cart successfully");
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Internal server error');
+    console.error("Error:", error);
+    res.status(500).send("Internal server error");
   }
 });
 
@@ -199,7 +210,7 @@ app.get(
 );
 
 app.get("/signin", (req, res) => {
-  req.session.returnTo = req.headers.referer || '/';
+  req.session.returnTo = req.headers.referer || "/";
   res.render("signin");
 });
 
@@ -218,7 +229,7 @@ app.post("/signin", async (req, res) => {
       passport.authenticate("local")(req, res, () => {
         // req.session.returnTo = '/';
         // res.redirect(redirectTo);
-        res.redirect('/');
+        res.redirect("/");
       });
     }
   });
@@ -248,7 +259,11 @@ app.get("/signup", (req, res) => {
 
 app.post("/signup", (req, res) => {
   User.register(
-    { username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName },
+    {
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+    },
     req.body.password,
     (err, user) => {
       if (err) {
@@ -287,7 +302,7 @@ app.post("/admin_login", (req, res) => {
         console.log(err);
       } else {
         passport.authenticate("admin-local")(req, res, () => {
-          res.redirect('/admin_dashboard');
+          res.redirect("/admin_dashboard");
         });
       }
     });
@@ -301,10 +316,9 @@ app.get("/admin_dashboard", (req, res) => {
   } else {
     res.redirect("/admin_login");
   }
-
 });
 
-app.post('/cart/update', async (req, res) => {
+app.post("/cart/update", async (req, res) => {
   const userId = req.user.id;
   const itemId = req.body.itemId;
   const quantityChange = req.body.quantityChange;
@@ -314,14 +328,14 @@ app.post('/cart/update', async (req, res) => {
     const cart = await Cart.findOne({ userId: userId });
 
     if (!cart) {
-      return res.status(400).send('No cart found for the user');
+      return res.status(400).send("No cart found for the user");
     }
 
     // Find the item in the cart
     const itemIndex = cart.items.findIndex((item) => item.itemId === itemId);
 
     if (itemIndex === -1) {
-      return res.status(400).send('Item not found in the cart');
+      return res.status(400).send("Item not found in the cart");
     }
 
     // Update the item quantity
@@ -335,13 +349,12 @@ app.post('/cart/update', async (req, res) => {
     // Save the updated cart
     await cart.save();
 
-    res.status(200).send('Item quantity updated successfully');
+    res.status(200).send("Item quantity updated successfully");
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Internal server error');
+    console.error("Error:", error);
+    res.status(500).send("Internal server error");
   }
 });
-
 
 app.get("/checkout", async (req, res) => {
   const allItemInCart = await Cart.find().lean();
@@ -357,7 +370,7 @@ app.get("/checkout", async (req, res) => {
   }
 });
 
-app.post('/checkout', async (req, res) => {
+app.post("/checkout", async (req, res) => {
   const userId = req.user.id;
 
   try {
@@ -365,7 +378,7 @@ app.post('/checkout', async (req, res) => {
     const cart = await Cart.findOne({ userId: userId });
 
     if (!cart) {
-      return res.status(400).send('No cart found for the user');
+      return res.status(400).send("No cart found for the user");
     }
 
     // Create a new order
@@ -373,7 +386,7 @@ app.post('/checkout', async (req, res) => {
       userId: userId,
       items: cart.items,
       orderDate: new Date(),
-      status: 'Paying',
+      status: "Paying",
     });
 
     // Save the new order
@@ -383,13 +396,12 @@ app.post('/checkout', async (req, res) => {
     cart.items = [];
     await cart.save();
 
-    res.redirect('/payment')
+    res.redirect("/payment");
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Internal server error');
+    console.error("Error:", error);
+    res.status(500).send("Internal server error");
   }
 });
-
 
 app.get("/payment", (req, res) => {
   if (req.isAuthenticated()) {
@@ -420,7 +432,7 @@ app.get("/information", (req, res) => {
       username: req.user.username,
       firstName: req.user.firstName,
       lastName: req.user.lastName,
-      address: req.user.address
+      address: req.user.address,
     });
   } else {
     res.redirect("/signin");
@@ -434,9 +446,9 @@ app.post("/information", async (req, res) => {
   const address = req.body.address;
   const subDistrict = req.body.subDistrict;
   const district = req.body.district;
-  const province = req.body.province
-  const country = req.body.country
-  const zip = req.body.zip
+  const province = req.body.province;
+  const country = req.body.country;
+  const zip = req.body.zip;
   console.log(req.user);
 
   try {
@@ -452,8 +464,8 @@ app.post("/information", async (req, res) => {
           "address.location.district": district,
           "address.location.province": province,
           "address.location.country": country,
-          "address.location.zip": zip
-        }
+          "address.location.zip": zip,
+        },
       }
     );
 
@@ -462,7 +474,7 @@ app.post("/information", async (req, res) => {
 
     // After the update is successful, redirect to the /profile route
     console.log(updatedUser.firstName);
-    res.render('profile', { user: updatedUser });
+    res.render("profile", { user: updatedUser });
   } catch (error) {
     // Handle any errors that may occur during the update process
     console.error(error);
@@ -479,7 +491,7 @@ app.get("/add-menu", (req, res) => {
   }
 });
 
-app.post('/add-menu', async (req, res) => {
+app.post("/add-menu", async (req, res) => {
   const items = await Menu.find({});
   console.log(items.length);
   // const { title, category, price, img, desc, quantity } = req.body;
@@ -492,37 +504,39 @@ app.post('/add-menu', async (req, res) => {
     price: req.body.price,
     img: req.body.img,
     desc: req.body.desc,
-    quantity: req.body.quantity
+    quantity: req.body.quantity,
   });
 
   // save the new menu to MongoDB
-  newMenu.save().then(() => {
-    res.redirect("/manage-menu")
-  }).catch(error => {
-    console.error('Error saving menu', error);
-    res.status(500).json({ error: 'Error saving menu' });
-  });
+  newMenu
+    .save()
+    .then(() => {
+      res.redirect("/manage-menu");
+    })
+    .catch((error) => {
+      console.error("Error saving menu", error);
+      res.status(500).json({ error: "Error saving menu" });
+    });
 });
 
-app.get('/manage-menu/edit/:menuId', async (req, res) => {
+app.get("/manage-menu/edit/:menuId", async (req, res) => {
   if (req.isAuthenticated()) {
     console.log(req.user.username);
     try {
       const menuId = req.params.menuId;
       const menu = await Menu.findById(menuId);
-      res.render('editMenu', { menu: menu });
+      res.render("editMenu", { menu: menu });
       console.log(`Edit item with ID: ${menuId}`);
     } catch (error) {
-      console.error('Error:', error);
-      res.status(500).send('Internal server error');
+      console.error("Error:", error);
+      res.status(500).send("Internal server error");
     }
   } else {
     res.redirect("/admin_login");
   }
-
 });
 
-app.post('/edit-menu', async (req, res) => {
+app.post("/edit-menu", async (req, res) => {
   try {
     await Menu.updateOne(
       { _id: req.body.menuId },
@@ -534,7 +548,7 @@ app.post('/edit-menu', async (req, res) => {
           img: req.body.img,
           desc: req.body.desc,
           quantity: req.body.quantity,
-        }
+        },
       }
     );
 
@@ -560,7 +574,7 @@ app.get("/manage-menu", async (req, res) => {
   }
 });
 
-app.post('/manage-menu', async (req, res) => {
+app.post("/manage-menu", async (req, res) => {
   const menuId = req.body.menuId;
   const action = req.body.action;
   // if (action === 'edit') {
@@ -569,17 +583,16 @@ app.post('/manage-menu', async (req, res) => {
   //   res.render("editMenu", { menu: menu })
   //   console.log(`Edit item with ID: ${menuId}`);
   //   // res.send(`Edit item with ID: ${itemId}`);
-  // } else 
-  if (action === 'delete') {
+  // } else
+  if (action === "delete") {
     // Delete item logic
-    await Menu.findByIdAndRemove(menuId)
-      .then(() => {
-        console.log(`Delete item with ID: ${menuId}`);
-        res.redirect('/manage-menu');
-      })
+    await Menu.findByIdAndRemove(menuId).then(() => {
+      console.log(`Delete item with ID: ${menuId}`);
+      res.redirect("/manage-menu");
+    });
     // res.send(`Delete item with ID: ${itemId}`);
   } else {
-    res.status(400).send('Invalid action');
+    res.status(400).send("Invalid action");
   }
   // console.log(action);
 });

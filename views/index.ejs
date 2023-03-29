@@ -257,9 +257,10 @@
         </div>
         <a href=""></a>
         <ul class="shopping-cart-items">
-          <% for( let i = 0; i < carts.length; i++ ) { %>
+          <% if (carts != 0) { %> 
+          <% for( let i = 0; i < carts.length; i++ ) { %> 
           <% menus.forEach(menu => { %> 
-          <% if (carts[i].itemId == menu._id) { %>
+            <% if (carts[i].itemId == menu._id) { %>
           <li class="clearfix">
             <img src="<%=menu.img%>" alt="<%=menu.title%>" class="cart-img" />
             <span class="item-name"><%=menu.title%></span>
@@ -268,6 +269,7 @@
           </li>
           <% } %> 
           <% }); %> 
+          <% } %>
           <% } %>
         </ul>
 
@@ -286,7 +288,9 @@
           },
           body: JSON.stringify({ userId, itemId, quantity }),
         })
-          .then((response) => location.reload())
+          .then((response) => {
+            location.reload();
+          })
           .then((result) => {
             console.log(result);
           })
