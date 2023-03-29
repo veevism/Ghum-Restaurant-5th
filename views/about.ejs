@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <link rel="stylesheet" href="/css/mdb.min.css" />
+    <link rel="stylesheet" href="/css/index.css" />
+  </head>
+  <body>
+    <%- include("partials/nav") %>
+    <div class="container">
+      <div
+        class="row p-5 d-flex align-items-center justify-content-center text-center"
+      >
+        <h1 class="mb-5 text-decoration-underline">The Team</h1>
+        <div class="col-6">
+          <img
+            src="/assets/founder2.jpg"
+            class="rounded-circle mb-3"
+            style="width: 150px"
+            alt="Avatar"
+          />
+
+          <h5 class="mb-2"><strong>Phiriyakorn Maneekongrit</strong> <span class="badge bg-warning"
+            ><i class="fa-solid fa-crown"></i
+          ></span></h5>
+          <h6 class="text-bold">StudentId: 642115031</h6>
+          <p><i class="fa-solid fa-layer-group me-2"></i>Design Webpage</p>
+          <p><i class="fa-solid fa-lock me-2"></i>Authentication</p>
+          <p><i class="fa-solid fa-map-location-dot me-2"></i>Map API</p>
+          <p><i class="fa-solid fa-address-card me-2"></i>Manage User Profile</p>
+          <p><i class="fa-solid fa-cubes me-2"></i>Fetch, Add, Edit, and Delete menu</p>
+        </div>
+        <div class="col-6">
+          <img
+            src="/assets/founder1.jpg"
+            class="rounded-circle mb-3"
+            style="width: 150px"
+            alt="Avatar"
+          />
+
+          <h5 class="mb-2"><strong>Sorawee Sripakdeephongdej</strong> <span class="badge bg-warning"
+            ><i class="fa-solid fa-crown"></i
+          ></span></h5>
+          <h6 class="text-bold">StudentId: 642115045</h6>
+          <p><i class="fa-solid fa-layer-group me-2"></i>System Design</p>
+          <p><i class="fa-brands fa-square-js me-2"></i>javaScript</p>
+          <p><i class="fa-solid fa-burger me-2"></i>Feature Add Menu</p>
+          <p><i class="fa-solid fa-bars me-2"></i>Manage Menu Schema</p>
+          <p><i class="fa-solid fa-database me-2"></i>Manage Order_detail Schema</p>
+        </div>
+      </div>
+    </div>
+    <%- include("partials/footer") %>
+  </body>
+</html>

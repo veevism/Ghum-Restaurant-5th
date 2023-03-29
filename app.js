@@ -484,6 +484,10 @@ app.post('/manage-menu', async (req, res) => {
   // console.log(action);
 });
 
+app.get("/about", async (req, res) => {
+  res.render("about");
+});
+
 //404 handling
 // app.use((err, req, res, next) => {
 //   res.status(404).catch(res.redirect("/"));
