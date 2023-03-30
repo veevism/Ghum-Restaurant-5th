@@ -19,6 +19,7 @@
             >
               <div class="card-body p-5">
                 <!-- Start Status -->
+                <% let sum = 0 %>
                 <% orders.forEach(order => { %>
                  <% if (order.status != 'Complete') { %>
                 <h1 class="lead fw-bold title-status-<%= order.status %>" style="color: #27ae60">Waiting for confirmation</h1>
@@ -81,10 +82,24 @@
                   "
                 />
 
-                <div class="d-flex justify-content-between">
-                  <p class="fw-bold mb-0">buttermilk pancakes(Qty:1)</p>
-                  <p class="text-muted mb-0">$15.99</p>
-                </div>
+                <% orders.forEach(order => { %>
+                  <% (order.items).forEach(orderr => { %>
+                      <% console.log(orderr.itemId) %>
+                      <% menus.forEach(menu => { %>
+                        <% if(orderr.itemId == menu._id) { %>
+                          <div class="d-flex justify-content-between">
+                            <p class="fw-bold mb-0"><%=menu.title %>(Qty:<%= orderr.quantity %>)</p>
+                            <p class="text-muted mb-0">$<%= menu.price  %></p>
+                          </div>
+
+                          <% sum += orderr.quantity * menu.price %>
+                          <% } %>
+                      <% }); %>
+                 <% }); %>
+                <% }); %>
+
+
+                  
 
                 <div class="d-flex justify-content-between">
                   <p class="small mb-0">Shipping</p>
@@ -95,10 +110,11 @@
                   <p class="small">Tax</p>
                   <p class="small">$0.00</p>
                 </div>
+                
 
                 <div class="d-flex justify-content-between">
                   <p class="fw-bold">Total</p>
-                  <p class="fw-bold" style="color: #27ae60">$20.99</p>
+                  <p class="fw-bold" style="color: #27ae60">$<%= sum.toFixed(2)  %></p>
                 </div>
 
                 <div class="pt-3">
