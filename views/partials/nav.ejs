@@ -71,6 +71,9 @@
             width="32"
             height="32"
             class="rounded-circle profile"
+            data-mdb-toggle="popover"
+            data-mdb-content="User: <%= user.username %>"
+            data-mdb-trigger="hover"
           />
         </a>
         <ul class="dropdown-menu text-small shadow">
@@ -83,7 +86,6 @@
           <li><a class="dropdown-item" href="/logout">Sign out</a></li>
         </ul>
       </div>
-      
     </div>
     <!-- Right elements -->
   </div>
