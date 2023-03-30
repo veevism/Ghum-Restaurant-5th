@@ -5,7 +5,7 @@ const dbLocalURL = "mongodb://127.0.0.1:27017/GhumDB";
 
 exports.connect = () => {
   mongoose
-    .connect(dbLocalURL)
+    .connect(dbURL)
     .then(() => console.log("Connected!"))
     .catch(() => console.log("Something went wrong with DB"));
 };
