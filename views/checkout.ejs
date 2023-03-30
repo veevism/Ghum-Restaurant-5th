@@ -30,7 +30,19 @@
                         <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
                         <h4>
                           <span class="badge bg-success rounded-pill badge-item"
-                            >0</span
+                            ><% if (carts != 0) { %>
+                              <%let sum = 0 %>
+                              <% for( let i = 0; i < carts.length; i++ ) { %>
+                                <% menus.forEach(menu => { %> 
+                                <% if (carts[i].itemId == menu._id) { %>
+                                    <% sum += carts[i].quantity%>
+                                <% } %> 
+                                <% }); %> 
+                                <% } %>
+                                <%= sum %>
+                              <% } else { %>
+                                <%= 0 %>
+                              <% } %></span
                           >
                         </h4>
                       </div>
@@ -116,10 +128,36 @@
                         <h5 class="text-uppercase">
                           items
                           <span class="badge bg-success rounded-pill badge-item"
-                            >0</span
+                            >
+                            <% if (carts != 0) { %>
+                              <%let sum = 0 %>
+                              <% for( let i = 0; i < carts.length; i++ ) { %>
+                                <% menus.forEach(menu => { %> 
+                                <% if (carts[i].itemId == menu._id) { %>
+                                    <% sum += carts[i].quantity%>
+                                <% } %> 
+                                <% }); %> 
+                                <% } %>
+                                <%= sum %>
+                              <% } else { %>
+                                <%= 0 %>
+                              <% } %>
+                            </span
                           >
                         </h5>
-                        <h5 id="Total">$ 0</h5>
+                        <h5 id="Total"><% if (carts != 0) { %>
+                          <%let sum = 0 %>
+                          <% for( let i = 0; i < carts.length; i++ ) { %>
+                            <% menus.forEach(menu => { %> 
+                            <% if (carts[i].itemId == menu._id) { %>
+                                <% sum += carts[i].quantity * menu.price%>
+                            <% } %> 
+                            <% }); %> 
+                            <% } %>
+                            $<%= sum.toFixed(2) %>
+                          <% } else { %>
+                            $<%=  %>
+                          <% } %></h5>
                       </div>
 
                       <h5 class="text-uppercase mb-3">Shipping</h5>
@@ -161,7 +199,19 @@
 
                       <div class="d-flex justify-content-between">
                         <h5 class="text-uppercase">Total price</h5>
-                        <h5 id="supertotal">$ 0</h5>
+                        <h5 id="supertotal"><% if (carts != 0) { %>
+                          <%let sum = 0 %>
+                          <% for( let i = 0; i < carts.length; i++ ) { %>
+                            <% menus.forEach(menu => { %> 
+                            <% if (carts[i].itemId == menu._id) { %>
+                                <% sum += carts[i].quantity * menu.price%>
+                            <% } %> 
+                            <% }); %> 
+                            <% } %>
+                            $<%= (sum+2).toFixed(2) %>
+                          <% } else { %>
+                            $<%=  %>
+                          <% } %></h5>
                       </div>
 
                       <hr class="my-4" />

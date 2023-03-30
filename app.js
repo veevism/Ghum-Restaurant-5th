@@ -354,7 +354,7 @@ app.post("/cart/update", async (req, res) => {
     console.error("Error:", error);
     res.status(500).send("Internal server error");
   }
-});
+}); 
 
 app.get("/checkout", async (req, res) => {
   const allItemInCart = await Cart.find().lean();
