@@ -14,6 +14,27 @@
     <link rel="stylesheet" href="/css/menu.css" />
     <link rel="stylesheet" href="/css/landing.css" />
     <link rel="stylesheet" href="/css/mdb.min.css" />
+
+    <script>
+        function search() {
+          var input, filter, ul, li, a, i, txtValue;
+          input = document.querySelector("#input-search-bar");
+          filter = input.value.toUpperCase();
+          arc = document.querySelectorAll(".section-center article");
+
+  for (let i = 0; i < arc.length; i++) {
+
+    txtValue = arc[i].children[1].children[0].children[0].innerHTML;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      arc[i].style.display = "";
+    } else {
+      arc[i].style.display = "none";
+    }
+  
+    }
+        
+    }
+    </script>
   </head>
   <body>
     <%- include("partials/nav") %>
@@ -172,7 +193,7 @@
                 placeholder="Search"
                 aria-label="Search"
                 style="width: 50%; display: inline-block"
-                onkeyup="clickmeDaddy()"
+                onkeyup="search()"
                 id="input-search-bar"
               />
               <i class="fa-solid fa-magnifying-glass text-secondary"></i>
@@ -187,10 +208,10 @@
                 class="custom-select form-control text-secondary"
                 id="input-select-group"
               >
-                <!-- <option value="breakfast">breakfast</option>
+                <option value="breakfast">breakfast</option>
           <option value="lunch">lunch</option>
           <option value="shakes">shakes</option>
-          <option value="dinner">diner</option> -->
+          <option value="dinner">diner</option>
                 <option selected="" value="all">All</option>
               </select>
               <i class="fa-solid fa-angle-down"></i>

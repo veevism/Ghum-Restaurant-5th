@@ -12,6 +12,10 @@ $(document).ready(function () {
     count++;
   });
 
+  function search() {
+    console.log("Hello")
+  }
+
   document.querySelectorAll(".clickable-image").forEach(function (image) {
     image.addEventListener("click", function () {
       const imageId = this.dataset.id;
@@ -36,4 +40,6 @@ $(document).ready(function () {
         });
     });
   });
+
+
 });
