@@ -294,14 +294,23 @@ app.post("/admin_login", (req, res) => {
   });
 });
 
-app.get("/admin_dashboard", (req, res) => {
+app.get("/admin_dashboard", async (req, res) => {
+  const allmenu = await Menu.find().lean();
+  const allOrder = await Order.find().lean();
+
+  const allUser = await User.find().lean();
+
+  console.log(allOrder);
+
   if (req.isAuthenticated()) {
-    console.log(req.user.username);
-    res.render("admin_dashboard");
+    res.render("admin_dashboard", {
+      menus: allmenu,
+      orders: allOrder,
+      users: allUser
+    });
   } else {
     res.redirect("/admin_login");
   }
-
 });
 
 app.post('/cart/update', async (req, res) => {
@@ -370,25 +379,33 @@ app.post('/checkout', async (req, res) => {
 
     const allOrder = await Order.find().lean();
 
-    if (allOrder.length === 0) {
-      // Create a new order
-      const newOrder = new Order({
-        userId: userId,
-        items: cart.items,
-        orderDate: new Date(),
-        status: 'Paying',
-      });
+    allOrder.forEach(async order => {
+      if (userId != order.userId) {
+        // Create a new order
+        const newOrder = new Order({
+          userId: userId,
+          items: cart.items,
+          orderDate: new Date(),
+          status: 'Paying',
+        });
 
-      // Save the new order
-      await newOrder.save();
+        // Save the new order
+        await newOrder.save();
 
-      // Empty the user's cart
-      cart.items = [];
-      await cart.save();
-      res.redirect("/payment")
-    } else {
-      res.redirect("/payment")
-    }
+        // Empty the user's cart
+        cart.items = [];
+        await cart.save();
+        return res.redirect("/payment");
+      } else {
+        return res.redirect("/payment");
+      }
+    });
+
+    // if (allOrder.length === 0) {
+
+    // } else {
+    //   res.redirect("/payment")
+    // }
 
   } catch (error) {
     console.error('Error:', error);
@@ -416,9 +433,16 @@ app.get("/payment", (req, res) => {
 
 app.post('/order/update-status', async (req, res) => {
 
+  const userId = req.user.id
   const allOrder = await Order.find().lean();
+  let orderId;
 
-  const orderId = allOrder[0]._id;
+  allOrder.forEach(async order => {
+    if (userId == order.userId) {
+      orderId = order._id;
+    }
+  })
+
   const newStatus = "Queuing";
 
   console.log(orderId);
