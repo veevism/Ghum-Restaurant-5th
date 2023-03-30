@@ -387,11 +387,19 @@ app.get("/checkout", async (req, res) => {
   if (req.isAuthenticated()) {
     const allItemInCart = await Cart.find({ userId: req.user.id }).lean();
     const allOrder = await Order.find({ userId: req.user.id }).lean();
+    const user = await User.findById(req.user.id);
+
+    if (user.address === undefined) {
+      user.address.location.address = "";
+
+      await user.save()
+    }
+    console.log(user);
 
     res.render("checkout", {
       carts: allItemInCart[0].items,
       menus: allmenu,
-      user: req.user,
+      user: user,
       orders: allOrder,
     });
   } else {

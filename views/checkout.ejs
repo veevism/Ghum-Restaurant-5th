@@ -6,6 +6,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="/css/checkout.css" />
     <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/roundPill.css" />
   </head>
   <body>
     <%- include("partials/nav") %>
@@ -215,7 +216,7 @@
                         
                           <div>
                             <div class="p-4">
-                              <% if (Object.keys(user.address.location).length != 0) { %>
+                              <% if (user.address.location.adress != "") { %>
                               <p>
                                 <button
                                   class="btn btn-outline-dark"
@@ -247,6 +248,7 @@
                                     %>
                                   </p>
                                   <% } else { %>
+                                    <span class="badge badge-Queuing rounded-pill mb-2">UPDATE YOUR ADDRESS FIRST</span>
                                     <a href="/information">
                                       <button type="button" class="btn btn-outline-success"><i class="fa-solid fa-pen-to-square me-2"></i>Edit Your Address</button>
                                     </a>
@@ -255,7 +257,7 @@
                               </div>
                             </div>
                             <hr class="my-4" />
-                            <% if (!orders[0]) { %>
+                            <% if (!orders[0] || user.address.location.adress != "") { %>
 
                               <button
                               class="w-100 btn btn-success btn-lg 1"
@@ -265,10 +267,9 @@
                             </button>
                             <% } else { %>
                               <% orders.forEach(order => { %>
-                                <% if (order.status == 'Queuing' || carts.length == 0) { %>
+                                <% if (order.status == 'Queuing' || carts.length == 0 || user.address.location.adress === "") { %>
                                   <!-- <a href="/payment" class="disabled"> -->
-                                    <p class="text-danger">Your cart is empty! or</p>
-                                    <p class="text-danger">You have to complete the previous order first!</p>
+                                    <p class="text-danger">Your cart is empty! or<br> You have to complete the previous order first! <a href="/status">Here</a></p>
                                     <button
                                       class="w-100 btn btn-success btn-lg 3"
                                       type="submit"
