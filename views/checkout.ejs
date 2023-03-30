@@ -94,7 +94,7 @@
                             <h6 class="mb-0">$ <%=menu.price%></h6>
                           </div>
                           <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                            <a href="#!" class="text-muted"
+                            <a href="#!" class="text-muted" onclick="deleteItem('<%= menu._id %>')"
                               ><i class="fas fa-times"></i
                             ></a>
                           </div>
@@ -256,32 +256,28 @@
                             </div>
                             <hr class="my-4" />
                             <% if (!orders[0]) { %>
+
                               <button
-                              class="w-100 btn btn-success btn-lg"
+                              class="w-100 btn btn-success btn-lg 1"
                               type="submit"
                             >
                               Checkout
                             </button>
                             <% } else { %>
                               <% orders.forEach(order => { %>
-                                <% if (order.status == 'Queuing') { %>
+                                <% if (order.status == 'Queuing' || carts.length == 0) { %>
                                   <!-- <a href="/payment" class="disabled"> -->
+                                    <p class="text-danger">Your cart is empty! or</p>
+                                    <p class="text-danger">You have to complete the previous order first!</p>
                                     <button
-                                      class="w-100 btn btn-success btn-lg"
+                                      class="w-100 btn btn-success btn-lg 3"
                                       type="submit"
                                       disabled
                                     >
                                       Checkout
                                     </button>
                                   <!-- </a> -->
-                                <% } else { %>
-                                <button
-                                      class="w-100 btn btn-success btn-lg"
-                                      type="submit"
-                                    >
-                                      Checkout
-                                    </button>
-                                    <% } %>
+                                <% } %>
                                 <% }) %> 
                                 <% } %>
                           </div>
@@ -301,6 +297,22 @@
     </section>
     <!-- End Checkout section -->
     <script>
+      function deleteItem(itemId) {
+        fetch("/cart/delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ itemId }),
+        })
+          .then((response) => location.reload())
+          .then((result) => {
+            console.log(result);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
       function updateCartItemQuantity(itemId, quantityChange) {
         fetch("/cart/update", {
           method: "POST",

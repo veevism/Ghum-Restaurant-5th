@@ -371,11 +371,25 @@ app.post("/cart/update", async (req, res) => {
   }
 });
 
+app.post('/cart/delete', async (req, res) => {
+  const cart = await Cart.findOne({ userId: req.user.id });
+  const itemIdToDelete = req.body.itemId; // Example itemId to find the index of
+  const itemIndex = cart.items.findIndex((item) => item.itemId === itemIdToDelete);
+  if (itemIndex !== -1) {
+    cart.items.splice(itemIndex, 1);
+    await cart.save();
+    res.redirect('/checkout')
+  } else {
+    console.log('Item not found in cart');
+  }
+})
+
 app.get("/checkout", async (req, res) => {
   const allmenu = await Menu.find().lean();
   if (req.isAuthenticated()) {
     const allItemInCart = await Cart.find({ userId: req.user.id }).lean();
     const allOrder = await Order.find({ userId: req.user.id }).lean();
+
     res.render("checkout", {
       carts: allItemInCart[0].items,
       menus: allmenu,
@@ -475,6 +489,19 @@ app.post('/order/update-status', async (req, res) => {
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal server error');
+  }
+});
+
+app.get("/status/:orderId", async (req, res) => {
+  if (req.isAuthenticated()) {
+    const userOrder = await Order.find({ userId: req.user.id }).lean();
+    console.log(userOrder);
+    res.render("status", {
+      user: req.user,
+      orders: userOrder,
+    });
+  } else {
+    res.redirect("/signin");
   }
 });
 
