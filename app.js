@@ -521,8 +521,12 @@ app.get("/status", async (req, res) => {
 app.get("/profile", async (req, res) => {
   if (req.isAuthenticated()) {
     const user = await User.findOne({ _id: req.user.id }).lean()
+    const userOrder = await Order.find({ userId: req.user.id }).lean();
+    const allmenu = await Menu.find().lean();
     res.render("profile", {
       user: user,
+      orders: userOrder,
+      menus : allmenu
     });
   } else {
     res.redirect("/signin");
