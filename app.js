@@ -196,6 +196,13 @@ app.post("/cart/add", async (req, res) => {
   }
 });
 
+app.post('/cart/clear', async (req, res) => {
+  const cart = await Cart.findOne({ userId: req.user.id });
+  cart.items = [];
+  await cart.save();
+  res.redirect('/')
+})
+
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile"] })
@@ -439,7 +446,7 @@ app.get("/payment", async (req, res) => {
 app.post('/order/update-status', async (req, res) => {
 
   // const allOrder = await Order.find({ userId: req.user.id }).lean();
-  
+
   const orderId = req.body.orderId;
   const newStatus = req.body.newStatus;
   const role = req.body.role;
@@ -652,7 +659,7 @@ app.get("/history", async (req, res) => {
       orders: allOrder,
       user: req.user,
       menus: allmenu,
-      
+
     });
   } else {
     res.redirect("/signin");

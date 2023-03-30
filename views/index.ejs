@@ -324,12 +324,28 @@
         </ul>
 
         <a id="checkout-button" href="/checkout" class="button">Checkout</a>
-        <a id="clear-button" href="#" class="button">Clear</a>
+        <a id="clear-button" href="#" class="button" onclick="clearCart('<%= userId %>')">Clear</a>
       </div>
     </div>
     <!-- End Toggle shopping cart -->
 
     <script>
+      function clearCart(userId) {
+        fetch("/cart/clear", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId }),
+        })
+          .then((response) => location.reload())
+          .then((result) => {
+            console.log(result);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
       function addItemToCart(userId, itemId, quantity) {
         fetch("/cart/add", {
           method: "POST",
