@@ -369,17 +369,6 @@ app.get("/checkout", async (req, res) => {
   if (req.isAuthenticated()) {
     const allItemInCart = await Cart.find({ userId: req.user.id }).lean();
     const allOrder = await Order.find({ userId: req.user.id }).lean();
-    // console.log(allOrder);
-    let disabled;
-    // allOrder.forEach(order => {
-    //   console.log(order.status == 'Queuing');
-    // });
-    
-    // if (allOrder[0].status == 'Queuing') {
-    //   disabled = 'disabled';
-    // } else {
-    //   disabled = '';
-    // }
     res.render("checkout", {
       carts: allItemInCart[0].items,
       menus: allmenu,
@@ -404,7 +393,11 @@ app.post("/checkout", async (req, res) => {
 
     const userOrder = await Order.findOne({ userId: req.user.id }).lean();
 
-    if (!userOrder) {
+    console.log(userOrder);
+    console.log("Q: " + userOrder.status != 'Queuing');
+    console.log("P: " + userOrder.status != 'Paying');
+
+    if (!userOrder || userOrder.status != 'Queuing' || userOrder.status != 'Paying') {
       // Create a new order
       const newOrder = new Order({
         userId: userId,
@@ -420,9 +413,14 @@ app.post("/checkout", async (req, res) => {
       cart.items = [];
       await cart.save();
       res.redirect("/payment");
+    } else if (userOrder.status == 'Queuing') {
+      res.redirect("/status");
     } else {
-      res.redirect("/payment");
+      res.redirect('/payment')
     }
+    // } else {
+    //   res.redirect("/payment");
+    // }
 
   } catch (error) {
     console.error("Error:", error);
@@ -433,6 +431,7 @@ app.post("/checkout", async (req, res) => {
 app.get("/payment", async (req, res) => {
   if (req.isAuthenticated()) {
     const allOrder = await Order.find({ userId: req.user.id }).lean();
+    console.log(allOrder);
     res.render("payment", {
       orders: allOrder,
     });
@@ -477,10 +476,13 @@ app.post('/order/update-status', async (req, res) => {
 });
 
 
-app.get("/status", (req, res) => {
+app.get("/status", async (req, res) => {
   if (req.isAuthenticated()) {
+    const userOrder = await Order.find({ userId: req.user.id }).lean();
+    console.log(userOrder);
     res.render("status", {
-      user: req.user
+      user: req.user,
+      orders: userOrder,
     });
   } else {
     res.redirect("/signin");

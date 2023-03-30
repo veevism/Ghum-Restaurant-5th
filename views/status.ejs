@@ -18,10 +18,11 @@
               style="border-color: #27ae60 !important"
             >
               <div class="card-body p-5">
-                <h1 class="lead fw-bold" style="color: #27ae60">
-                  Waiting for confirmation
-                </h1>
-                <p class="sub-lead text-secondary mb-4">Processing...</p>
+                <!-- Start Status -->
+                <% orders.forEach(order => { %>
+                 <% if (order.status != 'Complete') { %>
+                <h1 class="lead fw-bold title-status-<%= order.status %>" style="color: #27ae60">Waiting for confirmation</h1>
+                <p class="sub-lead text-secondary mb-4 sub-title-status-<%= order.status %>">Processing...</p>
                 <div class="card-dividerRow mb-4">
                   <p class="icon -fa-utensils card-dividerText active-fixed">
                     <i class="fa-solid fa-utensils"></i>
@@ -42,7 +43,10 @@
                     <i class="fa-solid fa-location-dot"></i>
                   </p>
                 </div>
-                <p class="text-secondary">Order no. h311oM0th3rfUck3r</p>
+                <p class="text-secondary">Order No. <%= order._id %></p>
+                <% } %>
+                <% }) %>
+                <!-- End Status -->
                 <p class="fw-light mb-1">
                   <i class="fa-solid fa-location-dot text-danger me-2"></i
                   ><span>Ghum Restaurant</span>
@@ -117,27 +121,33 @@
       </div>
     </section>
     <script>
-      $("p.icon").click(function () {
-        $(this).toggleClass("active"); // add class to icon
-        var classes = $(this).attr("class").split(" ");
-        $(".line" + classes[1]).toggleClass("active"); // add class to line
-        if ($(".-fa-utensils").hasClass("active-fixed")) {
-          $(".lead").text("Waiting for confirmation");
-          $(".sub-lead").text("Processing...");
-        }
-        if ($(".-fa-bowl-food").hasClass("active")) {
-          $(".lead").text("Preparing order");
-          $(".sub-lead").text("5 sec until arrival (approx.)");
-        }
-        if ($(".-fa-motorcycle").hasClass("active")) {
-          $(".lead").text("On the way");
-          $(".sub-lead").text("5 sec until arrival (approx.)");
-        }
-        if ($(".-fa-location-dot").hasClass("active")) {
-          $(".lead").text("Arrived at the destination");
-          $(".sub-lead").text("Thank you");
-        }
-      });
+      let titleCooking = $(".title-status-Cooking").text()
+      let titleDelivering = $(".title-status-Delivering").text()
+      let titleComplete = $(".title-status-Complete").text()
+
+      if (titleCooking == "Waiting for confirmation") {
+        $(".title-status-Cooking").text("Preparing order")
+        $(".sub-title-status-Cooking").text("5 mins until arrival (approx.)")
+        $(".-fa-bowl-food").addClass("active")
+        $(".line-fa-bowl-food").addClass("active")
+      } else if (titleDelivering == "Waiting for confirmation") {
+        $(".title-status-Delivering").text("On the way")
+        $(".sub-title-status-Delivering").text("5 mins until arrival (approx.)")
+        $(".-fa-bowl-food").addClass("active")
+        $(".line-fa-bowl-food").addClass("active")
+        $(".-fa-motorcycle").addClass("active")
+        $(".line-fa-motorcycle").addClass("active")
+      } else if (titleComplete == "Waiting for confirmation") {
+        $(".title-status-Complete").text("Arrived at the destination")
+        $(".sub-title-status-Complete").text("Thank you ❤")
+        $(".-fa-bowl-food").addClass("active")
+        $(".line-fa-bowl-food").addClass("active")
+        $(".-fa-motorcycle").addClass("active")
+        $(".line-fa-motorcycle").addClass("active")
+        $(".-fa-location-dot").addClass("active")
+        $(".line-fa-location-dot").addClass("active")
+      }
+      
       const address = $("#address").text();
       const apiKey = "AIzaSyB_w3ntqlpIvJhv8JJDhMMq4wRazbhs1MM";
     </script>

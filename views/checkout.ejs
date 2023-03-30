@@ -265,7 +265,6 @@
                             <% } else { %>
                               <% orders.forEach(order => { %>
                                 <% if (order.status == 'Queuing') { %>
-                                  <% console.log(order.status == 'Queuing') %>
                                   <!-- <a href="/payment" class="disabled"> -->
                                     <button
                                       class="w-100 btn btn-success btn-lg"
@@ -275,8 +274,15 @@
                                       Checkout
                                     </button>
                                   <!-- </a> -->
-                                <% } %>
-                                <% }) %>
+                                <% } else { %>
+                                <button
+                                      class="w-100 btn btn-success btn-lg"
+                                      type="submit"
+                                    >
+                                      Checkout
+                                    </button>
+                                    <% } %>
+                                <% }) %> 
                                 <% } %>
                           </div>
 
