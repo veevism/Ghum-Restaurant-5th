@@ -126,6 +126,11 @@
     ];
 $(document).ready(function () {
 
+  document.querySelector("#home").addEventListener("click", () => {
+    $(".shopping-cart").fadeOut();
+  })
+
+
   $("#input-select-group").change(function () {
     arc = document.querySelectorAll(".section-center article");
     arc.forEach(element => {
@@ -144,6 +149,7 @@ $(document).ready(function () {
     
     
   });});
+
 
 
 
