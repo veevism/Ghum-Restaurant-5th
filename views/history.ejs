@@ -26,6 +26,7 @@
                 <tbody>    
                   
                   <% let count = 1 %>
+                  <% let sum = 0 %>
                   <% orders.forEach(order => { %>
                     
                     <tr>
@@ -56,7 +57,16 @@
                       <td>
                         <span class="badge badge-success rounded-pill"><%= order.status%></span>
                       </td>
-                      <td>$ 20.99</td>
+                      <td><% (order.items).forEach(orderr => { %>
+                        <% menus.forEach(menuu => { %>
+                          <% if (orderr.itemId == menuu._id) { %>
+                  
+                            <% sum += menuu.price * orderr.quantity %>
+                          <% } %>
+                        <% }); %>
+                      <% }); %>
+                    $<%= (sum+2).toFixed(2)  %>
+                    </td>
                       <td>
                         <button
                           type="button"
