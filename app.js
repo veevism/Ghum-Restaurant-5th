@@ -491,10 +491,12 @@ app.post('/order/update-status', async (req, res) => {
 
 app.get("/status/:orderId", async (req, res) => {
   if (req.isAuthenticated()) {
+    const allmenu = await Menu.find().lean();
     const userOrder = await Order.find({ userId: req.user.id }).lean();
     res.render("status", {
       user: req.user,
       orders: userOrder,
+      menus: allmenu
     });
   } else {
     res.redirect("/signin");
@@ -505,9 +507,11 @@ app.get("/status/:orderId", async (req, res) => {
 app.get("/status", async (req, res) => {
   if (req.isAuthenticated()) {
     const userOrder = await Order.find({ userId: req.user.id }).lean();
+    const allmenu = await Menu.find().lean();
     res.render("status", {
       user: req.user,
       orders: userOrder,
+      menus : allmenu
     });
   } else {
     res.redirect("/signin");
