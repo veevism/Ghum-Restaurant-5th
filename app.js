@@ -313,16 +313,13 @@ app.post("/admin_login", (req, res) => {
 app.get("/admin_dashboard", async (req, res) => {
   const allmenu = await Menu.find().lean();
   const allOrder = await Order.find().lean();
-
   const allUser = await User.find().lean();
-
-  console.log(allOrder);
 
   if (req.isAuthenticated()) {
     res.render("admin_dashboard", {
       menus: allmenu,
       orders: allOrder,
-      users: allUser
+      users: allUser,
     });
   } else {
     res.redirect("/admin_login");
@@ -371,10 +368,23 @@ app.get("/checkout", async (req, res) => {
   const allmenu = await Menu.find().lean();
   if (req.isAuthenticated()) {
     const allItemInCart = await Cart.find({ userId: req.user.id }).lean();
+    const allOrder = await Order.find({ userId: req.user.id }).lean();
+    // console.log(allOrder);
+    let disabled;
+    // allOrder.forEach(order => {
+    //   console.log(order.status == 'Queuing');
+    // });
+    
+    // if (allOrder[0].status == 'Queuing') {
+    //   disabled = 'disabled';
+    // } else {
+    //   disabled = '';
+    // }
     res.render("checkout", {
       carts: allItemInCart[0].items,
       menus: allmenu,
       user: req.user,
+      orders: allOrder,
     });
   } else {
     res.redirect("/signin");
@@ -420,31 +430,24 @@ app.post("/checkout", async (req, res) => {
   }
 });
 
-app.get("/payment", (req, res) => {
+app.get("/payment", async (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("payment");
+    const allOrder = await Order.find({ userId: req.user.id }).lean();
+    res.render("payment", {
+      orders: allOrder,
+    });
   } else {
     res.redirect("/signin");
   }
 });
 
-app.get("/payment", (req, res) => {
-  // if (req.isAuthenticated()) {
-  //   res.render("payment");
-  // } else {
-  //   res.redirect("/signin");
-  // }
-  res.render("payment");
-});
-
 app.post('/order/update-status', async (req, res) => {
 
-  const allOrder = await Order.find({ userId: req.user.id }).lean();
+  // const allOrder = await Order.find({ userId: req.user.id }).lean();
   
-  const orderId = allOrder[0]._id;
-  const newStatus = "Queuing";
-
-  console.log(orderId);
+  const orderId = req.body.orderId;
+  const newStatus = req.body.newStatus;
+  const role = req.body.role;
 
   try {
     // Find the order by ID
@@ -461,7 +464,12 @@ app.post('/order/update-status', async (req, res) => {
     // Save the updated order
     await order.save();
 
-    res.redirect('/status')
+    if (role == 'user') {
+      res.redirect('/status')
+    } else if (role == 'admin') {
+      res.redirect('/admin_dashboard')
+    }
+
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal server error');
@@ -482,7 +490,6 @@ app.get("/status", (req, res) => {
 app.get("/profile", async (req, res) => {
   if (req.isAuthenticated()) {
     const user = await User.findOne({ _id: req.user.id }).lean()
-    console.log(user);
     res.render("profile", {
       user: user,
     });
@@ -540,7 +547,6 @@ app.post("/information", async (req, res) => {
 
 app.get("/add-menu", (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.username);
     res.render("addMenu");
   } else {
     res.redirect("/admin_login");
@@ -549,9 +555,6 @@ app.get("/add-menu", (req, res) => {
 
 app.post("/add-menu", async (req, res) => {
   const items = await Menu.find({});
-  console.log(items.length);
-  // const { title, category, price, img, desc, quantity } = req.body;
-  console.log(req.body.title);
   // create a new menu object
   const newMenu = new Menu({
     _id: items.length,
@@ -577,7 +580,6 @@ app.post("/add-menu", async (req, res) => {
 
 app.get("/manage-menu/edit/:menuId", async (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.username);
     try {
       const menuId = req.params.menuId;
       const menu = await Menu.findById(menuId);
@@ -620,7 +622,6 @@ app.post("/edit-menu", async (req, res) => {
 
 app.get("/manage-menu", async (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.username);
     var allmenu = await Menu.find().lean();
     res.render("manageMenu", {
       menus: allmenu,
@@ -633,29 +634,19 @@ app.get("/manage-menu", async (req, res) => {
 app.post("/manage-menu", async (req, res) => {
   const menuId = req.body.menuId;
   const action = req.body.action;
-  // if (action === 'edit') {
-  //   // Edit item logic
-  //   const menu = await Menu.findById(menuId)
-  //   res.render("editMenu", { menu: menu })
-  //   console.log(`Edit item with ID: ${menuId}`);
-  //   // res.send(`Edit item with ID: ${itemId}`);
-  // } else
   if (action === "delete") {
     // Delete item logic
     await Menu.findByIdAndRemove(menuId).then(() => {
       console.log(`Delete item with ID: ${menuId}`);
       res.redirect("/manage-menu");
     });
-    // res.send(`Delete item with ID: ${itemId}`);
   } else {
     res.status(400).send("Invalid action");
   }
-  // console.log(action);
 });
 
 app.get("/history", async (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.username);
     const allOrder = await Order.find({ userId: req.user.id }).lean();
     res.render("history", {
       orders: allOrder,

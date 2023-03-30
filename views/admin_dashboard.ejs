@@ -156,18 +156,18 @@
               </div>
             </td>
             <td>
-              <span class="badge badge-success rounded-pill"><%= order.status %></span>
+              <span class="badge badge-danger rounded-pill status-<%= order.status %>"><%= order.status %></span>
             </td>
             <td>$ <%= (sum+2).toFixed(2) %></td>
 
             <td>
-              <button type="button" class="btn btn-warning btn-sm btn-rounded">
+              <button type="button" class="btn btn-warning btn-sm btn-rounded" onclick="updateOrderStatus('<%= order._id %>', 'Cooking', 'admin')">
                 Cook
               </button>
-              <button type="button" class="btn btn-info btn-sm btn-rounded">
+              <button type="button" class="btn btn-info btn-sm btn-rounded" onclick="updateOrderStatus('<%= order._id %>', 'Delivering', 'admin')">
                 Delivery
               </button>
-              <button type="button" class="btn btn-success btn-sm btn-rounded">
+              <button type="button" class="btn btn-success btn-sm btn-rounded" onclick="updateOrderStatus('<%= order._id %>', 'Complete', 'admin')">
                 Complete
               </button>
             </td>
@@ -179,6 +179,48 @@
       </table>
     </div>
   </div>
+
+  <script>
+    let statusCooking = $(".status-Cooking").text();
+    let statusDelivering = $(".status-Delivering").text();
+    let statusComplete = $(".status-Complete").text();
+      if (statusCooking == "Cooking") {
+    $(".status-Cooking").removeClass("badge-danger")
+    $(".status-Cooking").addClass("badge-warning")
+  } else if (statusDelivering == "Delivering") {
+    $(".status-Delivering").removeClass("badge-danger")
+    $(".status-Delivering").removeClass("badge-warning")
+    $(".status-Delivering").addClass("badge-info")
+  } else if (statusComplete == "Complete") {
+    $(".status-Complete").removeClass("badge-danger")
+    $(".status-Complete").removeClass("badge-warning")
+    $(".status-Complete").removeClass("badge-info")
+    $(".status-Complete").addClass("badge-success")
+  }
+
+
+    function updateOrderStatus(orderId, newStatus, role) {
+  fetch('/order/update-status', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ orderId, newStatus, role }),
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Refresh the page when the status is updated successfully
+        location.reload();
+      } else {
+        throw new Error('Failed to update order status');
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+  </script>
 
   <!-- Bootstrap js -->
   <script

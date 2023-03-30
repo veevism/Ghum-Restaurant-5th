@@ -10,65 +10,87 @@
 
   <body>
     <%- include("partials/nav") %>
-    <form action="/order/update-status" method="post">
-      <div class="container text-center py-4 mb-5">
-        <h1>QR Payment</h1>
-        <div class="d-flex align-items-center justify-content-center my-4">
-          <div class="container-slip text-start">
-            <div class="slip">
-              <div dir="ltr" class="top-slip">
-                <h3>Amount to pay</h3>
-                <div id="transactionAmount" dir="ltr">351.00 USD</div>
+    <!-- <form action="/order/update-status" method="post"> -->
+    <div class="container text-center py-4 mb-5">
+      <h1>QR Payment</h1>
+      <div class="d-flex align-items-center justify-content-center my-4">
+        <div class="container-slip text-start">
+          <div class="slip">
+            <div dir="ltr" class="top-slip">
+              <h3>Amount to pay</h3>
+              <div id="transactionAmount" dir="ltr">351.00 USD</div>
+            </div>
+            <div class="bottom-slip">
+              <div class="bottom-slip-text">Account no.</div>
+              <div class="bottom-slip-number mt-2">
+                <p id="accountId">
+                  <img
+                    src="/images/scb-icon.png"
+                    class="bank-icon"
+                  />852-219122-0
+                </p>
+                <p id="accountId">
+                  <img
+                    src="/images/kbank-icon.png"
+                    class="bank-icon"
+                  />134-2-66142-0
+                </p>
               </div>
-              <div class="bottom-slip">
-                <div class="bottom-slip-text">Account no.</div>
-                <div class="bottom-slip-number mt-2">
-                  <p id="accountId">
-                    <img
-                      src="/images/scb-icon.png"
-                      class="bank-icon"
-                    />852-219122-0
-                  </p>
-                  <p id="accountId">
-                    <img
-                      src="/images/kbank-icon.png"
-                      class="bank-icon"
-                    />134-2-66142-0
-                  </p>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="d-flex align-items-center justify-content-center my-4">
-          <div class="row">
-            <div class="col-lg-6 qr">
-              <a href="" target="_blank" class="a-link">
-                <div class="qr-wrapper">
-                  <img src="/images/qrivee.jpg" alt="qrcode" />
-                </div>
-              </a>
-            </div>
-            <div class="col-lg-6 qr">
-              <a href="" target="_blank" class="a-link">
-                <div class="qr-wrapper">
-                  <img src="/images/qrweb.jpg" alt="qrcode" />
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="d-flex align-items-center justify-content-center">
-          <div class="me-4">
-            <a class="btn btn-success" href="/checkout">&#60; Back </a>
-          </div>
-          <div>
-            <button class="btn btn-success" type="submit"> Next &#62;</button>
           </div>
         </div>
       </div>
-    </form>
+      <div class="d-flex align-items-center justify-content-center my-4">
+        <div class="row">
+          <div class="col-lg-6 qr">
+            <a href="" target="_blank" class="a-link">
+              <div class="qr-wrapper">
+                <img src="/images/qrivee.jpg" alt="qrcode" />
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-6 qr">
+            <a href="" target="_blank" class="a-link">
+              <div class="qr-wrapper">
+                <img src="/images/qrweb.jpg" alt="qrcode" />
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-center">
+        <div class="me-4">
+          <a class="btn btn-success" href="/checkout">&#60; Back </a>
+        </div>
+        <div>
+          <button class="btn btn-success" type="submit" onclick="updateOrderStatus('<%= orders[0]._id %>', 'Queuing', 'user')">Next &#62;</button>
+        </div>
+      </div>
+    </div>
+    <!-- </form> -->
+    <script>
+      function updateOrderStatus(orderId, newStatus, role) {
+        fetch("/order/update-status", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ orderId, newStatus, role }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              // Refresh the page when the status is updated successfully
+              location.href = '/status';
+            } else {
+              throw new Error("Failed to update order status");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
     <%- include("partials/footer") %>
   </body>
 </html>

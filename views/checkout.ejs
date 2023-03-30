@@ -106,7 +106,7 @@
                           <p>No item in this cart.</p>
                          <% } %>
                       </div>
-                      
+
                       <!-- Back to shop btn -->
                       <div class="pt-4">
                         <h6 class="mb-0">
@@ -255,15 +255,29 @@
                               </div>
                             </div>
                             <hr class="my-4" />
-                            <a href="/payment">
+                            <% if (!orders[0]) { %>
                               <button
-                                class="w-100 btn btn-success btn-lg"
-                                type="submit"
-                                fdprocessedid="usvmvg"
-                              >
-                                Checkout
-                              </button>
-                            </a>
+                              class="w-100 btn btn-success btn-lg"
+                              type="submit"
+                            >
+                              Checkout
+                            </button>
+                            <% } else { %>
+                              <% orders.forEach(order => { %>
+                                <% if (order.status == 'Queuing') { %>
+                                  <% console.log(order.status == 'Queuing') %>
+                                  <!-- <a href="/payment" class="disabled"> -->
+                                    <button
+                                      class="w-100 btn btn-success btn-lg"
+                                      type="submit"
+                                      disabled
+                                    >
+                                      Checkout
+                                    </button>
+                                  <!-- </a> -->
+                                <% } %>
+                                <% }) %>
+                                <% } %>
                           </div>
 
                           
