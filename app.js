@@ -393,10 +393,6 @@ app.post("/checkout", async (req, res) => {
 
     const userOrder = await Order.findOne({ userId: req.user.id }).lean();
 
-    console.log(userOrder);
-    console.log("Q: " + userOrder.status != 'Queuing');
-    console.log("P: " + userOrder.status != 'Paying');
-
     if (!userOrder || userOrder.status != 'Queuing' || userOrder.status != 'Paying') {
       // Create a new order
       const newOrder = new Order({
