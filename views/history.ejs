@@ -71,7 +71,6 @@
                         <button
                           type="button"
                           class="btn btn-link btn-sm btn-rounded"
-                          onclick="seeDetails('<%= order._id %>')"
                         >
                           Details
                         </button>
@@ -88,24 +87,6 @@
         </div>
       </main>
     </div>
-    <script>
-      function seeDetails(orderId) {
-        fetch(`/status`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ orderId }),
-        })
-          .then((response) => location.reload())
-          .then((result) => {
-            console.log(result);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      }
-    </script>
     <%- include("partials/footer") %>
   </body>
 </html>

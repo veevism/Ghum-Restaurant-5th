@@ -458,12 +458,12 @@ app.post('/order/update-status', async (req, res) => {
 app.get("/status", async (req, res) => {
   if (req.isAuthenticated()) {
     // const userOrder = await Order.find({ userId: req.user.id }).lean();
-    const userOrder = req.body.orderId || await Order.find({ userId: req.user.id }).lean();
+    const userOrder = await Order.find({ userId: req.user.id }).lean();
     const allmenu = await Menu.find().lean();
     res.render("status", {
       user: req.user,
       orders: userOrder,
-      menus : allmenu
+      menus : allmenu,
     });
   } else {
     res.redirect("/signin");
