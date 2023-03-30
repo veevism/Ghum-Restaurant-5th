@@ -39,7 +39,6 @@
           <% orders.forEach(order => { %>
             <% users.forEach(user => { %>
             <% if (order.userId == user._id) { %>
-              <%  %>
           <tr>
             <td><%= order._id %></td>
             <td>
@@ -105,10 +104,15 @@
                         "
                       />
 
-                      <div class="d-flex justify-content-between">
+                      <% console.log(order) %>
+
+                        <div class="d-flex justify-content-between">
                         <p class="fw-bold mb-0">buttermilk pancakes(Qty:1)</p>
                         <p class="text-muted mb-0">$15.99</p>
                       </div>
+
+                      
+                      
 
                       <div class="d-flex justify-content-between">
                         <p class="small mb-0">Shipping</p>
@@ -116,7 +120,7 @@
                       </div>
 
                       <div class="d-flex justify-content-between pb-1">
-                        <p class="small">Tax</p>
+                        <p class="small">ss</p>
                         <p class="small">$0.00</p>
                       </div>
 
@@ -141,7 +145,7 @@
               </div>
             </td>
             <td>
-              <span class="badge badge-success rounded-pill">Done</span>
+              <span class="badge badge-success rounded-pill"><%= order.status%></span>
             </td>
             <td>$ <%=  %></td>
             <td>
