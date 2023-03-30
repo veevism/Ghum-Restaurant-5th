@@ -37,7 +37,10 @@
         <tbody>
           <% orders.forEach(order => { %>
             <% users.forEach(user => { %>
+              
             <% if (order.userId == user._id) { %>
+              <% let sum = 0 %>
+              <% const mafaka = user.firstName + user._id %>
           <tr>
             <td><%= order._id %></td>
             <td>
@@ -60,13 +63,13 @@
                 type="button"
                 class="btn btn-outline-success dropdown-toggle"
                 data-mdb-toggle="modal"
-                data-mdb-target="#exampleModal"
+                data-mdb-target="#<%=  mafaka %>"
               ></button>
 
               <!-- Modal -->
               <div
                 class="modal fade"
-                id="exampleModal"
+                id="<%= mafaka %>"
                 tabindex="-1"
                 aria-labelledby="exampleModalLabel"
                 aria-hidden="true"
@@ -81,6 +84,7 @@
                         aria-label="Close"
                       ></button>
                     </div>
+                    
                     <div class="modal-body text-start text-black p-4">
                       <h5
                         class="modal-title text-uppercase"
@@ -103,14 +107,27 @@
                         "
                       />
 
-                      <div class="d-flex justify-content-between">
-                        <p class="fw-bold mb-0">buttermilk pancakes(Qty:1)</p>
-                        <p class="text-muted mb-0">$15.99</p>
-                      </div>
+                      
 
+                      <% order.items.forEach(orderr => { %>
+                        <% menus.forEach(menuu => { %>
+                          
+                        <% if (orderr.itemId == menuu._id) { %>
+                      <div class="d-flex justify-content-between">
+                        <p class="fw-bold mb-0"><%= menuu.title %></p>
+                        <p class="text-muted mb-0">$<%= (orderr.quantity * menuu.price).toFixed(2) %></p>
+                      </div>
+                      <% sum += ((orderr.quantity * menuu.price))%>
+                      <% } %>
+
+                      <% }); %>
+                      <% }); %>
+         
+                      
+                      
                       <div class="d-flex justify-content-between">
                         <p class="small mb-0">Shipping</p>
-                        <p class="small mb-0">$5.00</p>
+                        <p class="small mb-0">$2.00</p>
                       </div>
 
                       <div class="d-flex justify-content-between pb-1">
@@ -120,7 +137,7 @@
 
                       <div class="d-flex justify-content-between">
                         <p class="fw-bold">Total</p>
-                        <p class="fw-bold" style="color: #27ae60">$20.99</p>
+                        <p class="fw-bold" style="color: #27ae60">$<%= (sum+2).toFixed(2) %></p>
                       </div>
                     </div>
                     <div
@@ -139,9 +156,10 @@
               </div>
             </td>
             <td>
-              <span class="badge badge-success rounded-pill">Done</span>
+              <span class="badge badge-success rounded-pill"><%= order.status %></span>
             </td>
-            <td>$ <%=  %></td>
+            <td>$ <%= (sum+2).toFixed(2) %></td>
+
             <td>
               <button type="button" class="btn btn-warning btn-sm btn-rounded">
                 Cook
