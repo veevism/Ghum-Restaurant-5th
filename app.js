@@ -131,9 +131,10 @@ passport.use(
 app.get("/", async (req, res) => {
   //turn mongo obj into some kind of js array .lean()
   const allmenu = await Menu.find().lean();
-  const allItemInCart = await Cart.find().lean();
-
   if (req.isAuthenticated()) {
+    const allItemInCart = await Cart.find({ userId: req.user.id }).lean();
+
+    console.log(allItemInCart);
     if (allItemInCart.length > 0) {
       res.render("index", {
         menus: allmenu,
