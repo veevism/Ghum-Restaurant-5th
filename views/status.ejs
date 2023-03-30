@@ -21,7 +21,6 @@
                 <!-- Start Status -->
                 <% let sum = 0 %>
                 <% orders.forEach(order => { %>
-                 <% if (order.status != 'Complete') { %>
                 <h1 class="lead fw-bold title-status-<%= order.status %>" style="color: #27ae60">Waiting for confirmation</h1>
                 <p class="sub-lead text-secondary mb-4 sub-title-status-<%= order.status %>">Processing...</p>
                 <div class="card-dividerRow mb-4">
@@ -45,7 +44,6 @@
                   </p>
                 </div>
                 <p class="text-secondary">Order No. <%= order._id %></p>
-                <% } %>
                 <% }) %>
                 <!-- End Status -->
                 <p class="fw-light mb-1">
