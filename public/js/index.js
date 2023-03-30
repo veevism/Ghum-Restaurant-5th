@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $(".shopping-cart").fadeOut();
+  // $(".shopping-cart").fadeOut();
   $("#cart").on("click", function () {
     if ($(".collapse").hasClass("show")) {
       $(".shopping-cart").css("top", "33%");
