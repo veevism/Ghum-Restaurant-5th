@@ -249,14 +249,44 @@
       <div class="shopping-cart">
         <div class="shopping-cart-header">
           <i class="fa fa-shopping-cart cart-icon"></i
-          ><span class="badge bg-success rounded-pill cart-badge">0</span>
+          ><span class="badge bg-success rounded-pill cart-badge">
+            <% if (carts != 0) { %>
+              <%let sum = 0 %>
+              <% for( let i = 0; i < carts.length; i++ ) { %>
+                <% menus.forEach(menu => { %> 
+                <% if (carts[i].itemId == menu._id) { %>
+                    <% sum += carts[i].quantity%>
+                <% } %> 
+                <% }); %> 
+                <% } %>
+                <%= sum %>
+              <% } else { %>
+                <%= 0 %>
+              <% } %>
+            </span>
           <div class="shopping-cart-total">
             <span class="lighter-text">Total:</span>
-            <span id="Total" class="main-color-text">$0</span>
+            <span id="Total" class="main-color-text"><% if (carts != 0) { %>
+              <%let sum = 0 %>
+              <% for( let i = 0; i < carts.length; i++ ) { %>
+                <% menus.forEach(menu => { %> 
+                <% if (carts[i].itemId == menu._id) { %>
+                    <% sum += carts[i].quantity * menu.price%>
+                <% } %> 
+                <% }); %> 
+                <% } %>
+                $<%= sum.toFixed(2) %>
+              <% } else { %>
+                $<%=  %>
+              <% } %>
+            </span>
           </div>
         </div>
         <a href=""></a>
         <ul class="shopping-cart-items">
+          <% if (carts != 0) { %>
+
+          
           <% for( let i = 0; i < carts.length; i++ ) { %>
           <% menus.forEach(menu => { %> 
           <% if (carts[i].itemId == menu._id) { %>
@@ -268,6 +298,7 @@
           </li>
           <% } %> 
           <% }); %> 
+          <% } %>
           <% } %>
         </ul>
 
