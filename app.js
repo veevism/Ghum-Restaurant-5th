@@ -40,7 +40,6 @@ Menu.collection
     console.log("Menu has been successfully added to DB");
   })
   .catch(() => {
-    console.log("Menu already been in DB");
   });
 
 const app = express();
@@ -105,7 +104,7 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
-        console.log(profile);
+
         // Find or create user in your database
         let user = await User.findOne({ googleId: profile.id });
         if (!user) {
@@ -176,7 +175,6 @@ app.post("/cart/add", async (req, res) => {
       (item) => item.itemId === itemId
     );
 
-    console.log(existingItemIndex);
 
     if (existingItemIndex !== -1) {
       // If the item is already in the cart, update its quantity
@@ -448,7 +446,6 @@ app.post("/checkout", async (req, res) => {
 app.get("/payment", async (req, res) => {
   if (req.isAuthenticated()) {
     const allOrder = await Order.find({ userId: req.user.id }).lean();
-    console.log(allOrder);
     res.render("payment", {
       orders: allOrder,
     });
@@ -495,7 +492,6 @@ app.post('/order/update-status', async (req, res) => {
 app.get("/status/:orderId", async (req, res) => {
   if (req.isAuthenticated()) {
     const userOrder = await Order.find({ userId: req.user.id }).lean();
-    console.log(userOrder);
     res.render("status", {
       user: req.user,
       orders: userOrder,
@@ -509,7 +505,6 @@ app.get("/status/:orderId", async (req, res) => {
 app.get("/status", async (req, res) => {
   if (req.isAuthenticated()) {
     const userOrder = await Order.find({ userId: req.user.id }).lean();
-    console.log(userOrder);
     res.render("status", {
       user: req.user,
       orders: userOrder,
