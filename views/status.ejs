@@ -20,6 +20,7 @@
               <div class="card-body p-5">
                 <!-- Start Status -->
                 <% let sum = 0 %>
+                <% console.log(orders) %>
                 <% orders.forEach(order => { %>
                 <h1 class="lead fw-bold title-status-<%= order.status %>" style="color: #27ae60">Waiting for confirmation</h1>
                 <p class="sub-lead text-secondary mb-4 sub-title-status-<%= order.status %>">Processing...</p>
