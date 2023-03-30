@@ -35,9 +35,11 @@
           </tr>
         </thead>
         <tbody>
+          
           <% orders.forEach(order => { %>
             <% users.forEach(user => { %>
             <% if (order.userId == user._id) { %>
+              <%  %>
           <tr>
             <td><%= order._id %></td>
             <td>

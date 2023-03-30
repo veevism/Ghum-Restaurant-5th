@@ -40,7 +40,6 @@ Menu.collection
     console.log("Menu has been successfully added to DB");
   })
   .catch(() => {
-    console.log("Menu already been in DB");
   });
 
 const app = express();
@@ -105,7 +104,6 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
-        console.log(profile);
         // Find or create user in your database
         let user = await User.findOne({ googleId: profile.id });
         if (!user) {
@@ -134,7 +132,6 @@ app.get("/", async (req, res) => {
   if (req.isAuthenticated()) {
     const allItemInCart = await Cart.find({ userId: req.user.id }).lean();
 
-    console.log(allItemInCart);
     if (allItemInCart.length > 0) {
       res.render("index", {
         menus: allmenu,
@@ -176,7 +173,6 @@ app.post("/cart/add", async (req, res) => {
       (item) => item.itemId === itemId
     );
 
-    console.log(existingItemIndex);
 
     if (existingItemIndex !== -1) {
       // If the item is already in the cart, update its quantity
@@ -316,7 +312,6 @@ app.get("/admin_dashboard", async (req, res) => {
 
   const allUser = await User.find().lean();
 
-  console.log(allOrder);
 
   if (req.isAuthenticated()) {
     res.render("admin_dashboard", {
@@ -459,7 +454,6 @@ app.post('/order/update-status', async (req, res) => {
 
   const newStatus = "Queuing";
 
-  console.log(orderId);
 
   try {
     // Find the order by ID
@@ -496,7 +490,6 @@ app.get("/status", (req, res) => {
 
 app.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.firstName);
     res.render("profile", {
       user: req.user,
     });
@@ -528,7 +521,6 @@ app.post("/information", async (req, res) => {
   const province = req.body.province;
   const country = req.body.country;
   const zip = req.body.zip;
-  console.log(req.user);
 
   try {
     await User.updateOne(
@@ -552,7 +544,6 @@ app.post("/information", async (req, res) => {
     const updatedUser = await User.findById(req.user.id);
 
     // After the update is successful, redirect to the /profile route
-    console.log(updatedUser.firstName);
     res.render("profile", { user: updatedUser });
   } catch (error) {
     // Handle any errors that may occur during the update process
@@ -563,7 +554,6 @@ app.post("/information", async (req, res) => {
 
 app.get("/add-menu", (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.username);
     res.render("addMenu");
   } else {
     res.redirect("/admin_login");
@@ -572,9 +562,7 @@ app.get("/add-menu", (req, res) => {
 
 app.post("/add-menu", async (req, res) => {
   const items = await Menu.find({});
-  console.log(items.length);
   // const { title, category, price, img, desc, quantity } = req.body;
-  console.log(req.body.title);
   // create a new menu object
   const newMenu = new Menu({
     _id: items.length,
@@ -600,12 +588,10 @@ app.post("/add-menu", async (req, res) => {
 
 app.get("/manage-menu/edit/:menuId", async (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.username);
     try {
       const menuId = req.params.menuId;
       const menu = await Menu.findById(menuId);
       res.render("editMenu", { menu: menu });
-      console.log(`Edit item with ID: ${menuId}`);
     } catch (error) {
       console.error("Error:", error);
       res.status(500).send("Internal server error");
@@ -643,7 +629,6 @@ app.post("/edit-menu", async (req, res) => {
 
 app.get("/manage-menu", async (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.username);
     var allmenu = await Menu.find().lean();
     res.render("manageMenu", {
       menus: allmenu,
@@ -666,14 +651,12 @@ app.post("/manage-menu", async (req, res) => {
   if (action === "delete") {
     // Delete item logic
     await Menu.findByIdAndRemove(menuId).then(() => {
-      console.log(`Delete item with ID: ${menuId}`);
       res.redirect("/manage-menu");
     });
     // res.send(`Delete item with ID: ${itemId}`);
   } else {
     res.status(400).send("Invalid action");
   }
-  // console.log(action);
 });
 
 app.get("/about", async (req, res) => {
