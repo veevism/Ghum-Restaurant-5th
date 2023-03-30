@@ -65,7 +65,7 @@
         </div>
         <div>
           <% orders.forEach(order => { %>
-            <% if (order.status != 'Complete') { %>
+            <% if (order.status == 'Paying') { %>
               <button class="btn btn-success" type="submit" onclick="updateOrderStatus('<%= order._id %>', 'Queuing', 'user')">Next &#62;</button>
             <% } %>
           <% }) %>
