@@ -479,11 +479,12 @@ app.get("/status", (req, res) => {
   }
 });
 
-app.get("/profile", (req, res) => {
+app.get("/profile", async (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user.firstName);
+    const user = await User.findOne({ _id: req.user.id }).lean()
+    console.log(user);
     res.render("profile", {
-      user: req.user,
+      user: user,
     });
   } else {
     res.redirect("/signin");
@@ -513,32 +514,23 @@ app.post("/information", async (req, res) => {
   const province = req.body.province;
   const country = req.body.country;
   const zip = req.body.zip;
-  console.log(req.user);
 
   try {
-    await User.updateOne(
-      { _id: req.user.id },
-      {
-        $set: {
-          firstName: firstName,
-          lastName: lastName,
-          "address.name": addressName,
-          "address.location.address": address,
-          "address.location.subDistrict": subDistrict,
-          "address.location.district": district,
-          "address.location.province": province,
-          "address.location.country": country,
-          "address.location.zip": zip,
-        },
-      }
-    );
+    const user = await User.findById(req.user.id);
 
-    // After the update is successful, retrieve the updated user data
-    const updatedUser = await User.findById(req.user.id);
+    user.firstName = firstName
+    user.lastName = lastName
+    user.address.name = addressName
+    user.address.location.address = address
+    user.address.location.subDistrict = subDistrict
+    user.address.location.district = district
+    user.address.location.province = province
+    user.address.location.country = country
+    user.address.location.zip = zip
 
-    // After the update is successful, redirect to the /profile route
-    console.log(updatedUser.firstName);
-    res.render("profile", { user: updatedUser });
+    await user.save();
+
+    res.redirect('/profile')
   } catch (error) {
     // Handle any errors that may occur during the update process
     console.error(error);

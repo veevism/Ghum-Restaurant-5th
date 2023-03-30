@@ -172,21 +172,6 @@
                         </select>
                       </div>
 
-                      <!-- <h5 class="text-uppercase mb-3">Give code</h5>
-  
-                        <div>
-                          <div class="form-outline">
-                            <input
-                              type="text"
-                              id="form3Examplea2"
-                              class="form-control form-control-lg"
-                            />
-                            <label class="form-label" for="form3Examplea2"
-                              >Enter your code</label
-                            >
-                          </div>
-                        </div> -->
-
                       <hr
                         class="mt-2 mb-4"
                         style="
@@ -259,53 +244,26 @@
                                     %>
                                   </p>
                                   <% } else { %>
-                                  <p>No Address</p>
+                                    <a href="/information">
+                                      <button type="button" class="btn btn-outline-success"><i class="fa-solid fa-pen-to-square me-2"></i>Edit Your Address</button>
+                                    </a>
                                   <% } %>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        
-
-                          <hr class="my-4" />
-
-                          <h4 class="mb-3" id="fortestingonly">Payment</h4>
-
-                          <div class="my-3">
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="radio"
-                                name="payment"
-                                id="flexRadioDefault1"
-                              />
-                              <label class="form-check-label" for="">
-                                Cash
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input
-                                class="form-check-input"
-                                type="radio"
-                                name="payment"
-                                id="flexRadioDefault1"
-                              />
-                              <label class="form-check-label" for="">
-                                Qr code
-                              </label>
-                            </div>
+                            <hr class="my-4" />
+                            <a href="/payment">
+                              <button
+                                class="w-100 btn btn-success btn-lg"
+                                type="submit"
+                                fdprocessedid="usvmvg"
+                              >
+                                Checkout
+                              </button>
+                            </a>
                           </div>
 
-                          <hr class="my-4" />
-                          <a href="/payment">
-                            <button
-                              class="w-100 btn btn-success btn-lg"
-                              type="submit"
-                              fdprocessedid="usvmvg"
-                            >
-                              Checkout
-                            </button>
-                          </a>
+                          
                         </form>
                       </div>
                     </div>
