@@ -647,9 +647,14 @@ app.post("/manage-menu", async (req, res) => {
 
 app.get("/history", async (req, res) => {
   if (req.isAuthenticated()) {
+    const allmenu = await Menu.find().lean();
+
     const allOrder = await Order.find({ userId: req.user.id }).lean();
     res.render("history", {
       orders: allOrder,
+      user: req.user,
+      menus: allmenu,
+      
     });
   } else {
     res.redirect("/signin");
