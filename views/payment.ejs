@@ -64,7 +64,11 @@
           <a class="btn btn-success" href="/checkout">&#60; Back </a>
         </div>
         <div>
-          <button class="btn btn-success" type="submit" onclick="updateOrderStatus('<%= orders[0]._id %>', 'Queuing', 'user')">Next &#62;</button>
+          <% orders.forEach(order => { %>
+            <% if (order.status != 'Complete') { %>
+              <button class="btn btn-success" type="submit" onclick="updateOrderStatus('<%= order._id %>', 'Queuing', 'user')">Next &#62;</button>
+            <% } %>
+          <% }) %>
         </div>
       </div>
     </div>

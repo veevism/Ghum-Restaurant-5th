@@ -3,6 +3,7 @@
   <head>
     <%- include("partials/header") %>
     <link rel="stylesheet" href="/css/mdb.min.css" />
+    <link rel="stylesheet" href="/css/roundPill.css" />
   </head>
   <body>
     <%- include("partials/nav") %>
@@ -55,7 +56,7 @@
                         </p>
                       </td>
                       <td>
-                        <span class="badge badge-success rounded-pill"><%= order.status%></span>
+                        <span class="badge badge-<%= order.status%> rounded-pill"><%= order.status%></span>
                       </td>
                       <td><% (order.items).forEach(orderr => { %>
                         <% menus.forEach(menuu => { %>

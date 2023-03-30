@@ -1,0 +1,23 @@
+.badge-Queuing {
+    background-color: #f9e1e5!important;
+    color: #af233a!important;
+}
+
+.badge-Cooking {
+    background-color: #fbf0da!important;
+    color: #73510d!important;
+}
+
+.badge-Delivering {
+    background-color: #def1f7!important;
+    color: #1c657d!important;
+}
+
+.badge-Complete {
+    background-color: #d6f0e0!important;
+    color: #0d6832!important;
+}
+
+.rounded-pill {
+    border-radius: 50rem !important;
+}
