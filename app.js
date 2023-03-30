@@ -653,6 +653,18 @@ app.post("/manage-menu", async (req, res) => {
   // console.log(action);
 });
 
+app.get("/history", async (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log(req.user.username);
+    const allOrder = await Order.find({ userId: req.user.id }).lean();
+    res.render("history", {
+      orders: allOrder,
+    });
+  } else {
+    res.redirect("/signin");
+  }
+});
+
 app.get("/about", async (req, res) => {
   res.render("about");
 });

@@ -102,10 +102,13 @@
                         <hr class="my-4" />
                         <% } %> <% }); %> <% } %>
                         <!-- Item end -->
+                        <% if (carts.length == 0) { %>
+                          <p>No item in this cart.</p>
+                         <% } %>
                       </div>
-
+                      
                       <!-- Back to shop btn -->
-                      <div class="pt-5">
+                      <div class="pt-4">
                         <h6 class="mb-0">
                           <a href="/" class="text-body text-decoration-none"
                             ><i class="fas fa-long-arrow-alt-left me-2"></i>Back
