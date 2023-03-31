@@ -1,0 +1,53 @@
+name: deploy master
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check out the code to build server
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }} 
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: prepare the docker-compose run
+        run: |
+              ls -1
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: webwebweb5/ghum-test-deploy-1:latest
+
+      - name: prepare the docker-compose run
+        run: |
+              mkdir ghum-test-deploy-1 
+              cp docker-compose.yml 234-deploylab-frontend/docker-compose.yml 
+              cd 234-deploylab-frontend 
+              docker-compose -H ${{ secrets.HOST_SERVER }} down 
+              docker-compose -H ${{ secrets.HOST_SERVER }} pull
+              docker-compose -H ${{ secrets.HOST_SERVER }} up -d
+
+      # - name: copy file to server
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     host: ${{secrets.HOST}}
+      #     username: ${{secrets.SSH_USER_NAME}}
+      #     port: ${{secrets.SSH_PORT}}
+      #     key: ${{secrets.SSH_KEY}}
+      #     source: "./html/*"
+      #     target: "/var/www/html"
+      #     strip_components: 1
