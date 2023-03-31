@@ -5,6 +5,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/roundPill.css" />
   </head>
   <body>
     <%- include("partials/nav") %>
@@ -117,45 +118,58 @@
                   <div class="shadow-4 rounded-7 table-responsive">
                     <table class="table align-middle mb-0 bg-white">
                       <tbody>
-                        <%  %>
-                        <tr>
-                          <td># 1</td>
-                          <td>
-                            <div class="d-flex align-items-center">
-                              <div class="ms-3">
-                                <p class="fw-light mb-1">
-                                  <i
-                                    class="fa-solid fa-location-dot text-danger me-2"
-                                  ></i
-                                  ><small>Ghum Restaurant</small>
-                                </p>
-                                <p class="fw-light mb-1">
-                                  <i class="fa-solid fa-location-dot me-2"></i
-                                  ><small>My house</small>
-                                </p>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <p class="fw-light mb-1">
-                              <small>28 Mar 2023 11:14</small>
-                            </p>
-                          </td>
-                          <td>
-                            <span class="badge badge-success rounded-pill"
-                              >Done</span
-                            >
-                          </td>
-                          <td>$ 20.99</td>
-                          <td>
-                            <button
-                              type="button"
-                              class="btn btn-link btn-sm btn-rounded"
-                            >
-                              Details
-                            </button>
-                          </td>
-                        </tr>
+                        <% let count = 1 %>
+                        <% orders.forEach(order=> { %>
+                          <% let sum = 0 %>
+                          <% console.log(order) %>
+                              <tr>
+                                <td>#<%=count%></td>
+                                <td>
+                                  <div class="d-flex align-items-center">
+                                    <div class="ms-3">
+                                      <p class="fw-light mb-1">
+                                        <i
+                                          class="fa-solid fa-location-dot text-danger me-2"
+                                        ></i
+                                        ><small>Ghum Restaurant</small>
+                                      </p>
+                                      <p class="fw-light mb-1">
+                                        <i class="fa-solid fa-location-dot me-2"></i
+                                        ><small><%= user.address.name%></small>
+                                      </p>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td>
+                                  <p class="fw-light mb-1">
+                                    <small><%= order.orderDate  %></small>
+                                  </p>
+                                </td>
+                                <td>
+                                  <span class="badge badge-<%= order.status  %> rounded-pill"
+                                    ><%= order.status  %></span
+                                  >
+                                </td>
+                                <td>$ <% (order.items).forEach(orderr => { %>
+                                  <% menus.forEach(menu => { %>
+                                        <% if (orderr.itemId == menu._id) { %>
+                                          <% sum += orderr.quantity * menu.price %>
+                                          <% } %>
+                                    <% }); %>
+                                <% }); %>
+                              <%= sum.toFixed(2) %></td>
+                                <td>
+                                  <button
+                                    type="button"
+                                    class="btn btn-link btn-sm btn-rounded"
+                                  >
+                                    Details
+                                  </button>
+                                </td>
+                              </tr>
+                              <% count += 1 %>
+                        <% }); %>
+                        
                         <%  %>
                       </tbody>
                     </table>
