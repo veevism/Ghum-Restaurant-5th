@@ -1,6 +1,6 @@
 version: '3.8'
 services:
   front-end:
-    image: webwebweb5/ghum-test-deploy-1
+    image: webwebweb5/ghum-test-deploy-3
     ports:
       - '3000:3000'
