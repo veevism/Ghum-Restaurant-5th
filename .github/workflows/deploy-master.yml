@@ -2,7 +2,7 @@ name: deploy master
 on:
   push:
     branches:
-      - master
+      - deployment
 
 jobs:
   deploy-app:
@@ -30,13 +30,13 @@ jobs:
         with:
           context: .
           push: true
-          tags: webwebweb5/ghum-test-deploy-1:latest
+          tags: webwebweb5/ghum-test-deploy-3:latest
 
       - name: prepare the docker-compose run
         run: |
-              mkdir ghum-test-deploy-1 
-              cp docker-compose.yml 234-deploylab-frontend/docker-compose.yml 
-              cd 234-deploylab-frontend 
+              mkdir ghum-test-deploy-3 
+              cp docker-compose.yml ghum-test-deploy-3/docker-compose.yml 
+              cd ghum-test-deploy-3 
               docker-compose -H ${{ secrets.HOST_SERVER }} down 
               docker-compose -H ${{ secrets.HOST_SERVER }} pull
               docker-compose -H ${{ secrets.HOST_SERVER }} up -d
