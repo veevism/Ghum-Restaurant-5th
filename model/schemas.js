@@ -39,26 +39,6 @@ const menuSchema = new mongoose.Schema({
   quantity: Number,
 });
 
-const cartSchema = new mongoose.Schema({
-  _id: mongoose.Types.ObjectId,
-  user_id: { type: mongoose.Types.ObjectId, required: true },
-  paid_status: String,
-  order_status: String,
-  delivery_status: String,
-  payment_method: String,
-});
-
-const cart_itemSchema = new mongoose.Schema({
-  _id: mongoose.Types.ObjectId,
-  cart_id: { type: mongoose.Types.ObjectId, required: true },
-  menu_id: Number,
-  quantity: Number,
-});
-
-// exports.Cart_Item = mongoose.model("cart_item", cart_itemSchema);
-
-// exports.Cart = new mongoose.model("cart", cartSchema);
-
 exports.Menu = mongoose.model("Menu", menuSchema);
 
 exports.User = new mongoose.model("User", userSchema);

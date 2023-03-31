@@ -258,7 +258,7 @@
                             </div>
                             <hr class="my-4" />
                             <% if (!orders[0] || user.address.location.adress != "" && carts.length != 0) { %>
-
+                              
                               <button
                               class="w-100 btn btn-success btn-lg 1"
                               type="submit"
@@ -267,8 +267,7 @@
                             </button>
                             <% } else { %>
                               <% orders.forEach(order => { %>
-                                <% if (order.status == 'Queuing' || carts.length == 0) { %>
-                                  <!-- <a href="/payment" class="disabled"> -->
+                                <% if (order.status == 'Queuing' || carts.length == 0 || user.address.location.adress == "") { %>
                                     <p class="text-danger">Your cart is empty! or<br> You have to complete the previous order first! <a href="/status">Here</a></p>
                                     <button
                                       class="w-100 btn btn-success btn-lg 3"
@@ -277,7 +276,6 @@
                                     >
                                       Checkout
                                     </button>
-                                  <!-- </a> -->
                                 <% } %>
                                 <% }) %> 
                                 <% } %>
