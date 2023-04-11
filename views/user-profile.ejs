@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <link rel="stylesheet" href="/css/mdb.min.css" />
+  </head>
+  <body>
+    <%- include("partials/admin_nav") %>
+    <div class="container">
+      <main>
+        <div class="row p-5 d-flex align-items-center justify-content-center">
+          <div class="mb-4 col-md-7 col-lg-8">
+            <h6 class="mb-0">
+              <a href="/find-address" class="text-body text-decoration-none"
+                ><i class="fas fa-long-arrow-alt-left me-2"></i>Find by ID</a
+              >
+            </h6>
+          </div>
+          <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">User's Id <strong><%= user._id %></strong></h4>
+            <!-- <form action="/find-address" method="POST"> -->
+
+            <div class="card card-body mb-4">
+                <h5>Address:</h5>
+              <p class="font-italic mb-1">
+                <%= user.address.location.address %>
+              </p>
+              <p class="font-italic mb-1">
+                <%= user.address.location.subDistrict %>
+              </p>
+              <p class="font-italic mb-1">
+                <%= user.address.location.district %>
+              </p>
+              <p class="font-italic mb-1">
+                <%= user.address.location.province %>
+              </p>
+              <p class="font-italic mb-1">
+                <%= user.address.location.country %>
+              </p>
+              <p class="font-italic mb-1"><%= user.address.location.zip %></p>
+            </div>
+            <!-- </form> -->
+          </div>
+        </div>
+      </main>
+    </div>
+    <%- include("partials/footer") %>
+  </body>
+</html>

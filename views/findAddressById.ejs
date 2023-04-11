@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/header") %>
+    <link rel="stylesheet" href="/css/mdb.min.css" />
+  </head>
+  <body>
+    <%- include("partials/admin_nav") %>
+    <div class="container">
+      <main>
+        <div class="row p-5 d-flex align-items-center justify-content-center">
+          <div class="mb-4 col-md-7 col-lg-8">
+            <h6 class="mb-0">
+              <a href="/admin_dashboard" class="text-body text-decoration-none"
+                ><i class="fas fa-long-arrow-alt-left me-2"></i>Customer
+                Order</a
+              >
+            </h6>
+          </div>
+          <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Find user address by <strong>ID</strong></h4>
+            <form action="/user-address" method="POST">
+            <div class="row g-3 mb-4">
+              <div class="col-12">
+                <div class=""></div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="userId"
+                  name="userId"
+                  placeholder="Enter user ID"
+                  value=""
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              class="w-100 btn btn-success btn-lg"
+              type="submit"
+            >
+              find
+            </button>
+            </form>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <%- include("partials/footer") %>
+  </body>
+</html>

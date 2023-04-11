@@ -101,7 +101,7 @@ var menu = [
   {
     id: 11,
     title: "boston cream pie",
-    category: "desert",
+    category: "breakfast",
     price: 5.54,
     img: "./images/item-12.jpg",
     desc: `Decadent Boston cream pie with layers of fluffy sponge cake, silky vanilla custard, and rich chocolate glaze.`,
@@ -109,23 +109,6 @@ var menu = [
   },
 ];
 
-function storageTranferSet(name, obj) {
-  sessionStorage.setItem(name, JSON.stringify(obj));
-}
-
-function setBackward(name, obj) {
-  storageTranferSet(name, obj);
-}
-//same
-
-function setBackward(name) {
-  storageTranferGet(name);
-}
-
-function storageTranferGet(name) {
-  sessionStorage.getItem(name);
-  return JSON.parse(sessionStorage.getItem(name));
-}
 module.exports = {
   menu,
 };

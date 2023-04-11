@@ -1,26 +1,26 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
-// const path = require("path");
 const menus = require("./public/js/menus");
-const { json } = require("body-parser");
-const db = require("./config/db");
-
-const { Menu } = require("./model/schemas");
-// const { Cart } = require("./model/schemas");
-// const { Cart_Item } = require("./model/schemas");
-
+const categories = require("./public/js/categories");
 const session = require("express-session");
 const passport = require("passport");
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
+// config
+const db = require("./config/db");
+
+// model schema
+const { Menu } = require("./model/schemas");
 const User = require("./model/schemas").User;
 const Admin = require("./model/schemas").Admin;
 const Cart = require("./model/schemas").Cart;
 const Order = require("./model/schemas").Order;
+const Category = require("./model/schemas").Category;
 
+// add default menus
 let menuList = [];
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < menus.menu.length; i++) {
   menuList.push(
     new Menu({
       _id: menus.menu[i].id,
@@ -42,15 +42,32 @@ Menu.collection
   .catch(() => {
   });
 
-const app = express();
-app.use(express.json());
+// add default category
+let categoryList = [];
+console.log(categories.category.length);
+for (let i = 0; i < categories.category.length; i++) {
+  categoryList.push(
+    new Category({
+      _id: categories.category[i].id,
+      name: categories.category[i].category,
+      description: categories.category[i].desc,
+    })
+  );
+}
 
+Category.collection
+  .insertMany(categoryList)
+  .then(() => {
+    console.log("Category has been successfully added to DB");
+  })
+  .catch(() => {
+  });
+
+const app = express();
+
+app.use(express.json());
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.static(path.join(__dirname, "public")));
-// app.use("/js", express.static(__dirname + "controller"));
-
-//vvadded
 app.use(express.static(__dirname + "/public"));
 
 app.use(
@@ -128,28 +145,34 @@ passport.deserializeUser(Admin.deserializeUser());
 // );
 
 app.get("/", async (req, res) => {
-  //turn mongo obj into some kind of js array .lean()
-  const allmenu = await Menu.find().lean();
+
+  const allMenu = await Menu.find().lean();
+  const categories = await Category.find().lean();
   if (req.isAuthenticated()) {
+    const userId = req.user.id
 
-    const allItemInCart = await Cart.find({ userId: req.user.id }).lean();
+    // Find the cart of the user
+    let cart = await Cart.findOne({ userId: userId });
 
-    if (allItemInCart.length > 0) {
-      res.render("index", {
-        menus: allmenu,
-        user: req.user,
-        userId: req.user.id,
-        carts: allItemInCart[0].items,
+    // If the cart does not exist, create a new cart for the user
+    if (!cart) {
+      cart = new Cart({
+        userId: userId,
+        items: [],
       });
     }
-    else {
-      res.render("index", {
-        menus: allmenu,
-        user: req.user,
-        userId: req.user.id,
-        carts: 0,
-      });
-    }
+
+    await cart.save()
+
+    const userCart = await Cart.find({ userId: req.user.id }).lean();
+
+    res.render("index", {
+      menus: allMenu,
+      user: req.user,
+      userId: req.user.id,
+      carts: userCart[0].items,
+      categories: categories,
+    });
   } else {
     res.redirect("/signin");
   }
@@ -284,12 +307,17 @@ app.get("/checkout", async (req, res) => {
     const allOrder = await Order.find({ userId: req.user.id }).lean();
     const user = await User.findById(req.user.id);
 
-    if (user.address === undefined) {
-      user.address.location.address = "";
+    // if (user.address === undefined) {
+    //   user.address.location.address = "";
 
-      await user.save()
+    //   await user.save()
+    // }
+    // Check if the user has an address
+    if (user.address && user.address.location && user.address.location.address) {
+      console.log('User has an address');
+    } else {
+      console.log('User does not have an address');
     }
-    console.log(user);
 
     res.render("checkout", {
       carts: allItemInCart[0].items,
@@ -429,10 +457,12 @@ app.post('/order/update-status', async (req, res) => {
     // Save the updated order
     await order.save();
 
-    if (role == 'user') {
-      res.redirect('/status')
-    } else if (role == 'admin') {
-      res.redirect('/admin_dashboard')
+    if (role == 'admin') {
+      res.send('/admin_dashboard');
+    }
+
+    if (order.status == 'Queuing') {
+      res.send('/status/' + orderId); // Send the URL as a response
     }
 
   } catch (error) {
@@ -441,30 +471,18 @@ app.post('/order/update-status', async (req, res) => {
   }
 });
 
-// app.get("/status/:orderId", async (req, res) => {
-//   if (req.isAuthenticated()) {
-//     const allmenu = await Menu.find().lean();
-//     const userOrder = await Order.find({ userId: req.user.id }).lean();
-//     res.render("status", {
-//       user: req.user,
-//       orders: userOrder,
-//       menus: allmenu
-//     });
-//   } else {
-//     res.redirect("/signin");
-//   }
-// });
-
-app.get("/status", async (req, res) => {
+app.get("/status/:orderId", async (req, res) => {
   if (req.isAuthenticated()) {
+    const orderId = req.params.orderId
     // const userOrder = await Order.find({ userId: req.user.id }).lean();
-    const userOrder = await Order.find({ userId: req.user.id }).lean();
+    const userOrder = await Order.find({ userId: req.user.id, _id: orderId }).lean();
+    console.log(userOrder);
     const allmenu = await Menu.find().lean();
     const user = await User.findById(req.user.id);
     res.render("status", {
       user: user,
       orders: userOrder,
-      menus : allmenu,
+      menus: allmenu,
     });
   } else {
     res.redirect("/signin");
@@ -479,7 +497,7 @@ app.get("/profile", async (req, res) => {
     res.render("profile", {
       user: user,
       orders: userOrder,
-      menus : allmenu
+      menus: allmenu
     });
   } else {
     res.redirect("/signin");
@@ -562,7 +580,7 @@ app.get("/admin_login", (req, res) => {
   //   if (err) {
   //     return next(err);
   //   }
-    res.render("admin_login");
+  res.render("admin_login");
   // });
 });
 
@@ -713,10 +731,60 @@ app.post("/manage-menu", async (req, res) => {
   }
 });
 
-//404 handling
-// app.use((err, req, res, next) => {
-//   res.status(404).catch(res.redirect("/"));
-// });
+
+app.get("/find-address", async (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render("findAddressById");
+  } else {
+    res.redirect("/admin_login");
+  }
+});
+
+app.post('/user-address', async (req, res) => {
+  if (req.isAuthenticated()) {
+    const userId = req.body.userId;
+
+    try {
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+
+      // Redirect to the /user-profile route with the user ID as a parameter
+      res.redirect(`/user-profile/${userId}`);
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('Internal server error');
+    }
+  } else {
+    res.redirect("/admin_login");
+  }
+});
+
+
+app.get("/user-profile/:userId", async (req, res) => {
+  if (req.isAuthenticated()) {
+    const userId = req.params.userId;
+
+    try {
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+
+      res.render("user-profile", {
+        user: user,
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('Internal server error');
+    }
+  } else {
+    res.redirect("/admin_login");
+  }
+});
 
 app.listen(process.env.PORT, function () {
   console.log(`Server app listening on port ${process.env.PORT}`);

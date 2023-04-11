@@ -8,19 +8,21 @@ const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   address: {
-    name: String,
+    name: { type: String, default: '' },
     location: {
-      address: String,
-      subDistrict: String,
-      district: String,
-      province: String,
-      country: String,
-      zip: Number
+      address: { type: String, default: '' },
+      subDistrict: { type: String, default: '' },
+      district: { type: String, default: '' },
+      province: { type: String, default: '' },
+      country: { type: String, default: '' },
+      zip: { type: Number, default: null },
     },
   }
 });
 
 userSchema.plugin(passportLocalMongoose);
+
+exports.User = new mongoose.model("User", userSchema);
 
 const adminSchema = new mongoose.Schema({
   username: String,
@@ -28,6 +30,8 @@ const adminSchema = new mongoose.Schema({
 });
 
 adminSchema.plugin(passportLocalMongoose);
+
+exports.Admin = new mongoose.model("Admin", adminSchema);
 
 const menuSchema = new mongoose.Schema({
   _id: Number,
@@ -41,12 +45,6 @@ const menuSchema = new mongoose.Schema({
 
 exports.Menu = mongoose.model("Menu", menuSchema);
 
-exports.User = new mongoose.model("User", userSchema);
-
-exports.Admin = new mongoose.model("Admin", adminSchema);
-
-// New schema
-
 const carts = new mongoose.Schema({
   userId: String, // Reference to the user who owns the cart
   items: [
@@ -56,6 +54,8 @@ const carts = new mongoose.Schema({
     },
   ],
 });
+
+exports.Cart = new mongoose.model("Cart", carts);
 
 const orders = new mongoose.Schema({
   userId: String, // Reference to the user who placed the order
@@ -71,6 +71,18 @@ const orders = new mongoose.Schema({
   status: String, // e.g., 'Processing', 'Shipped', 'Delivered', 'Canceled'
 });
 
-exports.Cart = new mongoose.model("Cart", carts);
-
 exports.Order = new mongoose.model("Order", orders);
+
+const categorySchema = new mongoose.Schema({
+  _id: String,
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  description: {
+    type: String,
+  },
+});
+
+exports.Category = mongoose.model("Category", categorySchema);

@@ -178,27 +178,27 @@
   </div>
 
   <script>
-    function updateOrderStatus(orderId, newStatus, role) {
-  fetch('/order/update-status', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ orderId, newStatus, role }),
-  })
-    .then((response) => {
-      if (response.ok) {
-        // Refresh the page when the status is updated successfully
-        location.reload();
-      } else {
-        throw new Error('Failed to update order status');
-      }
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-}
+    async function updateOrderStatus(orderId, newStatus, role) {
+        try {
+          const response = await fetch("/order/update-status", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ orderId, newStatus, role }),
+          });
 
+          if (response.ok) {
+            console.log("Order status updated");
+            const redirectUrl = await response.text();
+            location.href = redirectUrl; // Redirect to the new URL
+          } else {
+            console.error("Error updating order status");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
   </script>
 
   <!-- Bootstrap js -->

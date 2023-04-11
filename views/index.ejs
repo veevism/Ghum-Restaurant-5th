@@ -319,53 +319,57 @@ $(document).ready(function () {
     <!-- Menu -->
     <section class="menu" id="menu">
       <div class="container top">
-        <div class="row">
+        <div class="row pt-3">
           <!-- Search box -->
-          <div class="col-lg-4 pt-3" style="text-align: center">
-            <form class="form-inline position-relative">
+          <div class="col-lg-4 d-flex justify-content-center align-items-center">
+            <div class="input-group rounded align-items-center w-50">
               <input
-                class="form-control"
+                class="form-control rounded"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-                style="width: 50%; display: inline-block"
                 onkeyup="search()"
                 id="input-search-bar"
+                aria-describedby="search-addon"
               />
-              <i class="fa-solid fa-magnifying-glass text-secondary"></i>
-            </form>
+              <span class="input-group-text border-0" id="search-addon">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
           </div>
           <!-- End Search box -->
 
           <!-- Select Catetories -->
-          <div class="col-lg-4 pt-3" style="text-align: center">
+          <div class="col-lg-4" style="text-align: center">
             <div class="w-50 mx-auto position-relative">
-              <select
+              <!-- <select
                 class="custom-select form-control text-secondary"
                 id="input-select-group"
               >
                 <option value="breakfast">breakfast</option>
-          <option value="lunch" id="cat_lunch">lunch</option>
-          <option value="shakes" id="cat_shakes">shakes</option>
-          <option value="dinner" id="cat_dinner">diner</option>
+                <option value="lunch" id="cat_lunch">lunch</option>
+                <option value="shakes" id="cat_shakes">shakes</option>
+                <option value="dinner" id="cat_dinner">dinner</option>
                 <option selected="" value="all">All</option>
               </select>
-              <i class="fa-solid fa-angle-down"></i>
+              <i class="fa-solid fa-angle-down"></i> -->
+              <select id="category-select" class="form-select" aria-label="Default select example">
+                <option value="all" selected>All Categories</option>
+                <% categories.forEach(category => { %>
+                <option value="<%= category._id %>"><%= category.name %></option>
+                <% }); %>
+              </select>
             </div>
           </div>
           <!-- End Select Catetories -->
 
           <!-- Select Sort -->
-          <div class="col-lg-4 pt-3" style="text-align: center">
+          <div class="col-lg-4" style="text-align: center">
             <div class="w-50 mx-auto position-relative">
               <select
                 class="custom-select form-control text-secondary"
                 id="input-select-group"
               >
-                <!-- <option value="breakfast">breakfast</option>
-          <option value="lunch">lunch</option>
-          <option value="shakes">shakes</option>
-          <option value="dinner">diner</option> -->
                 <option selected="" value="all">Sort</option>
               </select>
               <i class="fa-solid fa-arrow-down-wide-short"></i>
@@ -407,43 +411,45 @@ $(document).ready(function () {
         <div class="shopping-cart-header">
           <i class="fa fa-shopping-cart cart-icon"></i
           ><span class="badge bg-success rounded-pill cart-badge">
-            <% if (carts != 0) { %>
-              <%let sum = 0 %>
+            <!-- calculate total menu -->
+            <% if (carts.length != 0) { %>
+              <%let numberOfMenu = 0 %>
               <% for( let i = 0; i < carts.length; i++ ) { %>
                 <% menus.forEach(menu => { %> 
                 <% if (carts[i].itemId == menu._id) { %>
-                    <% sum += carts[i].quantity%>
+                    <% numberOfMenu += carts[i].quantity%>
                 <% } %> 
                 <% }); %> 
                 <% } %>
-                <%= sum %>
+                <!-- total menu -->
+                <%= numberOfMenu %>
               <% } else { %>
                 <%= 0 %>
               <% } %>
             </span>
           <div class="shopping-cart-total">
             <span class="lighter-text">Total:</span>
-            <span id="Total" class="main-color-text"><% if (carts != 0) { %>
+            <span id="Total" class="main-color-text">
+              <!-- Calculate total price -->
+              <% if (carts.length != 0) { %>
               <%let sum = 0 %>
               <% for( let i = 0; i < carts.length; i++ ) { %>
                 <% menus.forEach(menu => { %> 
                 <% if (carts[i].itemId == menu._id) { %>
-                    <% sum += carts[i].quantity * menu.price%>
+                    <% sum += carts[i].quantity * menu.price %>
                 <% } %> 
                 <% }); %> 
                 <% } %>
                 $<%= sum.toFixed(2) %>
               <% } else { %>
-                $<%=  %>
+                $0
               <% } %>
+              <!-- Calculate total price -->
             </span>
           </div>
         </div>
-        <a href=""></a>
         <ul class="shopping-cart-items">
-          <% if (carts != 0) { %>
-
-          
+          <% if (carts.length != 0) { %>
           <% for( let i = 0; i < carts.length; i++ ) { %>
           <% menus.forEach(menu => { %> 
           <% if (carts[i].itemId == menu._id) { %>

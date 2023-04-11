@@ -71,12 +71,12 @@
             width="32"
             height="32"
             class="rounded-circle profile"
-            data-mdb-toggle="popover"
-            data-mdb-content="User: <%= user.username %>"
-            data-mdb-trigger="hover"
           />
         </a>
         <ul class="dropdown-menu text-small shadow">
+          <li>
+            <p class="dropdown-item"><%= user.username %></p>
+          </li>
           <li>
             <a class="dropdown-item" href="/profile">Profile</a>
           </li>

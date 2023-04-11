@@ -90,15 +90,24 @@
                     <div class="collapse" id="collapseExample">
                       <div class="card card-body">
                         <p class="font-italic mb-1">
-                          <%= user.address.location.address %>, <%=
-                          user.address.location.subDistrict %>, <%=
-                          user.address.location.district %>
+                          <%= user.address.location.address %>
                         </p>
-                        <p class="font-italic mb-0">
-                          <%= user.address.location.province %>, <%=
-                          user.address.location.country %>, <%= user.address.location.zip
-                          %>
+                        <p class="font-italic mb-1">
+                          <%= user.address.location.subDistrict %>
                         </p>
+                        <p class="font-italic mb-1">
+                          <%= user.address.location.district %>
+                        </p>
+                        <p class="font-italic mb-1">
+                          <%= user.address.location.province %>
+                        </p>
+                        <p class="font-italic mb-1">
+                          <%= user.address.location.country %>
+                        </p>
+                        <p class="font-italic mb-1">
+                          <%= user.address.location.zip %>
+                        </p>
+                        
                         <% } else { %>
                         <p>No Address</p>
                         <% } %>
